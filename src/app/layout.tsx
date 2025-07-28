@@ -7,6 +7,7 @@ import "swiper/css/pagination";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import BottomNav from "@/components/BottomNav";
+import NextTopLoader from "nextjs-toploader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export default function RootLayout({
       >
         <div className="min-h-screen flex flex-col">
           <Nav />
+          <NextTopLoader showSpinner={false} color="#FF6600" />
           <div className="flex-1 pt-[90px]">{children}</div>
           <Footer />
           <BottomNav />
