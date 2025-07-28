@@ -84,9 +84,7 @@ export default function BottomNav() {
         <Link
           href="/orders"
           className={`flex flex-col items-center justify-center text-xs p-2 ${
-            location.pathname === "/orders"
-              ? "text-[#FF6600]"
-              : "text-gray-400"
+            location.pathname === "/orders" ? "text-[#FF6600]" : "text-gray-400"
           } hover:text-[#FF6600] transition-colors`}
         >
           <ShoppingCart className="h-5 w-5 mb-1" />
@@ -104,7 +102,7 @@ export default function BottomNav() {
                 } hover:text-[#FF6600] transition-colors`}
               >
                 <div
-                  className="rounded-full bg-primary-orange flex items-center justify-center mb-1"
+                  className="rounded-full bg-orange-500 flex items-center justify-center mb-1"
                   style={{
                     width: "40px",
                     height: "40px",
@@ -112,11 +110,7 @@ export default function BottomNav() {
                     fontSize: "1rem",
                   }}
                 >
-                  {getInitials(
-                    typeof user?.user_metadata?.name === "string"
-                      ? user.user_metadata.name
-                      : ""
-                  )}
+                  {getInitials(user?.user_metadata?.full_name)}
                 </div>
               </button>
 
