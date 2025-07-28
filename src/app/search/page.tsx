@@ -3,25 +3,13 @@
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { ProductCard } from "@/components/ProductCard";
-import { AdCarousel } from "@/components/AdCarousel";
-import { PromoPopup } from "@/components/PromoPopup";
-import {
-  Search,
-  ChevronDown,
-  Facebook,
-  Twitter,
-  Instagram,
-  Youtube,
-  Phone,
-} from "lucide-react";
 import { supabase } from "@/lib/supabase";
-import type { Product } from "@/store/cartStore";
-import { usePromoPopup } from "@/hooks/usePromoPopup";
-import { usePathname } from "next/navigation";
+import { Product } from "@/store/cartStore";
+import { usePathname, useSearchParams } from "next/navigation";
 
 const PAGE_SIZE = 10;
 
-export default function Home() {
+export default function Search() {
   const [searchQuery, setSearchQuery] = useState("");
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -32,10 +20,12 @@ export default function Home() {
   const [isFetchingMore, setIsFetchingMore] = useState(false);
   const observer = useRef<IntersectionObserver | null>(null);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
-  const location = { pathname: usePathname() };
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  // Promo popup hook
-  const { showPopup, closePopup } = usePromoPopup();
+  useEffect(() => {
+    setSearchQuery(searchParams.get("q") || "");
+  }, [searchParams]);
 
   useEffect(() => {
     setProducts([]);
@@ -45,7 +35,8 @@ export default function Home() {
     setUsesFallback(false);
     setLoading(true);
     fetchProductsPage(0, true);
-  }, [location.pathname]);
+    // eslint-disable-next-line
+  }, [pathname, searchQuery]);
 
   // Infinite scroll observer
   useEffect(() => {
@@ -67,6 +58,7 @@ export default function Home() {
     new Promise((resolve) => setTimeout(resolve, ms));
 
   const fetchProductsPage = async (pageToFetch: number, isInitial: boolean) => {
+    if (!searchQuery.trim()) return;
     if (!isInitial) setIsFetchingMore(true);
     try {
       if (isInitial) setLoading(true);
@@ -76,6 +68,7 @@ export default function Home() {
       const { data, error } = await supabase
         .from("products")
         .select("*")
+        .ilike("name", `%${searchQuery}%`)
         .order("created_at", { ascending: false })
         .range(from, to);
       if (error) throw error;
@@ -96,10 +89,10 @@ export default function Home() {
       setError(
         "Unable to load products. Please check your connection and try again."
       );
-      // if (isInitial) {
-      //   setProducts(fallbackProducts);
-      //   setUsesFallback(true);
-      // }
+      //   if (isInitial) {
+      //     setProducts(fallbackProducts);
+      //     setUsesFallback(true);
+      //   }
       setHasMore(false);
     } finally {
       if (isInitial) setLoading(false);
@@ -111,29 +104,7 @@ export default function Home() {
     <>
       <div className="min-h-screen bg-gray-100 flex flex-col">
         <div className="flex-grow">
-          {/* Add contact banner */}
-          <div className="bg-orange-500 text-white py-2">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex items-center justify-center sm:justify-end space-x-4 text-sm">
-                <a
-                  href="tel:+2347060438205"
-                  className="flex items-center hover:text-white/90 transition-colors"
-                >
-                  <Phone className="h-4 w-4 mr-2" />
-                  <span>Call to place order: +234 913 478 1219</span>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Ad Carousel */}
-          <AdCarousel />
-
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            {/* <div className="flex items-center justify-between mb-6">
-              <h1 className="text-xl font-bold text-gray-900">New items</h1>
-            </div> */}
-
             {error && (
               <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-6">
                 <div className="flex">
@@ -191,9 +162,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      {/* Promotional Popup */}
-      <PromoPopup isVisible={showPopup} onClose={closePopup} />
     </>
   );
 }
