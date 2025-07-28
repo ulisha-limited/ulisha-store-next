@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { useCurrencyStore } from "@/store/currencyStore";
 import type { Product } from "@/store/cartStore";
+import Image from "next/image";
 
 interface PromoPopupProps {
   isVisible: boolean;
@@ -137,10 +138,12 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
           ) : featuredProduct ? (
             <>
               <div className="relative mb-4">
-                <img
+                <Image
                   src={featuredProduct.image}
                   alt={featuredProduct.name}
                   className="w-full h-36 object-cover rounded-lg"
+                  width={500}
+                  height={200}
                 />
                 {featuredProduct.discount_active && (
                   <div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-0.5 rounded-full text-xs font-bold flex items-center">
@@ -189,7 +192,7 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
               <button
                 onClick={handleShopNow}
                 className={`w-full ${
-                  isSecondShow ? "" : "bg-primary-orange"
+                  isSecondShow ? "" : "bg-orange-500"
                 } hover:opacity-90 text-white py-2 px-3 rounded-lg flex justify-center items-center space-x-2`}
                 style={isSecondShow ? { background: blue } : undefined}
               >
@@ -259,10 +262,12 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
           <div className="w-1/2 relative p-4">
             {featuredProduct && (
               <>
-                <img
+                <Image
                   src={featuredProduct.image}
                   alt={featuredProduct.name}
                   className="w-full h-52 object-cover rounded-lg"
+                  width={500}
+                  height={200}
                 />
                 {featuredProduct.discount_active && (
                   <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold flex items-center">
@@ -282,11 +287,11 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
             )}
           </div>
           <div className="w-1/2 p-4 relative">
-            <button onClick={onClose} className="absolute top-3 right-3">
+            <button onClick={onClose} className="text-black absolute top-3 right-3">
               <X className="w-5 h-5" />
             </button>
             <div className="text-left">
-              <h2 className="text-lg font-bold mb-1">
+              <h2 className="text-lg font-bold mb-1 text-orange-500">
                 {isSecondShow
                   ? "Last Chance for Sweet Deals!"
                   : "Sweet Product Sales!"}
@@ -298,7 +303,7 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
               </p>
               {featuredProduct && (
                 <>
-                  <h3 className="text-base font-semibold mb-1 line-clamp-2">
+                  <h3 className="text-black font-semibold mb-1 line-clamp-2">
                     {featuredProduct.name}
                   </h3>
                   <div className="flex text-orange-400 mb-2">
@@ -330,7 +335,7 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
                   <button
                     onClick={handleShopNow}
                     className={`w-full ${
-                      isSecondShow ? "" : "bg-primary-orange"
+                      isSecondShow ? "" : "bg-orange-500"
                     } hover:opacity-90 text-white py-2 px-4 rounded-lg flex justify-center items-center space-x-2`}
                     style={isSecondShow ? { background: blue } : undefined}
                   >

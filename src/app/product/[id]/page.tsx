@@ -382,7 +382,7 @@ export default function ProductDetails() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader className="w-8 h-8 animate-spin text-primary-orange" />{" "}
+        <Loader className="w-8 h-8 animate-spin text-orange-500" />{" "}
       </div>
     );
   }
@@ -402,7 +402,7 @@ export default function ProductDetails() {
           </p>{" "}
           <Link
             href="/"
-            className="text-primary-orange hover:text-primary-orange/90 font-medium"
+            className="text-orange-500 hover:text-orange-500/90 font-medium"
           >
             Go back to home{" "}
           </Link>{" "}
@@ -425,7 +425,7 @@ export default function ProductDetails() {
           {" "}
           <Link
             href="/"
-            className="inline-flex items-center text-gray-600 hover:text-primary-orange"
+            className="inline-flex items-center text-gray-600 hover:text-orange-500"
           >
             <ChevronLeft className="w-5 h-5 mr-1" />{" "}
             <span>Back to products</span>{" "}
@@ -646,7 +646,7 @@ export default function ProductDetails() {
 
                   <button
                     onClick={copyToClipboard}
-                    className="bg-primary-orange text-white p-2 rounded-r-md hover:bg-primary-orange/90"
+                    className="bg-orange-500 text-white p-2 rounded-r-md hover:bg-orange-500/90"
                   >
                     {linkCopied ? (
                       <Check className="w-4 h-4" />
@@ -732,7 +732,7 @@ export default function ProductDetails() {
                     disabled={
                       variants.length > 0 && (!selectedColor || !selectedSize)
                     }
-                    className="bg-primary-orange hover:bg-primary-orange/90 text-white font-medium py-2 px-7 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="bg-orange-500 hover:bg-orange-500/90 text-white font-medium py-2 px-7 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Buy Now
                   </button>

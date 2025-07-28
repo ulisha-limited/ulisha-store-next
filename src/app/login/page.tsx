@@ -47,13 +47,13 @@ export default function Login() {
       <div className="sm:mx-auto sm:w-full sm:max-w-md flex flex-col justify-center min-h-[220px]">
         <div className="flex flex-col items-center text-center mb-6 justify-center flex-1">
           <div className="flex justify-center">
-            <ShoppingBag className="h-12 w-12 text-primary-orange" />
+            <ShoppingBag className="h-12 w-12 text-orange-500" />
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2">
             Hello, welcome back to UlishaStore
           </h2>
           <p className="text-gray-600">Sign in to your account</p>
-          <p className="text-primary-orange font-medium mt-2">
+          <p className="text-orange-500 font-medium mt-2">
             Enjoy up to 20% discounts on all products!
           </p>
         </div>
@@ -80,7 +80,7 @@ export default function Login() {
                   id="email"
                   type="email"
                   required
-                  className="pl-10 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-orange focus:ring-primary-orange"
+                  className="text-black pl-10 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-orange focus:ring-primary-orange"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -100,7 +100,7 @@ export default function Login() {
                   id="password"
                   type="password"
                   required
-                  className="pl-10 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-orange focus:ring-primary-orange"
+                  className="text-black pl-10 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange focus:ring-primary-orange"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -114,7 +114,7 @@ export default function Login() {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 text-primary-orange focus:ring-primary-orange border-gray-300 rounded"
+                  className="h-4 w-4 text-orange-500 focus:ring-primary-orange border-gray-300 rounded"
                 />
                 <label
                   htmlFor="remember-me"
@@ -127,7 +127,7 @@ export default function Login() {
               <div className="text-sm">
                 <a
                   href="#"
-                  className="font-medium text-primary-orange hover:text-primary-orange/90"
+                  className="font-medium text-orange-500 hover:text-orange-600"
                 >
                   Forgot password?
                 </a>
@@ -189,7 +189,7 @@ export default function Login() {
                   Don&apos;t have an account?{" "}
                   <Link
                     href="/register"
-                    className="text-primary-orange hover:text-primary-orange/90"
+                    className="text-orange-500 hover:text-orange-500/90"
                   >
                     Sign up
                   </Link>

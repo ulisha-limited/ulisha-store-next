@@ -1,0 +1,9 @@
+User-agent: *
+User-agent: Yandex
+Allow: /
+Disallow: /search
+Disallow: /?
+
+User-agent: facebookexternalhit
+User-agent: Twitterbot
+Allow: /search

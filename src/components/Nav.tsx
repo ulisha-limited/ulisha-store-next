@@ -139,7 +139,7 @@ export default function Nav() {
         >
           <ShoppingCart className="h-5 w-5" />
           {cartItemCount > 0 && (
-            <span className="absolute -top-2 -right-2 bg-primary-orange text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+            <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
               {cartItemCount}
             </span>
           )}
@@ -152,7 +152,7 @@ export default function Nav() {
               className="text-white hover:text-[#FF6600] transition-colors focus:outline-none mx-2"
             >
               <div
-                className="rounded-full bg-primary-orange flex items-center justify-center"
+                className="rounded-full bg-orange-500 flex items-center justify-center"
                 style={{ width: "40px", height: "40px", color: "white" }}
               >
                 {getInitials(user?.user_metadata?.full_name)}

@@ -185,7 +185,7 @@ export function AdCarousel({ className = '' }: AdCarouselProps) {
                 </p>
                 <a
                   href={ad.button_link}
-                  className="inline-block bg-primary-orange hover:bg-primary-orange/90 text-white font-medium py-2 px-6 rounded-full transition-colors text-sm sm:text-base"
+                  className="inline-block bg-orange-500 hover:bg-orange-500/90 text-white font-medium py-2 px-6 rounded-full transition-colors text-sm sm:text-base"
                 >
                   {ad.button_text}
                 </a>
