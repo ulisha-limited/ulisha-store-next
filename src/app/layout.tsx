@@ -34,7 +34,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="min-h-screen flex flex-col">
+        <div className="bg-white min-h-screen flex flex-col">
           <Nav />
           <NextTopLoader showSpinner={false} color="#FF6600" />
           <div className="flex-1 pt-[90px]">{children}</div>
