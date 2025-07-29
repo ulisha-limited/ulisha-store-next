@@ -7,3 +7,5 @@ Disallow: /?
 User-agent: facebookexternalhit
 User-agent: Twitterbot
 Allow: /search
+
+Sitemap: https://ulishastore.com/sitemap.xml
