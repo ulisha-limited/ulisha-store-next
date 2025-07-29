@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import cookies from 'js-cookie';
 import { supabase } from '@/lib/supabase';
 
 interface CurrencyState {
@@ -13,7 +14,7 @@ interface CurrencyState {
 }
 
 export const useCurrencyStore = create<CurrencyState>((set, get) => ({
-  currency: (typeof window !== 'undefined' && (localStorage.getItem('currency') as 'NGN' | 'USD')) || 'NGN',
+  currency: cookies.get('currency') as 'NGN' | 'USD',
   exchangeRate: 1630, // 1 USD = 1630 NGN
   loading: false,
   error: null,
@@ -22,8 +23,8 @@ export const useCurrencyStore = create<CurrencyState>((set, get) => ({
     try {
       set({ loading: true, error: null });
       
-      // Get currency from localStorage first
-      const savedCurrency = localStorage.getItem('currency') as 'NGN' | 'USD';
+      // Get currency from cookies first
+      const savedCurrency = cookies.get("currency") as "NGN" | "USD";
       if (savedCurrency) {
         set({ currency: savedCurrency });
       }
@@ -39,7 +40,7 @@ export const useCurrencyStore = create<CurrencyState>((set, get) => ({
           .single();
 
         if (!error && data?.currency) {
-          localStorage.setItem('currency', data.currency);
+          cookies.set("currency", data.currency, { expires: 365 });
           set({ currency: data.currency as 'NGN' | 'USD' });
         }
       }
@@ -55,8 +56,8 @@ export const useCurrencyStore = create<CurrencyState>((set, get) => ({
     try {
       set({ loading: true, error: null });
       
-      // Update localStorage immediately
-      localStorage.setItem('currency', currency);
+      // Update cookies immediately
+      cookies.set("currency", currency, { expires: 365 });
       set({ currency });
 
       // Try to save to database if user is logged in
@@ -72,7 +73,7 @@ export const useCurrencyStore = create<CurrencyState>((set, get) => ({
 
         if (error) {
           console.error('Error saving currency preference:', error);
-          // Don't throw error, just log it since localStorage update succeeded
+          // Don't throw error, just log it since cookies update succeeded
         }
       }
 
