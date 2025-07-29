@@ -10,6 +10,7 @@ import BottomNav from "@/components/BottomNav";
 import Session from "@/components/Session";
 import NextTopLoader from "nextjs-toploader";
 import { ToastContainer } from "react-toastify";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -67,7 +68,9 @@ export default function RootLayout({
         <div className="bg-white min-h-screen flex flex-col">
           <Nav />
           <NextTopLoader showSpinner={false} color="#FF6600" />
-          <div className="flex-1 pt-[90px]">{children}</div>
+          <div className="flex-1 pt-[90px]">
+            <ProtectedRoute>{children}</ProtectedRoute>
+          </div>
           <ToastContainer />
           <Footer />
           <BottomNav />

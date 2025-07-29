@@ -1,0 +1,48 @@
+"use client";
+
+import { useRouter, usePathname } from "next/navigation";
+import { useEffect } from "react";
+import { useAuthStore } from "@/store/authStore";
+
+const PROTECTED_ROUTE_REGEX = [
+  /^\/orders/,
+  /^\/message/,
+  /^\/settings/,
+  /^\/admin/,
+];
+
+export default function ProtectedRoute({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const user = useAuthStore((state) => state.user);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const isProtected = PROTECTED_ROUTE_REGEX.some((regex) =>
+    regex.test(pathname || "")
+  );
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && isProtected && !user) {
+      router.replace(
+        "/login?next=" + encodeURIComponent(window.location.pathname)
+      );
+    }
+  }, [user, router, pathname, isProtected]);
+
+  if (isProtected && !user) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="w-48">
+          <div className="h-2 bg-gray-200 rounded">
+            <div className="h-2 bg-blue-500 rounded animate-pulse w-3/4"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return <>{children}</>;
+}

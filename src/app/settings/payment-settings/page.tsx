@@ -86,18 +86,6 @@ export default function PaymentSettingsPage() {
           </h1>
         </div>
 
-        {(success || error) && (
-          <div
-            className={`p-4 rounded-md mb-4 ${
-              success
-                ? "bg-green-100 text-green-800"
-                : "bg-red-100 text-red-800"
-            }`}
-          >
-            <p className="text-sm font-medium">{success || error}</p>
-          </div>
-        )}
-
         <section className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="p-6 border-b border-gray-200 flex justify-between items-center flex-wrap gap-2">
             <h2 className="text-xl font-bold text-gray-900">
