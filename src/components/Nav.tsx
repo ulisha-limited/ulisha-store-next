@@ -40,7 +40,6 @@ export default function Nav() {
     "obajeufufredo2@gmail.com",
     "mrepol742@gmail.com",
   ];
-  const isAdmin = user?.email && ADMIN_EMAILS.includes(user.email);
 
   useEffect(() => {
     fetchCategories();
@@ -169,14 +168,14 @@ export default function Nav() {
                   <Home className="h-4 w-4" />
                   <span>Home</span>
                 </Link>
-                {isAdmin && (
+                {user && user.email && ADMIN_EMAILS.includes(user.email) && (
                   <Link
-                    href="/dashboard"
+                    href="/admin"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
                     onClick={() => setIsProfileOpen(false)}
                   >
                     <LayoutDashboard className="h-4 w-4" />
-                    <span>Dashboard</span>
+                    <span>Admin Panel</span>
                   </Link>
                 )}
 
