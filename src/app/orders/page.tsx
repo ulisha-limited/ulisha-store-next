@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import {
   Package,
   Loader,
@@ -47,7 +47,7 @@ interface Order {
   items: OrderItem[];
 }
 
-export default function Orders() {
+function Orders() {
   const location = { pathname: usePathname() };
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
@@ -753,5 +753,17 @@ export default function Orders() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function OrdersPage() {
+  return (
+    <Suspense
+      fallback={
+        <Loader className="w-12 h-12 animate-spin text-primary-orange mx-auto mt-20" />
+      }
+    >
+      <Orders />
+    </Suspense>
   );
 }

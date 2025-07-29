@@ -1,15 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { ProductCard } from "@/components/ProductCard";
 import { supabase } from "@/lib/supabase";
 import { Product } from "@/store/cartStore";
 import { usePathname, useSearchParams } from "next/navigation";
+import { Loader } from "lucide-react";
 
 const PAGE_SIZE = 10;
 
-export default function Search() {
+function Search() {
   const [searchQuery, setSearchQuery] = useState("");
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -163,5 +164,17 @@ export default function Search() {
         </div>
       </div>
     </>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense
+      fallback={
+        <Loader className="w-12 h-12 animate-spin text-primary-orange mx-auto mt-20" />
+      }
+    >
+      <Search />
+    </Suspense>
   );
 }

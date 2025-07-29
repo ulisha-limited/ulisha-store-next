@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import {
   Mail,
   Camera,
@@ -19,7 +19,7 @@ import { useCartStore } from "@/store/cartStore";
 import { useCategoryStore } from "@/store/categoryStore";
 import { usePathname, useSearchParams } from "next/navigation";
 
-export default function Nav() {
+function Nav() {
   const location = { pathname: usePathname() };
   const [searchQuery, setSearchQuery] = useState("");
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -261,5 +261,13 @@ export default function Nav() {
         ))}
       </div>
     </nav>
+  );
+}
+
+export default function NavComponent() {
+  return (
+    <Suspense>
+      <Nav />
+    </Suspense>
   );
 }
