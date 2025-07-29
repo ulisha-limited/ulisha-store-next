@@ -1,0 +1,212 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { Bell, Shield, ArrowLeft } from "lucide-react"; // Import ArrowLeft
+import { useAuthStore } from "@/store/authStore";
+import { supabase } from "@/lib/supabase";
+import Link from "next/link";
+
+export default function NotificationPreferencesPage() {
+  const [loading, setLoading] = useState(false);
+  const [notifications, setNotifications] = useState({
+    orderUpdates: true,
+    promotions: true,
+    security: true,
+  });
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+
+  const user = useAuthStore((state) => state.user);
+
+  useEffect(() => {
+    loadUserPreferences();
+  }, [user]);
+
+  const showNotification = (message: string, type: "success" | "error") => {
+    if (type === "success") {
+      setSuccess(message);
+      setError(null);
+    } else {
+      setError(message);
+      setSuccess(null);
+    }
+    setTimeout(() => {
+      setSuccess(null);
+      setError(null);
+    }, 5000);
+  };
+
+  const loadUserPreferences = async () => {
+    if (!user) return;
+
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from("user_preferences")
+        .select("order_updates, promotions, security_alerts")
+        .eq("user_id", user.id)
+        .single();
+
+      if (error && error.code !== "PGRST116") throw error;
+
+      if (data) {
+        setNotifications({
+          orderUpdates: data.order_updates ?? true,
+          promotions: data.promotions ?? true,
+          security: data.security_alerts ?? true,
+        });
+      }
+    } catch (error) {
+      console.error("Error loading notification preferences:", error);
+      showNotification("Failed to load notification preferences.", "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleNotificationChange = async (type: keyof typeof notifications) => {
+    if (!user) {
+      showNotification(
+        "Please log in to change notification preferences.",
+        "error"
+      );
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const updates = { ...notifications, [type]: !notifications[type] };
+      setNotifications(updates); // Optimistic update
+
+      const { error } = await supabase.from("user_preferences").upsert(
+        {
+          user_id: user.id,
+          order_updates: updates.orderUpdates,
+          promotions: updates.promotions,
+          security_alerts: updates.security,
+          // If 'currency' is part of user_preferences and you want to preserve it,
+          // you'd need to fetch its current value before upserting or pass it from context.
+          // For now, assuming only these fields are updated here.
+        },
+        { onConflict: "user_id" }
+      );
+
+      if (error) throw error;
+      showNotification(
+        "Notification preferences updated successfully",
+        "success"
+      );
+    } catch (error) {
+      console.error("Error updating notifications:", error);
+      showNotification("Failed to update notification preferences", "error");
+      // Revert on error
+      setNotifications((prev) => ({ ...prev, [type]: !prev[type] }));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 font-sans">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <div className="flex items-center mb-8">
+          <Link
+            href="/settings"
+            className="p-2 mr-4 rounded-full hover:bg-gray-200 transition-colors"
+            aria-label="Go back to settings"
+          >
+            <ArrowLeft className="w-6 h-6 text-gray-700" />
+          </Link>
+          {/* Reduced font size for the heading */}
+          <h1 className="text-2xl font-extrabold text-gray-900">
+            Notification Settings
+          </h1>
+        </div>
+
+        {(success || error) && (
+          <div
+            className={`p-4 rounded-md mb-4 ${
+              success
+                ? "bg-green-100 text-green-800"
+                : "bg-red-100 text-red-800"
+            }`}
+          >
+            <p className="text-sm font-medium">{success || error}</p>
+          </div>
+        )}
+
+        <section className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="p-6">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between py-2">
+                <div className="flex items-center space-x-3">
+                  <Bell className="w-5 h-5 text-gray-400" />
+                  <div>
+                    <p className="font-medium text-gray-900">Order Updates</p>
+                    <p className="text-sm text-gray-500">
+                      Receive notifications about your orders
+                    </p>
+                  </div>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={notifications.orderUpdates}
+                    onChange={() => handleNotificationChange("orderUpdates")}
+                    className="sr-only peer"
+                    disabled={loading}
+                  />
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-orange/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                </label>
+              </div>
+
+              <div className="flex items-center justify-between py-2">
+                <div className="flex items-center space-x-3">
+                  <Bell className="w-5 h-5 text-gray-400" />
+                  <div>
+                    <p className="font-medium text-gray-900">Promotions</p>
+                    <p className="text-sm text-gray-500">
+                      Receive notifications about deals and offers
+                    </p>
+                  </div>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={notifications.promotions}
+                    onChange={() => handleNotificationChange("promotions")}
+                    className="sr-only peer"
+                    disabled={loading}
+                  />
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-orange/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                </label>
+              </div>
+
+              <div className="flex items-center justify-between py-2">
+                <div className="flex items-center space-x-3">
+                  <Shield className="w-5 h-5 text-gray-400" />
+                  <div>
+                    <p className="font-medium text-gray-900">Security Alerts</p>
+                    <p className="text-sm text-gray-500">
+                      Receive notifications about security updates
+                    </p>
+                  </div>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={notifications.security}
+                    onChange={() => handleNotificationChange("security")}
+                    className="sr-only peer"
+                    disabled={loading}
+                  />
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-orange/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+}
