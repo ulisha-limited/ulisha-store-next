@@ -37,7 +37,7 @@ export default function Nav() {
    */
   const ADMIN_EMAILS = [
     "paulelite606@gmail.com",
-    "obajeufufredo2@gmail.com",
+    "obajeufedo2@gmail.com",
     "mrepol742@gmail.com",
   ];
 
