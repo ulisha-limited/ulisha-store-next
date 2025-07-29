@@ -71,13 +71,13 @@ export default function BottomNav() {
           <span>Categories</span>
         </Link>
         <Link
-          href="/orders"
+          href="/cart"
           className={`flex flex-col items-center justify-center text-xs p-2 ${
-            location.pathname === "/orders" ? "text-[#FF6600]" : "text-gray-400"
+            location.pathname === "/cart" ? "text-[#FF6600]" : "text-gray-400"
           } hover:text-[#FF6600] transition-colors`}
         >
           <ShoppingCart className="h-5 w-5 mb-1" />
-          <span>Orders</span>
+          <span>Cart</span>
         </Link>
 
         {/* User profile / Login */}
@@ -105,6 +105,14 @@ export default function BottomNav() {
 
               {isProfileOpen && (
                 <div className="absolute bottom-full right-1/2 translate-x-1/2 mb-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                  <Link
+                    href="/orders"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
+                    onClick={() => setIsProfileOpen(false)}
+                  >
+                    <ShoppingCart className="h-4 w-4" />
+                    <span>Orders</span>
+                  </Link>
                   <Link
                     href="/settings"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
