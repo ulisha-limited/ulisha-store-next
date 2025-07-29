@@ -25,6 +25,18 @@ export default function BottomNav() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
+  /*
+   * Check if the user is an admin based on their email.
+   * Need changes to role base restrictions in the future.
+   * For now, we use a hardcoded list of admin emails.
+   * This should be replaced with a more secure method in production.
+   */
+  const ADMIN_EMAILS = [
+    "paulelite606@gmail.com",
+    "obajeufufredo2@gmail.com",
+    "mrepol742@gmail.com",
+  ];
+
   useEffect(() => {
     // Function to check user session
     const checkUser = async () => {
@@ -69,6 +81,19 @@ export default function BottomNav() {
           <Home className="h-5 w-5 mb-1" />
           <span>Home</span>
         </Link>
+        {user && user.email && ADMIN_EMAILS.includes(user.email) && (
+          <Link
+            href="/admin"
+            className={`flex flex-col items-center justify-center text-xs p-2 ${
+              location.pathname === "/admin"
+                ? "text-[#FF6600]"
+                : "text-gray-400"
+            } hover:text-[#FF6600] transition-colors`}
+          >
+            <LayoutDashboard className="h-5 w-5 mb-1" />
+            <span>Admin Panel</span>
+          </Link>
+        )}
         <Link
           href="/categories"
           className={`flex flex-col items-center justify-center text-xs p-2 ${
@@ -116,32 +141,6 @@ export default function BottomNav() {
 
               {isProfileOpen && (
                 <div className="absolute bottom-full right-1/2 translate-x-1/2 mb-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                  <Link
-                    href="/"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
-                    onClick={() => setIsProfileOpen(false)}
-                  >
-                    <Home className="h-4 w-4" />
-                    <span>Home</span>
-                  </Link>
-                  {isAdmin && (
-                    <Link
-                      href="/dashboard"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
-                      onClick={() => setIsProfileOpen(false)}
-                    >
-                      <LayoutDashboard className="h-4 w-4" />
-                      <span>Dashboard</span>
-                    </Link>
-                  )}
-                  <Link
-                    href="/orders"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
-                    onClick={() => setIsProfileOpen(false)}
-                  >
-                    <ShoppingCart className="h-4 w-4" />
-                    <span>My Orders</span>
-                  </Link>
                   <Link
                     href="/settings"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
