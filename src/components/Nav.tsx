@@ -134,11 +134,11 @@ export default function Nav() {
         {/* Cart */}
         <Link
           href="/cart"
-          className="text-white hover:text-[#FF6600] transition-colors hidden md:inline mx-1"
+          className="text-white hover:text-[#FF6600] transition-colors hidden md:inline mx-1 relative"
         >
           <ShoppingCart className="h-5 w-5" />
           {cartItemCount > 0 && (
-            <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+            <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center shadow">
               {cartItemCount}
             </span>
           )}
