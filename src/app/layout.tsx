@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import BottomNav from "@/components/BottomNav";
 import Session from "@/components/Session";
 import NextTopLoader from "nextjs-toploader";
+import { ToastContainer } from "react-toastify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -67,6 +68,7 @@ export default function RootLayout({
           <Nav />
           <NextTopLoader showSpinner={false} color="#FF6600" />
           <div className="flex-1 pt-[90px]">{children}</div>
+          <ToastContainer />
           <Footer />
           <BottomNav />
         </div>

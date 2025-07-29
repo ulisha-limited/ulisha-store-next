@@ -18,6 +18,7 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-feather": "^2.0.10",
+    "react-toastify": "^11.0.5",
     "swiper": "^11.2.10",
     "uuid": "^11.1.0",
     "zustand": "^5.0.6",

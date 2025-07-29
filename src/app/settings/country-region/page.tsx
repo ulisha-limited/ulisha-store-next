@@ -5,6 +5,7 @@ import { Globe, ArrowLeft } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 interface CountryApiData {
   name: {
@@ -24,22 +25,7 @@ export default function CountryRegionPage() {
   const [selectedCountry, setSelectedCountry] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-
   const user = useAuthStore((state) => state.user);
-
-  const showNotification = (message: string, type: "success" | "error") => {
-    if (type === "success") {
-      setSuccess(message);
-      setError(null);
-    } else {
-      setError(message);
-      setSuccess(null);
-    }
-    setTimeout(() => {
-      setSuccess(null);
-      setError(null);
-    }, 5000);
-  };
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -83,11 +69,8 @@ export default function CountryRegionPage() {
         }
       } catch (err) {
         console.error("Failed to fetch countries or user preference:", err);
-        showNotification(
-          `Failed to load countries: ${
-            err instanceof Error ? err.message : String(err)
-          }`,
-          "error"
+        toast.error(
+          "Failed to load countries. Please try again later."
         );
         // Fallback to a predefined list if API fails
         setCountries([
@@ -112,11 +95,9 @@ export default function CountryRegionPage() {
     setSelectedCountry(newCountryCode); // Optimistic update
 
     if (!user) {
-      showNotification(
-        "Please log in to change your country preference.",
-        "error"
+      return toast.error(
+        "Please log in to change your country preference."
       );
-      return;
     }
 
     setLoading(true);
@@ -129,14 +110,13 @@ export default function CountryRegionPage() {
         );
 
       if (updateError) throw updateError;
-      showNotification("Country preference updated successfully!", "success");
+      toast.success("Country preference updated successfully!");
     } catch (err) {
       console.error("Error updating country in Supabase:", err);
-      showNotification(
+      toast.error(
         err instanceof Error
           ? err.message
-          : "Failed to update country preference.",
-        "error"
+          : "Failed to update country preference. Please try again."
       );
       // Revert if update fails (optional, could also refetch)
       // loadUserPreferences(); // Re-fetch to get the true state

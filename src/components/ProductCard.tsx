@@ -15,6 +15,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { toast } from "react-toastify";
 
 export function ProductCard({ product }: { product: Product }) {
   const [showShareOptions, setShowShareOptions] = useState(false);
@@ -51,12 +52,11 @@ export function ProductCard({ product }: { product: Product }) {
 
     try {
       await addToCart(product);
-      showNotification("Product added to cart!", "success");
+      toast.success("Product added to cart!");
     } catch (error) {
       console.error("Error adding to cart:", error);
-      showNotification(
-        "Failed to add product to cart. Please try again.",
-        "error"
+      toast.error(
+        "Failed to add product to cart. Please try again."
       );
     }
   };
@@ -77,12 +77,12 @@ export function ProductCard({ product }: { product: Product }) {
       .writeText(link)
       .then(() => {
         setLinkCopied(true);
-        showNotification("Link copied to clipboard!", "success");
+        toast.success("Link copied to clipboard!");
         setTimeout(() => setLinkCopied(false), 2000);
       })
       .catch((err) => {
         console.error("Failed to copy link: ", err);
-        showNotification("Failed to copy link", "error");
+        toast.error("Failed to copy link. Please try again.");
       });
   };
 
@@ -111,22 +111,6 @@ export function ProductCard({ product }: { product: Product }) {
 
     window.open(shareUrl, "_blank");
     setShowShareOptions(false);
-  };
-
-  const showNotification = (message: string, type: "success" | "error") => {
-    const notification = document.createElement("div");
-    notification.className = `fixed bottom-4 right-4 ${
-      type === "success" ? "bg-green-500" : "bg-red-500"
-    } text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in`;
-    notification.textContent = message;
-    document.body.appendChild(notification);
-
-    setTimeout(() => {
-      notification.classList.add("animate-fade-out");
-      setTimeout(() => {
-        document.body.removeChild(notification);
-      }, 300);
-    }, 3000);
   };
 
   return (

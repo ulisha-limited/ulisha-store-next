@@ -5,6 +5,7 @@ import { Bell, Shield, ArrowLeft } from "lucide-react"; // Import ArrowLeft
 import { useAuthStore } from "@/store/authStore";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 export default function NotificationPreferencesPage() {
   const [loading, setLoading] = useState(false);
@@ -21,20 +22,6 @@ export default function NotificationPreferencesPage() {
   useEffect(() => {
     loadUserPreferences();
   }, [user]);
-
-  const showNotification = (message: string, type: "success" | "error") => {
-    if (type === "success") {
-      setSuccess(message);
-      setError(null);
-    } else {
-      setError(message);
-      setSuccess(null);
-    }
-    setTimeout(() => {
-      setSuccess(null);
-      setError(null);
-    }, 5000);
-  };
 
   const loadUserPreferences = async () => {
     if (!user) return;
@@ -58,7 +45,9 @@ export default function NotificationPreferencesPage() {
       }
     } catch (error) {
       console.error("Error loading notification preferences:", error);
-      showNotification("Failed to load notification preferences.", "error");
+      toast.error(
+        "Failed to load notification preferences. Please try again later."
+      );
     } finally {
       setLoading(false);
     }
@@ -66,11 +55,9 @@ export default function NotificationPreferencesPage() {
 
   const handleNotificationChange = async (type: keyof typeof notifications) => {
     if (!user) {
-      showNotification(
-        "Please log in to change notification preferences.",
-        "error"
+      return toast.error(
+        "Please log in to change notification preferences."
       );
-      return;
     }
 
     try {
@@ -92,13 +79,10 @@ export default function NotificationPreferencesPage() {
       );
 
       if (error) throw error;
-      showNotification(
-        "Notification preferences updated successfully",
-        "success"
-      );
+      toast.success("Notification preferences updated successfully");
     } catch (error) {
       console.error("Error updating notifications:", error);
-      showNotification("Failed to update notification preferences", "error");
+      toast.error("Failed to update notification preferences. Please try again.");
       // Revert on error
       setNotifications((prev) => ({ ...prev, [type]: !prev[type] }));
     } finally {

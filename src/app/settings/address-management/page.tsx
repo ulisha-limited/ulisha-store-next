@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 import { useAuthStore } from "@/store/authStore";
 import { MapPin, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 export interface Address {
   id: string;
@@ -39,20 +40,6 @@ export default function AddressManagementPage() {
     loadUserAddresses();
   }, [user]);
 
-  const showNotification = (message: string, type: "success" | "error") => {
-    if (type === "success") {
-      setSuccess(message);
-      setError(null);
-    } else {
-      setError(message);
-      setSuccess(null);
-    }
-    setTimeout(() => {
-      setSuccess(null);
-      setError(null);
-    }, 5000);
-  };
-
   const loadUserAddresses = async () => {
     if (!user) return;
     setAddressLoading(true);
@@ -67,7 +54,7 @@ export default function AddressManagementPage() {
       setAddresses(data);
     } catch (error) {
       console.error("Error loading addresses:", error);
-      showNotification("Failed to load addresses.", "error");
+      toast.error("Failed to load addresses.");
     } finally {
       setAddressLoading(false);
     }
@@ -87,8 +74,7 @@ export default function AddressManagementPage() {
   const handleAddEditAddress = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) {
-      showNotification("Please log in to manage addresses.", "error");
-      return;
+      return toast.error("Please log in to manage addresses.");
     }
     setAddressLoading(true);
     try {
@@ -100,14 +86,14 @@ export default function AddressManagementPage() {
           .eq("user_id", user.id);
 
         if (error) throw error;
-        showNotification("Address updated successfully!", "success");
+        toast.success("Address updated successfully!");
       } else {
         const { error } = await supabase
           .from("user_addresses")
           .insert({ ...addressFormData, user_id: user.id });
 
         if (error) throw error;
-        showNotification("Address added successfully!", "success");
+        toast.success("Address added successfully!");
       }
       setShowAddEditAddress(false);
       setCurrentAddress(null);
@@ -122,9 +108,8 @@ export default function AddressManagementPage() {
       loadUserAddresses();
     } catch (error) {
       console.error("Error adding/updating address:", error);
-      showNotification(
-        error instanceof Error ? error.message : "Failed to save address.",
-        "error"
+      toast.error(
+        error instanceof Error ? error.message : "Failed to save address. Please try again."
       );
     } finally {
       setAddressLoading(false);
@@ -133,8 +118,7 @@ export default function AddressManagementPage() {
 
   const handleDeleteAddress = async (addressId: string) => {
     if (!user) {
-      showNotification("Please log in to delete addresses.", "error");
-      return;
+      return toast.error("Please log in to delete addresses.");
     }
     if (!window.confirm("Are you sure you want to delete this address?"))
       return;
@@ -148,13 +132,12 @@ export default function AddressManagementPage() {
         .eq("user_id", user.id);
 
       if (error) throw error;
-      showNotification("Address deleted successfully!", "success");
+      toast.success("Address deleted successfully!");
       loadUserAddresses();
     } catch (error) {
       console.error("Error deleting address:", error);
-      showNotification(
-        error instanceof Error ? error.message : "Failed to delete address.",
-        "error"
+      toast.error(
+        error instanceof Error ? error.message : "Failed to delete address."
       );
     } finally {
       setAddressLoading(false);
@@ -176,8 +159,7 @@ export default function AddressManagementPage() {
 
   const handleSetDefaultAddress = async (addressId: string) => {
     if (!user) {
-      showNotification("Please log in to set default address.", "error");
-      return;
+      return toast.error("Please log in to set default address.");
     }
     setAddressLoading(true);
     try {
@@ -196,15 +178,14 @@ export default function AddressManagementPage() {
         .eq("user_id", user.id);
 
       if (error) throw error;
-      showNotification("Default address set successfully!", "success");
+      toast.success("Default address set successfully!");
       loadUserAddresses(); // Reload addresses to reflect changes
     } catch (error) {
       console.error("Error setting default address:", error);
-      showNotification(
+      toast.error(
         error instanceof Error
           ? error.message
-          : "Failed to set default address.",
-        "error"
+          : "Failed to set default address. Please try again."
       );
     } finally {
       setAddressLoading(false);

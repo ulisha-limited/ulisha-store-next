@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 interface AnalyticsData {
   totalUsers: number;
@@ -148,13 +149,10 @@ export default function Dashboard() {
       if (adImageRef.current) adImageRef.current.value = "";
 
       setShowAdForm(false);
-      showNotification("Advertisement added successfully!", "success");
+      toast.success("Advertisement added successfully!");
     } catch (error) {
       console.error("Error saving advertisement:", error);
-      showNotification(
-        "Error saving advertisement. Please try again.",
-        "error"
-      );
+      toast.error("Error saving advertisement. Please try again.");
     } finally {
       setFormLoading(false);
     }
@@ -164,22 +162,6 @@ export default function Dashboard() {
     if (e.target.files && e.target.files.length > 0) {
       setAdData({ ...adData, image: e.target.files[0] });
     }
-  };
-
-  const showNotification = (message: string, type: "success" | "error") => {
-    const notification = document.createElement("div");
-    notification.className = `fixed bottom-4 right-4 ${
-      type === "success" ? "bg-green-500" : "bg-red-500"
-    } text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in`;
-    notification.textContent = message;
-    document.body.appendChild(notification);
-
-    setTimeout(() => {
-      notification.classList.add("animate-fade-out");
-      setTimeout(() => {
-        document.body.removeChild(notification);
-      }, 300);
-    }, 3000);
   };
 
   if (loading) {

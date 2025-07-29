@@ -20,6 +20,7 @@ import type { Product } from "@/store/cartStore";
 import { ProductCard } from "@/components/ProductCard";
 import { useParams } from "next/navigation";
 import Image from "next/image";
+import { toast } from "react-toastify";
 
 interface ProductVariant {
   id: string;
@@ -179,8 +180,7 @@ export default function ProductDetails() {
     }
 
     if (variants.length > 0 && (!selectedColor || !selectedSize)) {
-      showNotification("Please select color and size options", "error");
-      return;
+      return toast.error("Please select color and size options");
     }
     try {
       const selectedVariant = variants.find(
@@ -188,8 +188,7 @@ export default function ProductDetails() {
       );
 
       if (selectedVariant && selectedVariant.stock <= 0) {
-        showNotification("Selected variant is out of stock", "error");
-        return;
+        return toast.error("Selected variant is out of stock");
       }
 
       const productWithOptions = {
@@ -199,14 +198,24 @@ export default function ProductDetails() {
         selectedSize,
         variantId: selectedVariant?.id,
       };
-      await addToCart(productWithOptions);
-      showNotification("Product added to cart!", "success");
+
+      const resolveAddToCart = new Promise(async (resolve) => {
+        try {
+          await addToCart(productWithOptions);
+          resolve(undefined);
+        } catch (error) {
+          resolve(error);
+        }
+      });
+
+      toast.promise(resolveAddToCart, {
+        pending: "Adding product to cart...",
+        success: "Product added to cart successfully!",
+        error: "Failed to add product to cart. Please try again.",
+      });
     } catch (error) {
       console.error("Error adding to cart:", error);
-      showNotification(
-        "Failed to add product to cart. Please try again.",
-        "error"
-      );
+      toast.error("Failed to add product to cart. Please try again.");
     }
   };
 
@@ -219,8 +228,7 @@ export default function ProductDetails() {
     }
 
     if (variants.length > 0 && (!selectedColor || !selectedSize)) {
-      showNotification("Please select color and size options", "error");
-      return;
+      return toast.error("Please select color and size options");
     }
 
     try {
@@ -229,8 +237,7 @@ export default function ProductDetails() {
       );
 
       if (selectedVariant && selectedVariant.stock <= 0) {
-        showNotification("Selected variant is out of stock", "error");
-        return;
+        return toast.error("Selected variant is out of stock");
       }
 
       const productWithOptions = {
@@ -246,31 +253,13 @@ export default function ProductDetails() {
       window.location.href = "/checkout";
     } catch (error) {
       console.error("Error in Buy Now:", error);
-      showNotification(
-        "Failed to proceed to checkout. Please try again.",
-        "error"
-      );
+      toast.error("Failed to proceed to checkout. Please try again.");
     }
   };
 
   const handleImageSelect = (image: string, index: number) => {
     setSelectedImage(image);
     setCurrentImageIndex(index);
-  };
-
-  const showNotification = (message: string, type: "success" | "error") => {
-    const notification = document.createElement("div");
-    notification.className = `fixed bottom-4 right-4 ${
-      type === "success" ? "bg-green-500" : "bg-red-500"
-    } text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in`;
-    notification.textContent = message;
-    document.body.appendChild(notification);
-    setTimeout(() => {
-      notification.classList.add("animate-fade-out");
-      setTimeout(() => {
-        document.body.removeChild(notification);
-      }, 300);
-    }, 3000);
   };
 
   const handleCallSeller = () => {
@@ -302,12 +291,12 @@ export default function ProductDetails() {
       .writeText(link)
       .then(() => {
         setLinkCopied(true);
-        showNotification("Link copied to clipboard!", "success");
+        toast.success("Link copied to clipboard!");
         setTimeout(() => setLinkCopied(false), 2000);
       })
       .catch((err) => {
         console.error("Failed to copy link: ", err);
-        showNotification("Failed to copy link", "error");
+        toast.error("Failed to copy link");
       });
   };
 
@@ -356,7 +345,7 @@ export default function ProductDetails() {
 
       setRating(value);
       setHasRated(true);
-      showNotification("Thank you for rating this product!", "success");
+      toast.success("Thank you for rating this product!");
 
       const { data: ratings, error: ratingsError } = await supabase
         .from("product_ratings")
@@ -375,7 +364,7 @@ export default function ProductDetails() {
       }
     } catch (error) {
       console.error("Error rating product:", error);
-      showNotification("Failed to submit rating. Please try again.", "error");
+      toast.error("Failed to submit rating. Please try again.");
     }
   };
 

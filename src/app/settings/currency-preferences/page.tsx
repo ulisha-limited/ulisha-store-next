@@ -6,6 +6,7 @@ import { useCurrencyStore } from "@/store/currencyStore";
 import { useAuthStore } from "@/store/authStore";
 import { supabase } from "@/lib/supabase"; // Assuming you still need supabase for updates
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 export default function CurrencyPreferencesPage() {
   const {
@@ -18,36 +19,21 @@ export default function CurrencyPreferencesPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const showNotification = (message: string, type: "success" | "error") => {
-    if (type === "success") {
-      setSuccess(message);
-      setError(null);
-    } else {
-      setError(message);
-      setSuccess(null);
-    }
-    setTimeout(() => {
-      setSuccess(null);
-      setError(null);
-    }, 5000);
-  };
-
   const handleCurrencyChange = async (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const newCurrency = event.target.value as "NGN" | "USD";
     if (!user) {
-      showNotification("Please log in to change currency preference.", "error");
-      return;
+      return toast.error("Please log in to change currency preference.");
     }
     try {
       setLoading(true);
       // Assuming setCurrency in your store also updates Supabase
       await setCurrency(newCurrency);
-      showNotification("Currency preference updated successfully", "success");
+      toast.success("Currency preference updated successfully!");
     } catch (err) {
       console.error("Error updating currency:", err);
-      showNotification("Failed to update currency preference", "error");
+      toast.error("Failed to update currency preference. Please try again.");
     } finally {
       setLoading(false);
     }

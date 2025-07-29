@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CreditCard, PlusCircle, Trash2, ArrowLeft } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import Link from "next/link";
+import { toast } from "react-toastify";
 // Example data type for a payment method
 interface PaymentMethod {
   id: string;
@@ -34,24 +35,6 @@ export default function PaymentSettingsPage() {
       is_default: false,
     },
   ]); // Mock data, fetch from backend in real app
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
-
-  const user = useAuthStore((state) => state.user);
-
-  const showNotification = (message: string, type: "success" | "error") => {
-    if (type === "success") {
-      setSuccess(message);
-      setError(null);
-    } else {
-      setError(message);
-      setSuccess(null);
-    }
-    setTimeout(() => {
-      setSuccess(null);
-      setError(null);
-    }, 5000);
-  };
 
   const handleDeletePaymentMethod = (id: string) => {
     if (!window.confirm("Are you sure you want to delete this payment method?"))
@@ -59,7 +42,7 @@ export default function PaymentSettingsPage() {
     setLoading(true);
     setTimeout(() => {
       setPaymentMethods((prev) => prev.filter((pm) => pm.id !== id));
-      showNotification("Payment method deleted successfully!", "success");
+      toast.success("Payment method deleted successfully!");
       setLoading(false);
     }, 500);
   };
@@ -73,15 +56,14 @@ export default function PaymentSettingsPage() {
           is_default: pm.id === id,
         }))
       );
-      showNotification("Default payment method updated!", "success");
+      toast.success("Default payment method updated successfully!");
       setLoading(false);
     }, 500);
   };
 
   const handleAddPaymentMethod = () => {
-    showNotification(
-      "Adding new payment method (functionality to be implemented)",
-      "success"
+    toast.success(
+      "This feature is under development. Please check back later."
     );
   };
 

@@ -16,6 +16,7 @@ import type { Product } from "@/store/cartStore";
 import imageCompression from "browser-image-compression";
 import Image from "next/image";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 interface AnalyticsData {
   totalUsers: number;
@@ -281,15 +282,14 @@ export default function Products() {
       setEditingProduct(null);
       fetchProducts();
 
-      showNotification(
+      toast.success(
         editingProduct
           ? "Product updated successfully!"
-          : "Product added successfully!",
-        "success"
+          : "Product added successfully!"
       );
     } catch (error) {
       console.error("Error saving product:", error);
-      showNotification("Error saving product. Please try again.", "error");
+      toast.error("Error saving product. Please try again.");
     } finally {
       setFormLoading(false);
     }
@@ -308,10 +308,10 @@ export default function Products() {
 
       fetchProducts();
       setDeleteConfirmation(null);
-      showNotification("Product deleted successfully!", "success");
+      toast.success("Product deleted successfully!");
     } catch (error) {
       console.error("Error deleting product:", error);
-      showNotification("Error deleting product. Please try again.", "error");
+      toast.error("Error deleting product. Please try again.");
     } finally {
       setDeleteLoading(false);
     }
@@ -339,22 +339,6 @@ export default function Products() {
     const updatedImages = [...productData.additionalImages];
     updatedImages.splice(index, 1);
     setProductData({ ...productData, additionalImages: updatedImages });
-  };
-
-  const showNotification = (message: string, type: "success" | "error") => {
-    const notification = document.createElement("div");
-    notification.className = `fixed bottom-4 right-4 ${
-      type === "success" ? "bg-green-500" : "bg-red-500"
-    } text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in`;
-    notification.textContent = message;
-    document.body.appendChild(notification);
-
-    setTimeout(() => {
-      notification.classList.add("animate-fade-out");
-      setTimeout(() => {
-        document.body.removeChild(notification);
-      }, 300);
-    }, 3000);
   };
 
   if (loading) {

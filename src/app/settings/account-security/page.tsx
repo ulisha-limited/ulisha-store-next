@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { Lock, User, Shield, Eye, EyeOff, Mail, ArrowLeft } from "lucide-react"; // Import ArrowLeft
@@ -6,6 +6,7 @@ import { useAuthStore } from "@/store/authStore";
 import { supabase } from "@/lib/supabase";
 import OtpInput from "@/components/OtpInput";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 export default function AccountSecurityPage() {
   const [loading, setLoading] = useState(false);
@@ -48,24 +49,9 @@ export default function AccountSecurityPage() {
     return () => clearInterval(interval);
   }, [showOtp, otpData.countdown]);
 
-  const showNotification = (message: string, type: "success" | "error") => {
-    if (type === "success") {
-      setSuccess(message);
-      setError(null);
-    } else {
-      setError(message);
-      setSuccess(null);
-    }
-    setTimeout(() => {
-      setSuccess(null);
-      setError(null);
-    }, 5000);
-  };
-
   const sendOtpForPasswordChange = async () => {
     if (!user || !user.email) {
-      showNotification("User not logged in or email not available.", "error");
-      return;
+      return toast.error("User not logged in or email not available.");
     }
 
     try {
@@ -101,15 +87,13 @@ export default function AccountSecurityPage() {
         countdown: 60,
       });
 
-      showNotification(
-        "Verification code sent to your email address",
-        "success"
-      );
+      toast.success("Verification code sent to your email address");
     } catch (err) {
       console.error("Error sending OTP:", err);
-      showNotification(
-        err instanceof Error ? err.message : "Failed to send verification code",
-        "error"
+      toast.error(
+        err instanceof Error
+          ? err.message
+          : "Failed to send verification code. Please try again."
       );
     } finally {
       setLoading(false);
@@ -118,8 +102,7 @@ export default function AccountSecurityPage() {
 
   const verifyOtpAndChangePassword = async () => {
     if (!user || !user.email) {
-      showNotification("User not logged in or email not available.", "error");
-      return;
+      return toast.error("User not logged in or email not available.");
     }
 
     try {
@@ -170,14 +153,13 @@ export default function AccountSecurityPage() {
       setShowChangePassword(false);
       setShowOtp(false);
 
-      showNotification("Password updated successfully", "success");
+      toast.success("Password updated successfully");
     } catch (err) {
       console.error("Error verifying OTP and updating password:", err);
-      showNotification(
+      toast.error(
         err instanceof Error
           ? err.message
-          : "Failed to verify code and update password",
-        "error"
+          : "Failed to verify code and update password"
       );
     } finally {
       setOtpData((prev) => ({ ...prev, isVerifying: false }));
@@ -213,14 +195,13 @@ export default function AccountSecurityPage() {
         otp: ["", "", "", "", "", ""],
       }));
 
-      showNotification("New verification code sent to your email", "success");
+      toast.success("New verification code sent to your email");
     } catch (err) {
       console.error("Error resending OTP:", err);
-      showNotification(
+      toast.error(
         err instanceof Error
           ? err.message
-          : "Failed to resend verification code",
-        "error"
+          : "Failed to resend verification code. Please try again."
       );
     } finally {
       setLoading(false);
@@ -315,8 +296,8 @@ export default function AccountSecurityPage() {
                     <div className="flex items-center">
                       <Shield className="w-5 h-5 text-blue-600 mr-2" />
                       <p className="text-sm text-blue-800">
-                        For your security, we&apos;ll send a verification code to
-                        your email before changing your password.
+                        For your security, we&apos;ll send a verification code
+                        to your email before changing your password.
                       </p>
                     </div>
                   </div>
