@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Home,
   ShoppingCart,
@@ -10,8 +10,7 @@ import {
   User as UserIcon,
   Search,
 } from "lucide-react";
-import { supabase } from "../lib/supabase";
-import { User } from "@supabase/supabase-js";
+import { useAuthStore } from "@/store/authStore";
 import { usePathname } from "next/navigation";
 
 const getInitials = (name: string) => {
@@ -20,10 +19,8 @@ const getInitials = (name: string) => {
 
 export default function BottomNav() {
   const location = { pathname: usePathname() };
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
+  const { user, signOut } = useAuthStore((state) => state);
 
   /*
    * Check if the user is an admin based on their email.
@@ -36,38 +33,6 @@ export default function BottomNav() {
     "obajeufufredo2@gmail.com",
     "mrepol742@gmail.com",
   ];
-
-  useEffect(() => {
-    // Function to check user session
-    const checkUser = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      if (session) {
-        setIsLoggedIn(true);
-        setUser(session.user);
-        // Implement logic to check if user is admin (e.g., from user_metadata or a separate 'profiles' table)
-        // For demonstration, let's assume an admin role in user_metadata for now
-        setIsAdmin(session.user.user_metadata?.role === "admin");
-      } else {
-        setIsLoggedIn(false);
-        setUser(null);
-        setIsAdmin(false);
-      }
-    };
-
-    checkUser();
-
-    const { data: authListener } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "SIGNED_IN" || event === "SIGNED_OUT") {
-        checkUser();
-      }
-    });
-
-    return () => {
-      authListener.subscription.unsubscribe();
-    };
-  }, []);
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-gray-900 text-white border-t border-gray-800 shadow-lg md:hidden z-50">
@@ -117,7 +82,7 @@ export default function BottomNav() {
         </Link>
 
         {/* User profile / Login */}
-        {isLoggedIn ? (
+        {!!user ? (
           <>
             <div className="relative">
               <button
