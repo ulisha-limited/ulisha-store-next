@@ -14,6 +14,7 @@ import { useCartStore } from "@/store/cartStore";
 import { useAuthStore } from "@/store/authStore";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export function ProductCard({ product }: { product: Product }) {
   const [showShareOptions, setShowShareOptions] = useState(false);
@@ -131,11 +132,13 @@ export function ProductCard({ product }: { product: Product }) {
   return (
     <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 group overflow-hidden">
       <div className="relative pb-[100%] overflow-hidden rounded-t-lg">
-        <img
+        <Image
           src={product.image}
           alt={product.name}
           className="absolute top-0 left-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-200 cursor-pointer"
           onClick={() => navigate(`/product/${product.id}`)}
+          width={500}
+          height={500}
         />
 
         {/* Discount badge */}
