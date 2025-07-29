@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ChevronRightIcon, LayoutDashboardIcon, ShoppingCart } from "lucide-react";
+import { ChevronRightIcon, LayoutDashboardIcon, ShoppingBasket, ShoppingCart } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
@@ -88,6 +88,18 @@ export default function AdminPanel() {
                 <div className="flex items-center space-x-3">
                   <ShoppingCart className="w-5 h-5 text-gray-400" />
                   <p className="font-medium text-gray-900">Orders</p>
+                </div>
+                <ChevronRightIcon className="w-5 h-5 text-gray-400" />
+              </Link>
+
+              {/* Products */}
+              <Link
+                className="flex items-center justify-between py-4 px-6 cursor-pointer hover:bg-gray-50 border-b border-gray-200 last:border-b-0"
+                href="/admin/products"
+              >
+                <div className="flex items-center space-x-3">
+                  <ShoppingBasket className="w-5 h-5 text-gray-400" />
+                  <p className="font-medium text-gray-900">Products</p>
                 </div>
                 <ChevronRightIcon className="w-5 h-5 text-gray-400" />
               </Link>
