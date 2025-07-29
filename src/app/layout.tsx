@@ -76,12 +76,6 @@ export default function RootLayout({
           <BottomNav />
         </div>
         <Session />
-        <script
-          src="https://app.livechatai.com/embed.js"
-          data-id="cmayl7x9h0005ju0ads2yc8nc"
-          async
-          defer
-        ></script>
       </body>
     </html>
   );
