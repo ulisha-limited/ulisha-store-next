@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import { ProductCard } from "@/components/ProductCard";
-import { Search } from "lucide-react";
+import { ArrowLeft, Search } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import type { Product } from "@/store/cartStore";
 import { useParams } from "next/navigation";
+import Link from "next/link";
 
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000; // 1 second
@@ -106,8 +107,15 @@ export default function ProductList() {
       <div className="min-h-screen bg-gray-100 flex flex-col">
         <div className="flex-grow">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="flex items-center justify-between mb-6">
-              <h1 className="text-xl font-bold text-gray-900 capitalize">
+            <div className="flex items-center mb-4">
+              <Link
+                href="/category"
+                className="p-2 mr-4 rounded-full hover:bg-gray-200 transition-colors"
+                aria-label="Go back to settings"
+              >
+                <ArrowLeft className="w-6 h-6 text-gray-700" />
+              </Link>
+              <h1 className="text-2xl font-extrabold text-gray-900">
                 {category ? category : ""}
               </h1>
             </div>

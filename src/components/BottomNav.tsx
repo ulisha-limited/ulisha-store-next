@@ -8,7 +8,7 @@ import {
   LayoutDashboard,
   Settings,
   User as UserIcon,
-  Search,
+  Group,
 } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { usePathname } from "next/navigation";
@@ -60,15 +60,14 @@ export default function BottomNav() {
           </Link>
         )}
         <Link
-          href="/categories"
+          href="/category"
           className={`flex flex-col items-center justify-center text-xs p-2 ${
             location.pathname.startsWith("/category")
               ? "text-[#FF6600]"
               : "text-gray-400"
           } hover:text-[#FF6600] transition-colors`}
         >
-          <Search className="h-5 w-5 mb-1" />{" "}
-          {/* Using Search icon for categories */}
+          <Group className="h-5 w-5 mb-1" />
           <span>Categories</span>
         </Link>
         <Link
