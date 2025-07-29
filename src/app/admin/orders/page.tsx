@@ -24,7 +24,7 @@ import { supabase } from "@/lib/supabase";
 import { OrderReceipt } from "@/components/OrderReceipt";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 interface OrderItem {
   id: string;
@@ -63,6 +63,7 @@ export default function Orders() {
     "newest"
   );
   const location = { pathname: usePathname() };
+  const searchParams = useSearchParams();
 
   const user = useAuthStore((state) => state.user);
 
@@ -265,10 +266,9 @@ export default function Orders() {
       fetchOrders();
 
       // Check for successful order from URL parameters
-      const queryParams = new URLSearchParams(location.search);
-      const orderSuccess = queryParams.get("order_success");
-      const txRef = queryParams.get("tx_ref");
-      const orderId = queryParams.get("order_id");
+      const orderSuccess = searchParams.get("order_success");
+      const txRef = searchParams.get("tx_ref");
+      const orderId = searchParams.get("order_id");
 
       if (orderSuccess === "true") {
         setShowSuccessMessage(true);
