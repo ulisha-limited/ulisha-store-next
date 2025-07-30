@@ -152,10 +152,15 @@ function Nav() {
         </Link>
         {/* User profile */}
         {!!user ? (
-          <div className="relative profile-menu hidden md:inline">
+          <div
+            className="relative profile-menu hidden md:inline"
+            onMouseEnter={() => setIsProfileOpen(true)}
+            onMouseLeave={() => setIsProfileOpen(false)}
+          >
             <button
-              onClick={() => setIsProfileOpen(!isProfileOpen)}
+              onClick={() => setIsProfileOpen((open) => !open)}
               className="text-white hover:text-[#FF6600] transition-colors focus:outline-none mx-2"
+              tabIndex={0}
             >
               <div
                 className="rounded-full bg-orange-500 flex items-center justify-center"
@@ -166,7 +171,7 @@ function Nav() {
             </button>
 
             {isProfileOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+              <div className="absolute right-0 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                 <Link
                   href="/"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
@@ -182,7 +187,7 @@ function Nav() {
                     onClick={() => setIsProfileOpen(false)}
                   >
                     <LayoutDashboard className="h-4 w-4" />
-                    <span>Admin Panel</span>
+                    <span>Admin</span>
                   </Link>
                 )}
 

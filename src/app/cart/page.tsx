@@ -12,14 +12,12 @@ import {
   ShoppingCart,
   XCircle,
 } from "lucide-react";
-// IMPORTANT: Double-check these relative import paths based on your actual file structure.
-// If src/app/cart/page.tsx is your current file, then:
-// ../../store/cartStore should point to src/store/cartStore.ts
-// ../../lib/supabase should point to src/lib/supabase.ts
+import axios from "axios";
+import type { Product } from "@/store/cartStore";
 import { useCartStore } from "../../store/cartStore";
 import { useAuthStore } from "../../store/authStore";
 import { useCurrencyStore } from "../../store/currencyStore";
-
+import { toast } from "react-toastify";
 import { supabase } from "../../lib/supabase"; // Ensure this path is correct
 
 // Define a type for your address structure from 'user_addresses' table
@@ -125,6 +123,22 @@ export default function Cart() {
     }
   };
 
+  const handlePayment = async (price: number) => {
+    try {
+      const { data } = await axios.post("/api/paystack/initialize", {
+        email: user?.email,
+        amount: price,
+      });
+
+      if (!data.status)
+        return toast.error(data.message || "Failed to initialize payment");
+      window.location.href = data.data.authorization_url;
+    } catch (error) {
+      console.log("Error initializing payment:", error);
+      toast.error("Failed to initialize payment");
+    }
+  };
+
   /**
    * MODIFIED handleProceedToCheckout FUNCTION:
    * This function now only performs preliminary checks and then navigates
@@ -136,14 +150,17 @@ export default function Cart() {
     setError(null); // Clear previous errors
 
     try {
-      if (items.length === 0) {
-        showAppNotification(
-          "Your cart is empty. Please add items before checking out.",
-          "error"
-        );
-        setCheckoutLoading(false); // Make sure to turn off loading on early exit
-        return;
-      }
+      // TEST ONLY
+
+      const totalPrice = items.reduce((sum, item) => {
+        if (item.product) {
+          return sum + item.product.price * item.quantity;
+        }
+        return sum;
+      }, 0);
+      
+      handlePayment(totalPrice);
+      return;
 
       if (!user?.id) {
         showAppNotification("Please log in to proceed to checkout.", "error");
@@ -162,7 +179,10 @@ export default function Cart() {
 
       if (addressError) {
         console.error("Failed to fetch address:", addressError);
-        showAppNotification(`Failed to fetch address: ${addressError.message}`, "error");
+        showAppNotification(
+          `Failed to fetch address: ${addressError.message}`,
+          "error"
+        );
         setCheckoutLoading(false); // Make sure to turn off loading on early exit
         return;
       }
@@ -177,7 +197,6 @@ export default function Cart() {
         return;
       }
 
-    
       router.push("/checkout");
     } finally {
       // The finally block will always execute, ensuring loading is turned off

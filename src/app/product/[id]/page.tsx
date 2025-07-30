@@ -22,6 +22,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 interface ProductVariant {
   id: string;
@@ -250,12 +251,29 @@ export default function ProductDetails() {
         variantId: selectedVariant?.id,
       };
 
-      await addToCart(productWithOptions);
-      // Redirect to checkout page after adding to cart
-      window.location.href = "/cart/checkout";
+      await Promise.all([
+        addToCart(productWithOptions),
+        buyNow(productWithOptions),
+      ]);
     } catch (error) {
       console.error("Error in Buy Now:", error);
       toast.error("Failed to proceed to checkout. Please try again.");
+    }
+  };
+
+  const buyNow = async (product: Product) => {
+    try {
+      const { data } = await axios.post("/api/paystack/initialize", {
+        email: user?.email,
+        amount: product.price,
+      });
+
+      if (!data.status)
+        return toast.error(data.message || "Failed to initialize payment");
+      window.location.href = data.data.authorization_url;
+    } catch (error) {
+      console.log("Error initializing payment:", error);
+      toast.error("Failed to initialize payment");
     }
   };
 
