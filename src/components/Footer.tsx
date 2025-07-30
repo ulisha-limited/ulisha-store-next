@@ -11,6 +11,7 @@ import {
   // Tiktok,
 } from "lucide-react";
 import { useCategoryStore } from "@/store/categoryStore";
+import Image from "next/image";
 
 type Category = { name: string; count: number };
 
@@ -37,7 +38,7 @@ export default function Footer() {
 
   return (
     // Only visible on large screens and up; hidden on small/medium
-    <footer className="hidden lg:block bg-gray-900 text-white mt-12 mb-12 md:mb-0">
+    <footer className="hidden md:block bg-gray-900 text-white mt-12 mb-12 md:mb-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Categories Section */}
         <div className="mb-8">
@@ -127,20 +128,26 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Payment Methods</h3>
             <div className="flex flex-wrap items-center gap-3">
-              <img
+              <Image
                 src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg"
                 alt="Visa"
                 className="h-8 w-auto bg-white rounded p-1"
+                width={8}
+                height={8}
               />
-              <img
+              <Image
                 src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
                 alt="Mastercard"
                 className="h-8 w-auto bg-white rounded p-1"
+                width={8}
+                height={8}
               />
-              <img
+              <Image
                 src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
                 alt="PayPal"
                 className="h-8 w-auto bg-white rounded p-1"
+                width={8}
+                height={8}
               />
             </div>
             <p className="text-gray-400 text-xs mt-2">
@@ -199,7 +206,7 @@ export default function Footer() {
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
           <p>
             &copy;{" "}
-            <span suppressHydrationWarning>{new Date().getFullYear()}</span>{" "}
+            <span>{new Date().getFullYear()}</span>{" "}
             UlishaStore. All rights reserved.
           </p>
         </div>

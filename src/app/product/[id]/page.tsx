@@ -252,7 +252,7 @@ export default function ProductDetails() {
 
       await addToCart(productWithOptions);
       // Redirect to checkout page after adding to cart
-      window.location.href = "/checkout";
+      window.location.href = "/cart/checkout";
     } catch (error) {
       console.error("Error in Buy Now:", error);
       toast.error("Failed to proceed to checkout. Please try again.");

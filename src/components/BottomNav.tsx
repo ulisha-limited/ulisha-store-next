@@ -74,12 +74,14 @@ export default function BottomNav() {
             location.pathname === "/cart" ? "text-[#FF6600]" : "text-gray-400"
           } hover:text-[#FF6600] transition-colors`}
         >
-          <ShoppingCart className="h-5 w-5 mb-1" />
-          {cartItemCount > 0 && (
-            <span className="absolute -top-1 left-70  bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center shadow">
-              {cartItemCount}
-            </span>
-          )}
+          <span className="relative flex items-center justify-center">
+            <ShoppingCart className="h-5 w-5 mb-1" />
+            {cartItemCount > 0 && (
+              <span className="absolute -top-3 -right-2 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center shadow">
+                {cartItemCount}
+              </span>
+            )}
+          </span>
           <span>Cart</span>
         </Link>
         <Link
