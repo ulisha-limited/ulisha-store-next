@@ -12,6 +12,7 @@ import {
   Copy,
   Check,
   Percent,
+  Share2,
 } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { useAuthStore } from "@/store/authStore";
@@ -47,6 +48,7 @@ export default function ProductDetails() {
   const [availableColors, setAvailableColors] = useState<string[]>([]);
   const [similarProducts, setSimilarProducts] = useState<Product[]>([]);
   const [loadingSimilar, setLoadingSimilar] = useState(false);
+  const [showShareOptions, setShowShareOptions] = useState(false);
   const addToCart = useCartStore((state) => state.addToCart);
   const isLoggedIn = useAuthStore((state) => !!state.user);
   const user = useAuthStore((state) => state.user);
@@ -371,7 +373,7 @@ export default function ProductDetails() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader className="w-8 h-8 animate-spin text-orange-500" />{" "}
+        <Loader className="w-8 h-8 animate-spin text-orange-500" />
       </div>
     );
   }
@@ -379,23 +381,22 @@ export default function ProductDetails() {
   if (!product) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        {" "}
         <div className="text-center">
-          <ShoppingCart className="h-16 w-16 text-gray-400 mx-auto mb-4" />{" "}
+          <ShoppingCart className="h-16 w-16 text-gray-400 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
             Product not found
-          </h2>{" "}
+          </h2>
           <p className="text-gray-600 mb-4">
             The product you&apos;re looking for doesn&apos;t exist or has been
             removed
-          </p>{" "}
+          </p>
           <Link
             href="/"
             className="text-orange-500 hover:text-orange-500/90 font-medium"
           >
-            Go back to home{" "}
-          </Link>{" "}
-        </div>{" "}
+            Go back to home
+          </Link>
+        </div>
       </div>
     );
   }
@@ -407,21 +408,17 @@ export default function ProductDetails() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      {" "}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {" "}
-        <div className="mb-6">
-          {" "}
+        <div className="mb-3">
           <Link
             href="/"
             className="inline-flex items-center text-gray-600 hover:text-orange-500"
           >
-            <ChevronLeft className="w-5 h-5 mr-1" />{" "}
-            <span>Back to products</span>{" "}
-          </Link>{" "}
+            <ChevronLeft className="w-5 h-5 mr-1" />
+            <span>Back to products</span>
+          </Link>
         </div>
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          {" "}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6">
             <div>
               <div className="aspect-square overflow-hidden rounded-lg mb-4 relative">
@@ -449,7 +446,7 @@ export default function ProductDetails() {
                       onClick={prevImage}
                       className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-100 rounded-full p-2 transition-all"
                     >
-                      <ChevronLeft className="w-5 h-5 text-gray-800" />{" "}
+                      <ChevronLeft className="w-5 h-5 text-gray-800" />
                     </button>
                     <button
                       onClick={nextImage}
@@ -486,14 +483,97 @@ export default function ProductDetails() {
             </div>
 
             <div>
-              <div className="mb-2">
+              <div className="mb-2 flex items-center justify-between relative">
                 <span className="text-xs font-medium px-2 py-1 bg-gray-100 text-gray-600 rounded-full">
                   {product.category}
                 </span>
+
+                <button
+                  onClick={() => setShowShareOptions(!showShareOptions)}
+                  className="bg-white bg-opacity-80 p-2 rounded-full hover:bg-opacity-100 transition-all z-10 ml-2"
+                >
+                  <Share2 className="w-4 h-4 text-gray-700" />
+                </button>
+
+                {/* Share options dropdown */}
+                {showShareOptions && (
+                  <div className="absolute bottom-0 right-0 translate-y-full bg-white rounded-lg shadow-lg p-2 z-20 mt-2">
+                    <div className="flex flex-col space-y-1">
+                      <button
+                        onClick={() => shareToSocial("facebook")}
+                        className="flex items-center space-x-2 px-3 py-2 hover:bg-gray-100 rounded-md text-sm whitespace-nowrap"
+                      >
+                        <div className="w-5 h-5 bg-blue-600 text-white flex items-center justify-center rounded-full">
+                          f
+                        </div>
+                        <span>Facebook</span>
+                      </button>
+                      <button
+                        onClick={() => shareToSocial("twitter")}
+                        className="flex items-center space-x-2 px-3 py-2 hover:bg-gray-100 rounded-md text-sm whitespace-nowrap"
+                      >
+                        <div className="w-5 h-5 bg-blue-400 text-white flex items-center justify-center rounded-full">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
+                          </svg>
+                        </div>
+                        <span>Twitter</span>
+                      </button>
+                      <button
+                        onClick={() => shareToSocial("whatsapp")}
+                        className="flex items-center space-x-2 px-3 py-2 hover:bg-gray-100 rounded-md text-sm whitespace-nowrap"
+                      >
+                        <div className="w-5 h-5 bg-green-500 text-white flex items-center justify-center rounded-full">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"></path>
+                          </svg>
+                        </div>
+                        <span>WhatsApp</span>
+                      </button>
+                      <button
+                        onClick={copyToClipboard}
+                        className="flex items-center space-x-2 px-3 py-2 hover:bg-gray-100 rounded-md text-sm whitespace-nowrap"
+                      >
+                        {linkCopied ? (
+                          <>
+                            <Check className="w-5 h-5 text-green-500" />
+                            <span>Copied!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-5 h-5 text-gray-500" />
+                            <span>Copy Link</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+              <h1 className="text-1xl md:text-3xl font-bold text-gray-900 mb-4">
                 {product.name}
               </h1>
+
               <div className="flex items-center mb-4">
                 <div className="flex items-center text-orange-400">
                   {[...Array(5)].map((_, i) => (
@@ -517,10 +597,10 @@ export default function ProductDetails() {
                 </div>
 
                 <span className="text-sm text-gray-500 ml-2">
-                  {hasRated ? "Thanks for rating!" : "Click to rate"}{" "}
+                  {hasRated ? "Thanks for rating!" : "Click to rate"}
                 </span>
               </div>
-              <div className="mb-6">
+              <div className="mb-3">
                 {product.discount_active && product.original_price ? (
                   <div className="space-y-1">
                     <div className="text-2xl font-bold text-gray-900">
@@ -541,7 +621,7 @@ export default function ProductDetails() {
                     {formattedPrice}
                   </div>
                 )}
-                {/* Currency indicator */}{" "}
+                {/* Currency indicator */}
                 <div className="text-sm text-gray-500 mt-1">
                   {currency === "USD"
                     ? "USD (converted from NGN)"
@@ -550,7 +630,7 @@ export default function ProductDetails() {
               </div>
 
               {availableColors.length > 0 && (
-                <div className="mb-6">
+                <div className="mb-3">
                   <h3 className="text-sm font-medium text-gray-900 mb-3">
                     Color
                   </h3>
@@ -578,7 +658,7 @@ export default function ProductDetails() {
               )}
 
               {availableSizes.length > 0 && (
-                <div className="mb-6">
+                <div className="mb-3">
                   <h3 className="text-sm font-medium text-gray-900 mb-3">
                     Size
                   </h3>
@@ -607,142 +687,58 @@ export default function ProductDetails() {
   transition-colors
  `}
                         >
-                          {size} {isOutOfStock && " (Out of Stock)"}{" "}
+                          {size} {isOutOfStock && " (Out of Stock)"}
                         </button>
                       );
                     })}
                   </div>
                 </div>
               )}
-              <div className="mb-6">
-                <h3 className="text-sm font-medium text-gray-900 mb-2">
-                  Description
-                </h3>
-                <p className="text-gray-600">{product.description}</p>{" "}
-              </div>
-              <div className="mb-4 p-3 bg-gray-50 rounded-md">
-                <p className="text-sm font-medium text-gray-700 mb-2">
-                  Product Link:
-                </p>
+              <p className="text-gray-600 mb-6">{product.description}</p>
+              <div className="flex-1 flex items-right gap-4">
+                <button
+                  onClick={handleAddToCart}
+                  disabled={
+                    variants.length > 0 && (!selectedColor || !selectedSize)
+                  }
+                  className="flex items-center justify-center w-40 space-x-2 text-orange-500 text-xs hover:bg-orange-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:no-underline border border-orange-500 rounded-lg py-2 px-4 transition-colors duration-200"
+                >
+                  <ShoppingCart className="w-5 h-5" />
+                  <span>
+                    {variants.length > 0
+                      ? selectedColor && selectedSize
+                        ? "Add to Cart"
+                        : "Select Options"
+                      : "Add to Cart"}
+                  </span>
+                </button>
 
-                <div className="flex items-center">
-                  <input
-                    type="text"
-                    readOnly
-                    value={getProductLink()}
-                    className="flex-1 p-2 text-sm border rounded-l-md focus:outline-none bg-white"
-                  />
-
-                  <button
-                    onClick={copyToClipboard}
-                    className="bg-orange-500 text-white p-2 rounded-r-md hover:bg-orange-500/90"
-                  >
-                    {linkCopied ? (
-                      <Check className="w-4 h-4" />
-                    ) : (
-                      <Copy className="w-4 h-4" />
-                    )}
-                  </button>
-                </div>
-              </div>
-              <div className="mb-6 border-t border-b py-4">
-                <p className="text-sm font-medium text-gray-700 mb-2">
-                  Share this product:
-                </p>
-
-                <div className="flex space-x-2">
-                  <button
-                    onClick={() => shareToSocial("facebook")}
-                    className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                    >
-                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                    </svg>
-                  </button>
-
-                  <button
-                    onClick={() => shareToSocial("twitter")}
-                    className="bg-blue-400 text-white p-2 rounded-full hover:bg-blue-500"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                    >
-                      <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
-                    </svg>
-                  </button>
-
-                  <button
-                    onClick={() => shareToSocial("whatsapp")}
-                    className="bg-green-500 text-white p-2 rounded-full hover:bg-green-600"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                    >
-                      <path d="M17.498 14.382c-.301-.15-1.767-.867-2.04-.966-.273-.101-.473-.15-.673.15-.197.295-.771.964-.944 1.162-.175.195-.349.21-.646.075-.3-.15-1.263-.465-2.403-1.485-.888-.795-1.484-1.77-1.66-2.07-.174-.3-.019-.465.13-.615.136-.135.301-.345.451-.523.146-.181.194-.301.297-.496.1-.21.049-.375-.025-.524-.075-.15-.672-1.62-.922-2.206-.24-.584-.487-.51-.672-.51-.172-.015-.371-.015-.571-.015-.2 0-.523.074-.797.359-.273.3-1.045 1.02-1.045 2.475s1.07 2.865 1.219 3.075c.149.195 2.105 3.195 5.1 4.485.714.3 1.27.48 1.704.629.714.227 1.365.195 1.88.121.574-.091 1.767-.721 2.016-1.426.255-.705.255-1.29.18-1.425-.074-.135-.27-.21-.57-.345m-5.446 7.443h-.016c-1.77 0-3.524-.48-5.055-1.38l-.36-.214-3.75.975 1.005-3.645-.239-.375a9.869 9.869 0 0 1-1.516-5.26c0-5.445 4.455-9.885 9.942-9.885a9.865 9.865 0 0 1 7.022 2.91 9.788 9.788 0 0 1 2.909 6.99c-.004 5.444-4.46 9.885-9.935 9.885M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.334.101 11.893c0 2.096.549 4.14 1.595 5.945L0 24l6.335-1.652a12.062 12.062 0 0 0 5.71 1.447h.006c6.585 0 11.946-5.336 11.949-11.896 0-3.176-1.24-6.165-3.495-8.411"></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <div className="flex-1 flex items-right space-x-20">
-                  <button
-                    onClick={handleAddToCart}
-                    disabled={
-                      variants.length > 0 && (!selectedColor || !selectedSize)
-                    }
-                    className="flex items-center space-x-2 text-[#000000] text-xs hover:underline disabled:opacity-50 disabled:cursor-not-allowed disabled:no-underline"
-                  >
-                    <ShoppingCart className="w-5 h-5" />
-                    <span>
-                      {variants.length > 0
-                        ? selectedColor && selectedSize
-                          ? "Add to Cart"
-                          : "Select Options"
-                        : "Add to Cart"}
-                    </span>
-                  </button>
-
-                  <button
-                    onClick={handleBuyNow}
-                    disabled={
-                      variants.length > 0 && (!selectedColor || !selectedSize)
-                    }
-                    className="bg-orange-500 hover:bg-orange-500/90 text-white font-medium py-2 px-7 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Buy Now
-                  </button>
-                </div>
+                <button
+                  onClick={handleBuyNow}
+                  disabled={
+                    variants.length > 0 && (!selectedColor || !selectedSize)
+                  }
+                  className="w-40 bg-orange-500 hover:bg-orange-500/90 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                >
+                  Buy Now
+                </button>
               </div>
             </div>
           </div>
-        </div>{" "}
+        </div>
         {similarProducts.length > 0 && (
           <div className="mt-16">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">
               Similar Products
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {similarProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
-            </div>{" "}
+            </div>
           </div>
-        )}{" "}
-      </div>{" "}
+        )}
+      </div>
     </div>
   );
 }
