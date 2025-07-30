@@ -24,6 +24,7 @@ const PAGE_SIZE = 10;
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [products, setProducts] = useState<Product[]>([]);
+  const [newProducts, setNewProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [usesFallback, setUsesFallback] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -81,6 +82,19 @@ export default function Home() {
       if (error) throw error;
       if (data && data.length > 0) {
         setProducts((prev) => (isInitial ? data : [...prev, ...data]));
+
+        if (pageToFetch === 0) {
+          const newThisWeek = data
+            .filter((p) => {
+              if (!p.created_at) return false;
+              const createdAt = new Date(p.created_at);
+              const oneWeekAgo = new Date();
+              oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+              return createdAt >= oneWeekAgo;
+            })
+            .sort(() => Math.random() - 0.5);
+          setNewProducts(newThisWeek);
+        }
         setPage(pageToFetch);
         setHasMore(data.length === PAGE_SIZE);
         setUsesFallback(false);
@@ -163,7 +177,23 @@ export default function Home() {
               </div>
             ) : (
               <>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                <h2 className="text-lg font-semibold text-gray-900">
+                  New this week
+                </h2>
+                <div className="flex overflow-x-auto gap-4 mt-2 pb-2">
+                  {newProducts.map((product) => (
+                    <div
+                      key={product.id}
+                      className="min-w-[220px] max-w-xs flex-shrink-1"
+                    >
+                      <ProductCard product={product} />
+                    </div>
+                  ))}
+                </div>
+                <h2 className="mt-2 text-lg font-semibold text-gray-900">
+                  Discover Products
+                </h2>
+                <div className="mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                   {products.map((product) => (
                     <ProductCard key={product.id} product={product} />
                   ))}
