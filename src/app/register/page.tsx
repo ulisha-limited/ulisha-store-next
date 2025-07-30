@@ -260,7 +260,27 @@ export default function Register() {
                   onClick={handleGoogleSignUp}
                   className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  <Chrome className="h-5 w-5 mr-2" />
+                  <svg className="h-5 w-5 mr-2" viewBox="0 0 48 48">
+                    <g>
+                      <path
+                        fill="#4285F4"
+                        d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.87-6.87C36.13 2.36 30.45 0 24 0 14.82 0 6.73 5.82 2.69 14.29l7.98 6.2C12.47 13.98 17.77 9.5 24 9.5z"
+                      />
+                      <path
+                        fill="#34A853"
+                        d="M46.14 24.55c0-1.64-.15-3.22-.42-4.74H24v9.01h12.44c-.54 2.9-2.17 5.36-4.62 7.01l7.19 5.59C43.97 37.45 46.14 31.54 46.14 24.55z"
+                      />
+                      <path
+                        fill="#FBBC05"
+                        d="M10.67 28.49a14.5 14.5 0 0 1 0-9.01l-7.98-6.2A24.01 24.01 0 0 0 0 24c0 3.77.9 7.34 2.69 10.51l7.98-6.02z"
+                      />
+                      <path
+                        fill="#EA4335"
+                        d="M24 48c6.45 0 12.13-2.13 16.19-5.8l-7.19-5.59c-2.01 1.35-4.59 2.15-9 2.15-6.23 0-11.53-4.48-13.33-10.49l-7.98 6.02C6.73 42.18 14.82 48 24 48z"
+                      />
+                      <path fill="none" d="M0 0h48v48H0z" />
+                    </g>
+                  </svg>
                   <span>Sign up with Google</span>
                 </button>
               </div>
@@ -269,7 +289,12 @@ export default function Register() {
                   onClick={handleMicrosoftSignUp}
                   className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  <Monitor className="h-5 w-5 mr-2" />
+                  <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24">
+                    <rect fill="#F35325" x="1" y="1" width="10" height="10" />
+                    <rect fill="#81BC06" x="13" y="1" width="10" height="10" />
+                    <rect fill="#05A6F0" x="1" y="13" width="10" height="10" />
+                    <rect fill="#FFBA08" x="13" y="13" width="10" height="10" />
+                  </svg>
                   <span>Sign up with Microsoft</span>
                 </button>
               </div>
