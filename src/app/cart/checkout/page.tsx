@@ -51,23 +51,7 @@ interface CartItem {
 }
 
 // Define a more specific type for the order returned from Supabase
-interface Order {
-  id: string;
-  total: number;
-  delivery_name: string;
-  delivery_phone: string;
-  delivery_address: string;
-  payment_method: string;
-  items: Array<{
-    id: string;
-    product_id: string;
-    quantity: number;
-    price: number;
-    selected_color?: string | null;
-    selected_size?: string | null;
-    product: Product; // Nested product details for WhatsApp message
-  }>;
-}
+// (Removed unused Order interface)
 
 export default function Checkout() {
   const { items, loading: cartLoading, fetchCart, clearCart } = useCartStore() as {

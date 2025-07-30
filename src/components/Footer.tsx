@@ -2,30 +2,52 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
-import { Facebook, Twitter, Instagram, Youtube } from "lucide-react";
+import {
+  Facebook,
+  Twitter,
+  Instagram,
+  Youtube,
+  // If your lucide-react version has it, uncomment the next line and use <Tiktok />
+  // Tiktok,
+} from "lucide-react";
 import { useCategoryStore } from "@/store/categoryStore";
 
-export default function Footer() {
-  const { categories, fetchCategories } = useCategoryStore();
+type Category = { name: string; count: number };
 
+const slugify = (s: string) =>
+  s
+    .normalize("NFKD") // split accents
+    .replace(/[\u0300-\u036f]/g, "") // remove accents
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "");
+
+export default function Footer() {
+  const { categories = [], fetchCategories } = useCategoryStore();
+
+  // Fetch once on mount (avoids re-runs if the function identity changes)
   useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
+    fetchCategories?.();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const hasCategories = categories && categories.length > 0;
 
   return (
-    <footer className="bg-gray-900 text-white mt-12 mb-12 md:mb-0">
+    // Only visible on large screens and up; hidden on small/medium
+    <footer className="hidden lg:block bg-gray-900 text-white mt-12 mb-12 md:mb-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Categories Section */}
         <div className="mb-8">
           <h3 className="text-lg font-semibold mb-4">Categories</h3>
-          {categories.length > 0 ? (
+          {hasCategories ? (
             <ul className="flex flex-wrap text-gray-400 gap-x-2 gap-y-1">
-              {categories.map((category) => (
+              {categories.map((category: Category) => (
                 <li key={category.name}>
                   <Link
-                    href={`/category/${category.name
-                      .toLowerCase()
-                      .replace(/\s+/g, "-")}`}
+                    href={`/category/${slugify(category.name)}`}
                     className="hover:text-[#FF6600] transition-colors whitespace-nowrap"
                   >
                     {category.name} ({category.count})
@@ -134,6 +156,7 @@ export default function Footer() {
                 <span>ulishastore@gmail.com</span>
               </li>
             </ul>
+
             <h3 className="text-lg font-semibold mt-6 mb-4">Follow Us</h3>
             <div className="flex space-x-4">
               <a
@@ -166,14 +189,18 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="hover:text-[#FF6600] transition-colors"
               >
+                {/* Use <Tiktok className="w-6 h-6" /> if available in your lucide-react version */}
                 <Youtube className="w-6 h-6" />
               </a>
             </div>
           </div>
         </div>
+
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
           <p>
-            &copy; {new Date().getFullYear()} UlishaStore. All rights reserved.
+            &copy;{" "}
+            <span suppressHydrationWarning>{new Date().getFullYear()}</span>{" "}
+            UlishaStore. All rights reserved.
           </p>
         </div>
       </div>
