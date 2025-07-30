@@ -13,6 +13,7 @@ import {
   Settings,
   Home,
   LayoutDashboard,
+  Bell,
 } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { useCartStore } from "@/store/cartStore";
@@ -127,14 +128,14 @@ function Nav() {
         {/* Wishlist */}
         <Link
           href="/wishlist"
-          className="text-white hover:text-[#FF6600] transition-colors mx-2"
+          className="text-white hover:text-[#FF6600] transition-colors mx-3"
         >
           <Heart className="h-5 w-5" />
         </Link>
         {/* Cart */}
         <Link
           href="/cart"
-          className="text-white hover:text-[#FF6600] transition-colors hidden md:inline mx-1 relative"
+          className="text-white hover:text-[#FF6600] transition-colors hidden md:inline mx-2 relative"
         >
           <ShoppingCart className="h-5 w-5" />
           {cartItemCount > 0 && (
@@ -142,6 +143,12 @@ function Nav() {
               {cartItemCount}
             </span>
           )}
+        </Link>
+        <Link
+          href="/notifications"
+          className="text-white hover:text-[#FF6600] transition-colors hidden md:inline mx-3 relative"
+        >
+          <Bell className="h-5 w-5" />
         </Link>
         {/* User profile */}
         {!!user ? (

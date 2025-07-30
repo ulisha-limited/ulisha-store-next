@@ -13,6 +13,7 @@ import {
 import { useAuthStore } from "@/store/authStore";
 import { useCartStore } from "@/store/cartStore";
 import { usePathname } from "next/navigation";
+import { Bell } from "react-feather";
 
 const getInitials = (name: string) => {
   return name ? name.charAt(0).toUpperCase() : "";
@@ -64,20 +65,9 @@ export default function BottomNav() {
             } hover:text-[#FF6600] transition-colors`}
           >
             <LayoutDashboard className="h-5 w-5 mb-1" />
-            <span>Admin Panel</span>
+            <span>Admin</span>
           </Link>
         )}
-        <Link
-          href="/category"
-          className={`flex flex-col items-center justify-center text-xs p-2 ${
-            location.pathname.startsWith("/category")
-              ? "text-[#FF6600]"
-              : "text-gray-400"
-          } hover:text-[#FF6600] transition-colors`}
-        >
-          <Group className="h-5 w-5 mb-1" />
-          <span>Categories</span>
-        </Link>
         <Link
           href="/cart"
           className={`flex flex-col items-center justify-center text-xs p-2 ${
@@ -91,6 +81,17 @@ export default function BottomNav() {
             </span>
           )}
           <span>Cart</span>
+        </Link>
+        <Link
+          href="/notifications"
+          className={`flex flex-col items-center justify-center text-xs p-2 ${
+            location.pathname.startsWith("/notifications")
+              ? "text-[#FF6600]"
+              : "text-gray-400"
+          } hover:text-[#FF6600] transition-colors`}
+        >
+          <Bell className="h-5 w-5 mb-1" />
+          <span>Notifications</span>
         </Link>
 
         {/* User profile / Login */}
