@@ -41,7 +41,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* About UlishaStore Section */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">About UlishaStore</h3>
+            <div className="mb-4">
+              <span className="text-xl lg:text-2xl font-bold">
+                <span className="text-[#FF6600]">Ulisha</span>
+                <span className="text-white">Store</span>
+              </span>
+            </div>
             <p className="text-gray-400 text-sm">
               Your one-stop shop for fashion, accessories, shoes, and smart
               devices. We bring you the best quality products at competitive
