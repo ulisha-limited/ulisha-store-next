@@ -410,12 +410,12 @@ export default function Products() {
                     onChange={(e) =>
                       setProductData({ ...productData, name: e.target.value })
                     }
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-orange focus:ring-primary-orange"
+                    className="mt-1 block w-full rounded-md border border-gray-700 px-3 py-2 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-gray-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-black-700">
                     Original Price (NGN)
                   </label>
                   <input
@@ -430,7 +430,7 @@ export default function Products() {
                         original_price: e.target.value,
                       })
                     }
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-orange focus:ring-primary-orange"
+                    className=" text-gray-500 mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-orange focus:ring-primary-orange"
                   />
                 </div>
               </div>
@@ -475,7 +475,7 @@ export default function Products() {
                             discount_price: e.target.value,
                           })
                         }
-                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-orange focus:ring-primary-orange"
+                        className="  text-gray-500 mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-orange focus:ring-primary-orange"
                       />
                     </div>
                   )}
@@ -546,7 +546,7 @@ export default function Products() {
                       description: e.target.value,
                     })
                   }
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-orange focus:ring-primary-orange"
+                  className=" text-gray-500 mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-orange focus:ring-primary-orange"
                 />
               </div>
 

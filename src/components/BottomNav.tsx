@@ -11,6 +11,7 @@ import {
   Group,
 } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
+import { useCartStore } from "@/store/cartStore";
 import { usePathname } from "next/navigation";
 
 const getInitials = (name: string) => {
@@ -21,6 +22,7 @@ export default function BottomNav() {
   const location = { pathname: usePathname() };
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const { user, signOut } = useAuthStore((state) => state);
+  const cartItems = useCartStore((state) => state.items);
 
   /*
    * Check if the user is an admin based on their email.
@@ -28,6 +30,12 @@ export default function BottomNav() {
    * For now, we use a hardcoded list of admin emails.
    * This should be replaced with a more secure method in production.
    */
+
+  const cartItemCount = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+
   const ADMIN_EMAILS = [
     "paulelite606@gmail.com",
     "obajeufufredo2@gmail.com",
@@ -77,6 +85,11 @@ export default function BottomNav() {
           } hover:text-[#FF6600] transition-colors`}
         >
           <ShoppingCart className="h-5 w-5 mb-1" />
+          {cartItemCount > 0 && (
+            <span className="absolute -top-1 left-70  bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center shadow">
+              {cartItemCount}
+            </span>
+          )}
           <span>Cart</span>
         </Link>
 
