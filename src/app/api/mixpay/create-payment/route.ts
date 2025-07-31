@@ -19,8 +19,8 @@ export async function POST(req: NextRequest) {
       payeeId: process.env.MIXPAY_APP_ID,
       orderId: `order-${Date.now()}`,
       isTemp: "1",
-      returnTo: "https://ulishastore.com/orders",
-      callbackUrl: "https://ulishastore.com/api/mixpay/webhook",
+      returnTo: "https://www.ulishastore.com/orders",
+      callbackUrl: "https://www.ulishastore.com/api/mixpay/webhook",
     });
 
     return NextResponse.json({

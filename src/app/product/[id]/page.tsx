@@ -308,7 +308,7 @@ export default function ProductDetails() {
   };
 
   const getProductLink = () => {
-    return `https://ulishastore.com/product/${productId}`;
+    return `https://www.ulishastore.com/product/${productId}`;
   };
 
   const copyToClipboard = () => {

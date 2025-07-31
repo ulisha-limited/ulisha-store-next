@@ -25,7 +25,7 @@ Create a `.env.local` file in the root directory and configure the following:
 # Paystack config
 PAYSTACK_SECRET_KEY=
 PAYSTACK_CALLBACK_URL_DEVELOPMENT=http://localhost:3000/orders
-PAYSTACK_CALLBACK_URL_PRODUCTION=https://ulishastore.com/orders
+PAYSTACK_CALLBACK_URL_PRODUCTION=https://www.ulishastore.com/orders
 
 # Mixpay config
 MIXPAY_APP_ID=

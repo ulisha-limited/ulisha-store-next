@@ -72,7 +72,7 @@ export function ProductCard({ product }: { product: Product }) {
   };
 
   const getProductLink = () => {
-    return `https://ulishastore.com/product/${product.id}`;
+    return `https://www.ulishastore.com/product/${product.id}`;
   };
 
   const copyToClipboard = () => {

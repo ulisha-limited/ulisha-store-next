@@ -26,11 +26,11 @@ export const metadata: Metadata = {
     title: "Categories - Ulisha Store",
     description:
       "Browse product categories at Ulisha Store and discover a wide range of quality goods.",
-    url: "https://ulishastore.com/category",
+    url: "https://www.ulishastore.com/category",
     siteName: "Ulisha Store",
     images: [
       {
-        url: "https://ulishastore.com/favicon.png",
+        url: "https://www.ulishastore.com/favicon.png",
         width: 1200,
         height: 630,
         alt: "Ulisha Store Icon",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     title: "Categories - Ulisha Store",
     description:
       "Browse product categories at Ulisha Store and discover a wide range of quality goods.",
-    images: ["https://ulishastore.com/favicon.png"],
+    images: ["https://www.ulishastore.com/favicon.png"],
     creator: "@ulishastore",
   },
 };

@@ -35,11 +35,11 @@ export const metadata: Metadata = {
     title: "About Us - Ulisha Store",
     description:
       "Learn more about Ulisha Store, our mission, vision, and commitment to delivering quality products and exceptional service in Nigeria.",
-    url: "https://ulishastore.com/about",
+    url: "https://www.ulishastore.com/about",
     siteName: "Ulisha Store",
     images: [
       {
-        url: "https://ulishastore.com/favicon.png",
+        url: "https://www.ulishastore.com/favicon.png",
         width: 1200,
         height: 630,
         alt: "Ulisha Store Icon",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     title: "About Us - Ulisha Store",
     description:
       "Learn more about Ulisha Store, our mission, vision, and commitment to delivering quality products and exceptional service in Nigeria.",
-    images: ["https://ulishastore.com/favicon.png"],
+    images: ["https://www.ulishastore.com/favicon.png"],
     creator: "@ulishastore",
   },
 };
