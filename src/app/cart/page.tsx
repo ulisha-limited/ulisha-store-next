@@ -125,14 +125,26 @@ export default function Cart() {
 
   const handlePayment = async (price: number) => {
     try {
-      const { data } = await axios.post("/api/paystack/initialize", {
-        email: user?.email,
+      // const { data } = await axios.post("/api/paystack/initialize", {
+      //   email: user?.email,
+      //   amount: price,
+      // });
+
+      // if (!data.status)
+      //   return toast.error(data.message || "Failed to initialize payment");
+      // window.location.href = data.data.authorization_url;
+
+      const { data } = await axios.post("/api/mixpay/create-payment", {
         amount: price,
       });
-
-      if (!data.status)
-        return toast.error(data.message || "Failed to initialize payment");
-      window.location.href = data.data.authorization_url;
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      if (data.paymentUrl) {
+        window.location.href = data.paymentUrl;
+      } else {
+        throw new Error("Payment URL not returned");
+      }
     } catch (error) {
       console.log("Error initializing payment:", error);
       toast.error("Failed to initialize payment");
