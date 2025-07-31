@@ -1,3 +1,9 @@
+/**
+ * Copyright 2025 Ulisha Limited
+ * Licensed under the Apache License, Version 2.0
+ * See LICENSE file in the project root for full license information.
+ */ 
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -55,9 +61,7 @@ export default function NotificationPreferencesPage() {
 
   const handleNotificationChange = async (type: keyof typeof notifications) => {
     if (!user) {
-      return toast.error(
-        "Please log in to change notification preferences."
-      );
+      return toast.error("Please log in to change notification preferences.");
     }
 
     try {
@@ -82,7 +86,9 @@ export default function NotificationPreferencesPage() {
       toast.success("Notification preferences updated successfully");
     } catch (error) {
       console.error("Error updating notifications:", error);
-      toast.error("Failed to update notification preferences. Please try again.");
+      toast.error(
+        "Failed to update notification preferences. Please try again."
+      );
       // Revert on error
       setNotifications((prev) => ({ ...prev, [type]: !prev[type] }));
     } finally {

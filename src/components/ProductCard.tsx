@@ -1,3 +1,9 @@
+/**
+ * Copyright 2025 Ulisha Limited
+ * Licensed under the Apache License, Version 2.0
+ * See LICENSE file in the project root for full license information.
+ */ 
+
 import React, { useState, useEffect } from "react";
 import type { Product } from "@/store/cartStore";
 import {
@@ -55,9 +61,7 @@ export function ProductCard({ product }: { product: Product }) {
       toast.success("Product added to cart!");
     } catch (error) {
       console.error("Error adding to cart:", error);
-      toast.error(
-        "Failed to add product to cart. Please try again."
-      );
+      toast.error("Failed to add product to cart. Please try again.");
     }
   };
 

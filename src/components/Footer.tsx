@@ -1,3 +1,9 @@
+/**
+ * Copyright 2025 Ulisha Limited
+ * Licensed under the Apache License, Version 2.0
+ * See LICENSE file in the project root for full license information.
+ */ 
+
 "use client";
 
 import Link from "next/link";
@@ -213,7 +219,7 @@ export default function Footer() {
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
           <p>
-            &copy; <span>{new Date().getFullYear()}</span> UlishaStore. All
+            &copy; <span>{new Date().getFullYear()}</span> Ulisha Limited. All
             rights reserved.
           </p>
         </div>

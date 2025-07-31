@@ -2,6 +2,8 @@
   "name": "ulisha-store-next",
   "version": "0.1.0",
   "private": true,
+  "license": "Apache-2.0",
+  "author": "Ulisha Limited",
   "scripts": {
     "dev": "cross-env NODE_ENV=development next dev --turbopack",
     "build": "next build",

@@ -1,3 +1,9 @@
+/**
+ * Copyright 2025 Ulisha Limited
+ * Licensed under the Apache License, Version 2.0
+ * See LICENSE file in the project root for full license information.
+ */
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -109,7 +115,9 @@ export default function AddressManagementPage() {
     } catch (error) {
       console.error("Error adding/updating address:", error);
       toast.error(
-        error instanceof Error ? error.message : "Failed to save address. Please try again."
+        error instanceof Error
+          ? error.message
+          : "Failed to save address. Please try again."
       );
     } finally {
       setAddressLoading(false);

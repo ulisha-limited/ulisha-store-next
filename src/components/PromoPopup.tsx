@@ -1,3 +1,9 @@
+/**
+ * Copyright 2025 Ulisha Limited
+ * Licensed under the Apache License, Version 2.0
+ * See LICENSE file in the project root for full license information.
+ */ 
+
 import { useState, useEffect } from "react";
 import { X, ShoppingBag, Star, Percent, ArrowRight, Gift } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -287,7 +293,10 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
             )}
           </div>
           <div className="w-1/2 p-4 relative">
-            <button onClick={onClose} className="text-black absolute top-3 right-3">
+            <button
+              onClick={onClose}
+              className="text-black absolute top-3 right-3"
+            >
               <X className="w-5 h-5" />
             </button>
             <div className="text-left">

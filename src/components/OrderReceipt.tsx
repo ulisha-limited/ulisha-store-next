@@ -1,5 +1,11 @@
-import { useRef } from 'react';
-import { Download, Printer } from 'lucide-react';
+/**
+ * Copyright 2025 Ulisha Limited
+ * Licensed under the Apache License, Version 2.0
+ * See LICENSE file in the project root for full license information.
+ */ 
+
+import { useRef } from "react";
+import { Download, Printer } from "lucide-react";
 
 /*
  * TODO: needed to be migrate into nextjs api for security reasons.
@@ -38,7 +44,7 @@ export function OrderReceipt({ order, transactionRef }: OrderReceiptProps) {
     const originalContent = document.body.innerHTML;
 
     if (printContent) {
-      const printWindow = window.open('', '_blank');
+      const printWindow = window.open("", "_blank");
       if (printWindow) {
         printWindow.document.open();
         printWindow.document.write(`
@@ -141,7 +147,9 @@ export function OrderReceipt({ order, transactionRef }: OrderReceiptProps) {
   const handleDownload = () => {
     const printContent = receiptRef.current?.innerHTML;
     if (printContent) {
-      const blob = new Blob([`
+      const blob = new Blob(
+        [
+          `
         <!DOCTYPE html>
         <html>
           <head>
@@ -221,10 +229,13 @@ export function OrderReceipt({ order, transactionRef }: OrderReceiptProps) {
             ${printContent}
           </body>
         </html>
-      `], { type: 'text/html' });
+      `,
+        ],
+        { type: "text/html" }
+      );
 
       const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
       a.download = `order-receipt-${order.id.substring(0, 8)}.html`;
       document.body.appendChild(a);
@@ -237,7 +248,10 @@ export function OrderReceipt({ order, transactionRef }: OrderReceiptProps) {
   // Generate a verification code from the order ID and transaction reference
   const generateVerificationCode = () => {
     const orderId = order.id.substring(0, 6);
-    const timestamp = new Date(order.created_at).getTime().toString().substring(5, 10);
+    const timestamp = new Date(order.created_at)
+      .getTime()
+      .toString()
+      .substring(5, 10);
     return `${orderId}${timestamp}`.toUpperCase();
   };
 
@@ -269,12 +283,16 @@ export function OrderReceipt({ order, transactionRef }: OrderReceiptProps) {
 
       <div ref={receiptRef}>
         <div className="receipt-header">
-          <h1 className="text-2xl font-bold text-primary-orange">Ulisha Store</h1>
+          <h1 className="text-2xl font-bold text-primary-orange">
+            Ulisha Store
+          </h1>
           <p>Premium Fiat and Crypto E-commerce</p>
         </div>
 
         <div className="receipt-section">
-          <h2 className="text-lg font-semibold text-gray-900 mb-2">Order Information</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-2">
+            Order Information
+          </h2>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <div className="receipt-info">
@@ -291,7 +309,13 @@ export function OrderReceipt({ order, transactionRef }: OrderReceiptProps) {
               </div>
               <div className="receipt-info">
                 <span className="font-medium">Status:</span>
-                <span className={order.status === 'completed' ? 'text-green-600' : 'text-yellow-600'}>
+                <span
+                  className={
+                    order.status === "completed"
+                      ? "text-green-600"
+                      : "text-yellow-600"
+                  }
+                >
                   {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
                 </span>
               </div>
@@ -299,7 +323,12 @@ export function OrderReceipt({ order, transactionRef }: OrderReceiptProps) {
             <div>
               <div className="receipt-info">
                 <span className="font-medium">Payment Method:</span>
-                <span>{order.payment_method ? order.payment_method.charAt(0).toUpperCase() + order.payment_method.slice(1) : 'Flutterwave'}</span>
+                <span>
+                  {order.payment_method
+                    ? order.payment_method.charAt(0).toUpperCase() +
+                      order.payment_method.slice(1)
+                    : "Flutterwave"}
+                </span>
               </div>
               {transactionRef && (
                 <div className="receipt-info">
@@ -318,7 +347,9 @@ export function OrderReceipt({ order, transactionRef }: OrderReceiptProps) {
         </div>
 
         <div className="receipt-section">
-          <h2 className="text-lg font-semibold text-gray-900 mb-2">Customer Information</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-2">
+            Customer Information
+          </h2>
           <div className="grid grid-cols-1 gap-2">
             <div className="receipt-info">
               <span className="font-medium">Name:</span>
@@ -336,7 +367,9 @@ export function OrderReceipt({ order, transactionRef }: OrderReceiptProps) {
         </div>
 
         <div className="receipt-section">
-          <h2 className="text-lg font-semibold text-gray-900 mb-2">Order Items</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-2">
+            Order Items
+          </h2>
           <table className="w-full">
             <thead>
               <tr>
@@ -352,25 +385,27 @@ export function OrderReceipt({ order, transactionRef }: OrderReceiptProps) {
                   <td>{item.product.name}</td>
                   <td className="text-center">{item.quantity}</td>
                   <td className="text-right">
-                    {new Intl.NumberFormat('en-NG', {
-                      style: 'currency',
-                      currency: 'NGN'
+                    {new Intl.NumberFormat("en-NG", {
+                      style: "currency",
+                      currency: "NGN",
                     }).format(item.price)}
                   </td>
                   <td className="text-right">
-                    {new Intl.NumberFormat('en-NG', {
-                      style: 'currency',
-                      currency: 'NGN'
+                    {new Intl.NumberFormat("en-NG", {
+                      style: "currency",
+                      currency: "NGN",
                     }).format(item.quantity * item.price)}
                   </td>
                 </tr>
               ))}
               <tr className="total-row">
-                <td colSpan={3} className="text-right">Total:</td>
+                <td colSpan={3} className="text-right">
+                  Total:
+                </td>
                 <td className="text-right">
-                  {new Intl.NumberFormat('en-NG', {
-                    style: 'currency',
-                    currency: 'NGN'
+                  {new Intl.NumberFormat("en-NG", {
+                    style: "currency",
+                    currency: "NGN",
                   }).format(order.total)}
                 </td>
               </tr>
@@ -379,13 +414,13 @@ export function OrderReceipt({ order, transactionRef }: OrderReceiptProps) {
         </div>
 
         <div className="receipt-section">
-          <h2 className="text-lg font-semibold text-gray-900 mb-2">Delivery Verification</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-2">
+            Delivery Verification
+          </h2>
           <p className="text-sm text-gray-600 mb-2">
             Present this code to the delivery personnel to verify your order.
           </p>
-          <div className="verification-code">
-            {verificationCode}
-          </div>
+          <div className="verification-code">{verificationCode}</div>
         </div>
 
         <div className="footer">

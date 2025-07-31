@@ -1,4 +1,15 @@
-import { ChevronRightIcon, LayoutDashboardIcon, ShoppingBasket, ShoppingCart } from "lucide-react";
+/**
+ * Copyright 2025 Ulisha Limited
+ * Licensed under the Apache License, Version 2.0
+ * See LICENSE file in the project root for full license information.
+ */ 
+
+import {
+  ChevronRightIcon,
+  LayoutDashboardIcon,
+  ShoppingBasket,
+  ShoppingCart,
+} from "lucide-react";
 import Link from "next/link";
 
 export default function AdminPanel() {

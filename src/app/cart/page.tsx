@@ -1,3 +1,9 @@
+/**
+ * Copyright 2025 Ulisha Limited
+ * Licensed under the Apache License, Version 2.0
+ * See LICENSE file in the project root for full license information.
+ */ 
+
 "use client"; // This directive makes the component a Client Component in Next.js 13+
 
 import { useState, useEffect, useCallback } from "react";
@@ -170,6 +176,7 @@ export default function Cart() {
         }
         return sum;
       }, 0);
+}, 0);
       
       handlePayment(totalPrice);
 

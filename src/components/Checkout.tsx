@@ -1,14 +1,18 @@
+/**
+ * Copyright 2025 Ulisha Limited
+ * Licensed under the Apache License, Version 2.0
+ * See LICENSE file in the project root for full license information.
+ */ 
+
 import { useRouter } from "next/router";
 import { Loader } from "react-feather";
 import { ShoppingBag } from "react-feather";
 
-
 const CheckoutButton = () => {
   const router = useRouter();
 
- 
-  const isCheckoutDisabled = false; 
-  const checkoutLoading = false; 
+  const isCheckoutDisabled = false;
+  const checkoutLoading = false;
 
   const handleProceedToCheckout = () => {
     if (!isCheckoutDisabled && !checkoutLoading) {

@@ -1,3 +1,9 @@
+/**
+ * Copyright 2025 Ulisha Limited
+ * Licensed under the Apache License, Version 2.0
+ * See LICENSE file in the project root for full license information.
+ */ 
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -69,9 +75,7 @@ export default function CountryRegionPage() {
         }
       } catch (err) {
         console.error("Failed to fetch countries or user preference:", err);
-        toast.error(
-          "Failed to load countries. Please try again later."
-        );
+        toast.error("Failed to load countries. Please try again later.");
         // Fallback to a predefined list if API fails
         setCountries([
           { name: "Nigeria", code: "NG" },
@@ -95,9 +99,7 @@ export default function CountryRegionPage() {
     setSelectedCountry(newCountryCode); // Optimistic update
 
     if (!user) {
-      return toast.error(
-        "Please log in to change your country preference."
-      );
+      return toast.error("Please log in to change your country preference.");
     }
 
     setLoading(true);

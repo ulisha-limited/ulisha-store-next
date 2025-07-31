@@ -1,11 +1,15 @@
+/**
+ * Copyright 2025 Ulisha Limited
+ * Licensed under the Apache License, Version 2.0
+ * See LICENSE file in the project root for full license information.
+ */
 
-
-import { useRef, useEffect, useState } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
-import { NavigationOptions } from 'swiper/types';
+import { useRef, useEffect, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { supabase } from "@/lib/supabase";
+import { NavigationOptions } from "swiper/types";
 
 interface AdCarouselProps {
   className?: string;
@@ -24,14 +28,15 @@ interface Advertisement {
 const MAX_RETRIES = 3;
 const INITIAL_RETRY_DELAY = 1000; // 1 second
 
-export function AdCarousel({ className = '' }: AdCarouselProps) {
+export function AdCarousel({ className = "" }: AdCarouselProps) {
   const prevRef = useRef<HTMLDivElement>(null);
   const nextRef = useRef<HTMLDivElement>(null);
   const [ads, setAds] = useState<Advertisement[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+  const delay = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
 
   const checkNetworkConnectivity = () => {
     return navigator.onLine;
@@ -41,7 +46,7 @@ export function AdCarousel({ className = '' }: AdCarouselProps) {
     try {
       // Check network connectivity first
       if (!checkNetworkConnectivity()) {
-        throw new Error('No internet connection');
+        throw new Error("No internet connection");
       }
 
       setIsLoading(true);
@@ -49,26 +54,26 @@ export function AdCarousel({ className = '' }: AdCarouselProps) {
 
       // Optionally, you can check if supabase is defined or handle errors from the client itself
       if (!supabase) {
-        throw new Error('Supabase client is not configured');
+        throw new Error("Supabase client is not configured");
       }
 
       const { data, error: supabaseError } = await supabase
-        .from('advertisements')
-        .select('*')
-        .eq('active', true)
-        .order('created_at', { ascending: false });
+        .from("advertisements")
+        .select("*")
+        .eq("active", true)
+        .order("created_at", { ascending: false });
 
       if (supabaseError) {
         // Log the specific Supabase error for debugging
-        console.error('Supabase error:', supabaseError);
+        console.error("Supabase error:", supabaseError);
         throw supabaseError;
       }
-      
+
       setAds(data || []);
       setIsLoading(false);
     } catch (error) {
-      console.error('Error fetching ads:', error);
-      
+      console.error("Error fetching ads:", error);
+
       if (retryCount < MAX_RETRIES) {
         // Exponential backoff
         const retryDelay = INITIAL_RETRY_DELAY * Math.pow(2, retryCount);
@@ -77,15 +82,15 @@ export function AdCarousel({ className = '' }: AdCarouselProps) {
       }
 
       // Provide more specific error messages
-      let errorMessage = 'Unable to load advertisements. ';
+      let errorMessage = "Unable to load advertisements. ";
       if (!checkNetworkConnectivity()) {
-        errorMessage += 'Please check your internet connection.';
+        errorMessage += "Please check your internet connection.";
       } else if (!supabase) {
-        errorMessage += 'Supabase configuration is missing.';
+        errorMessage += "Supabase configuration is missing.";
       } else if (error instanceof Error) {
         errorMessage += `Error: ${error.message}`;
       } else {
-        errorMessage += 'An unexpected error occurred.';
+        errorMessage += "An unexpected error occurred.";
       }
 
       setError(errorMessage);
@@ -98,9 +103,10 @@ export function AdCarousel({ className = '' }: AdCarouselProps) {
 
     // Subscribe to changes
     const subscription = supabase
-      .channel('advertisements')
-      .on('postgres_changes', 
-        { event: '*', schema: 'public', table: 'advertisements' }, 
+      .channel("advertisements")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "advertisements" },
         () => fetchAds()
       )
       .subscribe();
@@ -112,29 +118,35 @@ export function AdCarousel({ className = '' }: AdCarouselProps) {
       }
     };
 
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', () => {
-      setError('No internet connection. Please check your network.');
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", () => {
+      setError("No internet connection. Please check your network.");
     });
 
     return () => {
       subscription.unsubscribe();
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', () => {});
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", () => {});
     };
   }, []);
 
   if (isLoading) {
     return (
-      <div className={`h-[200px] sm:h-[250px] flex items-center justify-center bg-gray-100 ${className}`}>
-        <div className="animate-pulse text-gray-500">Loading advertisements...</div>
+      <div
+        className={`h-[200px] sm:h-[250px] flex items-center justify-center bg-gray-100 ${className}`}
+      >
+        <div className="animate-pulse text-gray-500">
+          Loading advertisements...
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className={`h-[200px] sm:h-[250px] flex items-center justify-center bg-gray-100 ${className}`}>
+      <div
+        className={`h-[200px] sm:h-[250px] flex items-center justify-center bg-gray-100 ${className}`}
+      >
         <div className="text-gray-500">{error}</div>
       </div>
     );

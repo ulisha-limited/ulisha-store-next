@@ -1,6 +1,12 @@
-import { create } from 'zustand';
-import { User, AuthError } from '@supabase/supabase-js';
-import { supabase } from '@/lib/supabase';
+/**
+ * Copyright 2025 Ulisha Limited
+ * Licensed under the Apache License, Version 2.0
+ * See LICENSE file in the project root for full license information.
+ */ 
+
+import { create } from "zustand";
+import { User, AuthError } from "@supabase/supabase-js";
+import { supabase } from "@/lib/supabase";
 
 interface AuthState {
   user: User | null;
@@ -26,7 +32,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         password,
         options: {
           data: {
-            full_name: fullName
+            full_name: fullName,
           },
           emailRedirectTo: `${window.location.origin}/auth/callback`,
         },
@@ -35,21 +41,25 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       if (error) {
         if (error instanceof AuthError) {
           if (error.status === 0) {
-            throw new Error('Unable to connect to authentication service. Please check your internet connection and try again.');
+            throw new Error(
+              "Unable to connect to authentication service. Please check your internet connection and try again."
+            );
           }
-          if (error.message.includes('User already registered')) {
-            throw new Error('An account with this email already exists. Please sign in instead.');
+          if (error.message.includes("User already registered")) {
+            throw new Error(
+              "An account with this email already exists. Please sign in instead."
+            );
           }
           throw new Error(error.message);
         }
         throw error;
       }
-      
+
       if (data.user) {
         set({ user: data.user, session: data.session });
       }
     } catch (error) {
-      console.error('Error signing up:', error);
+      console.error("Error signing up:", error);
       throw error;
     }
   },
@@ -64,10 +74,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       if (error) {
         if (error instanceof AuthError) {
           if (error.status === 0) {
-            throw new Error('Unable to connect to authentication service. Please check your internet connection and try again.');
+            throw new Error(
+              "Unable to connect to authentication service. Please check your internet connection and try again."
+            );
           }
-          if (error.message.includes('Invalid login credentials')) {
-            throw new Error('Invalid email or password. Please check your credentials and try again.');
+          if (error.message.includes("Invalid login credentials")) {
+            throw new Error(
+              "Invalid email or password. Please check your credentials and try again."
+            );
           }
           throw new Error(error.message);
         }
@@ -77,10 +91,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       if (data.user) {
         set({ user: data.user, session: data.session });
       } else {
-        throw new Error('Login failed. Please try again.');
+        throw new Error("Login failed. Please try again.");
       }
     } catch (error) {
-      console.error('Error signing in:', error);
+      console.error("Error signing in:", error);
       throw error;
     }
   },
@@ -92,27 +106,27 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       if (currentUser) {
         try {
           const { data: session } = await supabase
-            .from('shopping_sessions')
-            .select('id')
-            .eq('user_id', currentUser.id)
-            .eq('status', 'active')
+            .from("shopping_sessions")
+            .select("id")
+            .eq("user_id", currentUser.id)
+            .eq("status", "active")
             .single();
 
           if (session?.id) {
             await supabase
-              .from('shopping_sessions')
-              .update({ status: 'closed' })
-              .eq('id', session.id);
+              .from("shopping_sessions")
+              .update({ status: "closed" })
+              .eq("id", session.id);
           }
         } catch (error) {
-          console.error('Error cleaning up shopping session:', error);
+          console.error("Error cleaning up shopping session:", error);
         }
       }
 
       await supabase.auth.signOut();
       set({ user: null, session: null });
     } catch (error) {
-      console.error('Error signing out:', error);
+      console.error("Error signing out:", error);
       set({ user: null, session: null });
       throw error;
     }
@@ -123,16 +137,19 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   refreshSession: async () => {
     try {
-      const { data: { session }, error } = await supabase.auth.getSession();
-      
+      const {
+        data: { session },
+        error,
+      } = await supabase.auth.getSession();
+
       if (error) {
         if (error instanceof AuthError) {
           if (error.status === 0) {
-            console.error('Unable to connect to authentication service');
+            console.error("Unable to connect to authentication service");
             set({ user: null, session: null });
             return;
           }
-          if (error.status === 400 || error.message.includes('refresh_token')) {
+          if (error.status === 400 || error.message.includes("refresh_token")) {
             set({ user: null, session: null });
             return;
           }
@@ -146,7 +163,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         set({ user: null, session: null });
       }
     } catch (error) {
-      console.error('Error refreshing session:', error);
+      console.error("Error refreshing session:", error);
       set({ user: null, session: null });
     }
   },

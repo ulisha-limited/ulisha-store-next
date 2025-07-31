@@ -1,5 +1,11 @@
-import { useState, useEffect } from 'react';
-import { useAuthStore } from '@/store/authStore';
+/**
+ * Copyright 2025 Ulisha Limited
+ * Licensed under the Apache License, Version 2.0
+ * See LICENSE file in the project root for full license information.
+ */ 
+
+import { useState, useEffect } from "react";
+import { useAuthStore } from "@/store/authStore";
 
 export function usePromoPopup() {
   const [showPopup, setShowPopup] = useState(false);
@@ -14,8 +20,8 @@ export function usePromoPopup() {
 
   const checkAndShowPopup = () => {
     const now = Date.now();
-    const popupData = localStorage.getItem('promo_popup_data');
-    
+    const popupData = localStorage.getItem("promo_popup_data");
+
     let shouldShow = false;
     let delay = 3000; // Default 3 seconds delay
 
@@ -26,10 +32,10 @@ export function usePromoPopup() {
       try {
         const data = JSON.parse(popupData);
         const { lastShown, showCount, hourStart } = data;
-        
+
         // Check if it's been more than an hour since the hour started
         const hoursPassed = (now - hourStart) / (1000 * 60 * 60);
-        
+
         if (hoursPassed >= 1) {
           // Reset for new hour
           shouldShow = true;
@@ -38,7 +44,7 @@ export function usePromoPopup() {
           // Within the same hour, but haven't shown twice yet
           const timeSinceLastShown = now - lastShown;
           const minTimeBetweenShows = 30 * 60 * 1000; // 30 minutes minimum
-          
+
           if (timeSinceLastShown >= minTimeBetweenShows) {
             shouldShow = true;
             delay = 5000; // Slightly longer delay for second show
@@ -62,37 +68,37 @@ export function usePromoPopup() {
 
   const closePopup = () => {
     setShowPopup(false);
-    
+
     const now = Date.now();
-    const popupData = localStorage.getItem('promo_popup_data');
-    
+    const popupData = localStorage.getItem("promo_popup_data");
+
     let newData;
-    
+
     if (!popupData) {
       // First time showing
       newData = {
         lastShown: now,
         showCount: 1,
-        hourStart: now
+        hourStart: now,
       };
     } else {
       try {
         const data = JSON.parse(popupData);
         const hoursPassed = (now - data.hourStart) / (1000 * 60 * 60);
-        
+
         if (hoursPassed >= 1) {
           // New hour, reset count
           newData = {
             lastShown: now,
             showCount: 1,
-            hourStart: now
+            hourStart: now,
           };
         } else {
           // Same hour, increment count
           newData = {
             lastShown: now,
             showCount: data.showCount + 1,
-            hourStart: data.hourStart
+            hourStart: data.hourStart,
           };
         }
       } catch (error) {
@@ -100,39 +106,42 @@ export function usePromoPopup() {
         newData = {
           lastShown: now,
           showCount: 1,
-          hourStart: now
+          hourStart: now,
         };
       }
     }
-    
-    localStorage.setItem('promo_popup_data', JSON.stringify(newData));
+
+    localStorage.setItem("promo_popup_data", JSON.stringify(newData));
   };
 
   const resetPopup = () => {
-    localStorage.removeItem('promo_popup_data');
+    localStorage.removeItem("promo_popup_data");
     setShowPopup(false);
   };
 
   const getPopupStatus = () => {
-    const popupData = localStorage.getItem('promo_popup_data');
+    const popupData = localStorage.getItem("promo_popup_data");
     if (!popupData) return { showCount: 0, timeUntilNext: 0 };
-    
+
     try {
       const data = JSON.parse(popupData);
       const now = Date.now();
       const hoursPassed = (now - data.hourStart) / (1000 * 60 * 60);
-      
+
       if (hoursPassed >= 1) {
         return { showCount: 0, timeUntilNext: 0 };
       }
-      
+
       const timeSinceLastShown = now - data.lastShown;
       const minTimeBetweenShows = 30 * 60 * 1000; // 30 minutes
-      const timeUntilNext = Math.max(0, minTimeBetweenShows - timeSinceLastShown);
-      
-      return { 
-        showCount: data.showCount, 
-        timeUntilNext: data.showCount < 2 ? timeUntilNext : 0 
+      const timeUntilNext = Math.max(
+        0,
+        minTimeBetweenShows - timeSinceLastShown
+      );
+
+      return {
+        showCount: data.showCount,
+        timeUntilNext: data.showCount < 2 ? timeUntilNext : 0,
       };
     } catch (error) {
       return { showCount: 0, timeUntilNext: 0 };
@@ -143,6 +152,6 @@ export function usePromoPopup() {
     showPopup,
     closePopup,
     resetPopup,
-    getPopupStatus
+    getPopupStatus,
   };
 }
