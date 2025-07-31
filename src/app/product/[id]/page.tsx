@@ -7,7 +7,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
 import {
   Loader,
@@ -61,72 +61,7 @@ export default function ProductDetails() {
   const user = useAuthStore((state) => state.user);
   const { formatPrice, currency } = useCurrencyStore();
 
-  useEffect(() => {
-    if (productId) {
-      fetchProductDetails();
-    }
-  }, [productId]);
-
-  useEffect(() => {
-    if (productImages.length > 0) {
-      setSelectedImage(productImages[0]);
-    }
-  }, [productImages]);
-
-  useEffect(() => {
-    if (selectedColor) {
-      const sizes = variants
-        .filter((v) => v.color === selectedColor)
-        .map((v) => v.size);
-      setAvailableSizes([...new Set(sizes)]);
-      if (!sizes.includes(selectedSize)) {
-        setSelectedSize("");
-      }
-    }
-  }, [selectedColor, variants]);
-
-  useEffect(() => {
-    if (product) {
-      fetchSimilarProducts();
-    }
-  }, [product]); // Listen for currency changes
-
-  useEffect(() => {
-    const handleCurrencyChange = () => {
-      // Force re-render by updating a state
-      setLinkCopied(false);
-    };
-
-    window.addEventListener("currencyChange", handleCurrencyChange);
-    return () =>
-      window.removeEventListener("currencyChange", handleCurrencyChange);
-  }, []);
-
-  const fetchSimilarProducts = async () => {
-    if (!product) return;
-
-    try {
-      setLoadingSimilar(true);
-
-      const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .eq("category", product.category)
-        .neq("id", product.id)
-        .eq("shipping_location", product.shipping_location)
-        .order("rating", { ascending: false })
-        .limit(4);
-
-      if (error) throw error;
-      setSimilarProducts(data || []);
-    } catch (error) {
-      console.error("Error fetching similar products:", error);
-    } finally {
-      setLoadingSimilar(false);
-    }
-  };
-
-  const fetchProductDetails = async () => {
+  const fetchProductDetails = useCallback(async () => {
     try {
       setLoading(true);
       const { data: productData, error: productError } = await supabase
@@ -179,7 +114,72 @@ export default function ProductDetails() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [productId, isLoggedIn, user]);
+
+  const fetchSimilarProducts = useCallback(async () => {
+    if (!product) return;
+
+    try {
+      setLoadingSimilar(true);
+
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("category", product.category)
+        .neq("id", product.id)
+        .eq("shipping_location", product.shipping_location)
+        .order("rating", { ascending: false })
+        .limit(4);
+
+      if (error) throw error;
+      setSimilarProducts(data || []);
+    } catch (error) {
+      console.error("Error fetching similar products:", error);
+    } finally {
+      setLoadingSimilar(false);
+    }
+  }, [product]);
+
+  useEffect(() => {
+    if (productId) {
+      fetchProductDetails();
+    }
+  }, [fetchProductDetails, productId]);
+
+  useEffect(() => {
+    if (productImages.length > 0) {
+      setSelectedImage(productImages[0]);
+    }
+  }, [productImages]);
+
+  useEffect(() => {
+    if (selectedColor) {
+      const sizes = variants
+        .filter((v) => v.color === selectedColor)
+        .map((v) => v.size);
+      setAvailableSizes([...new Set(sizes)]);
+      if (!sizes.includes(selectedSize)) {
+        setSelectedSize("");
+      }
+    }
+  }, [selectedColor, selectedSize, variants]);
+
+  useEffect(() => {
+    if (product) {
+      fetchSimilarProducts();
+    }
+  }, [fetchSimilarProducts, product]); // Listen for currency changes
+
+  useEffect(() => {
+    const handleCurrencyChange = () => {
+      // Force re-render by updating a state
+      setLinkCopied(false);
+    };
+
+    window.addEventListener("currencyChange", handleCurrencyChange);
+    return () =>
+      window.removeEventListener("currencyChange", handleCurrencyChange);
+  }, []);
 
   const handleAddToCart = async () => {
     if (!product || !selectedImage) return;

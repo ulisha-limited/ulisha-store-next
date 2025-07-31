@@ -6,7 +6,7 @@
 
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { ProductCard } from "@/components/ProductCard";
 import { ArrowLeft, Search } from "lucide-react";
 import { supabase } from "@/lib/supabase";
@@ -24,16 +24,8 @@ export default function ProductList() {
   const [usesFallback, setUsesFallback] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (category) {
-      fetchProductsWithRetry();
-    }
-  }, [category]);
 
-  const delay = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms));
-
-  const fetchProductsWithRetry = async (retryCount = 0) => {
+  const fetchProductsWithRetry = useCallback(async (retryCount = 0) => {
     try {
       setLoading(true);
       setError(null);
@@ -106,7 +98,17 @@ export default function ProductList() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [category]);
+
+
+  useEffect(() => {
+    if (category) {
+      fetchProductsWithRetry();
+    }
+  }, [category, fetchProductsWithRetry]);
+
+  const delay = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
 
   return (
     <>

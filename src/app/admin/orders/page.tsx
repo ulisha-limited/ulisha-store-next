@@ -302,7 +302,7 @@ function Orders() {
         }
       }
     }
-  }, [user, location.pathname]);
+  }, [user, location.pathname, searchParams]);
 
   if (loading) {
     return (

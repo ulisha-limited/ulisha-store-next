@@ -6,7 +6,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
 import { useAuthStore } from "@/store/authStore";
 import { MapPin, ArrowLeft } from "lucide-react";
@@ -42,11 +42,7 @@ export default function AddressManagementPage() {
 
   const user = useAuthStore((state) => state.user);
 
-  useEffect(() => {
-    loadUserAddresses();
-  }, [user]);
-
-  const loadUserAddresses = async () => {
+  const loadUserAddresses = useCallback(async () => {
     if (!user) return;
     setAddressLoading(true);
     try {
@@ -64,7 +60,11 @@ export default function AddressManagementPage() {
     } finally {
       setAddressLoading(false);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    loadUserAddresses();
+  }, [loadUserAddresses]);
 
   const handleAddressInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>

@@ -6,7 +6,7 @@
 
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState, Suspense, useCallback } from "react";
 import {
   Package,
   Loader,
@@ -29,6 +29,7 @@ import { supabase } from "@/lib/supabase";
 import { OrderReceipt } from "@/components/OrderReceipt";
 import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 interface OrderItem {
   id: string;
@@ -68,10 +69,9 @@ function Orders() {
   const [sortBy, setSortBy] = useState<"newest" | "oldest" | "amount">(
     "newest"
   );
-
   const user = useAuthStore((state) => state.user);
 
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     try {
       setLoading(true);
       const { data, error } = await supabase
@@ -101,7 +101,7 @@ function Orders() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
 
   const fetchLatestOrder = async (txRef: string) => {
     try {
@@ -297,7 +297,7 @@ function Orders() {
         }
       }
     }
-  }, [user, location.pathname]);
+  }, [user, location.pathname, fetchOrders, searchParams]);
 
   if (loading) {
     return (
@@ -689,10 +689,12 @@ function Orders() {
                         key={item.id}
                         className="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg"
                       >
-                        <img
+                        <Image
                           src={item.product.image}
                           alt={item.product.name}
                           className="w-16 h-16 object-cover rounded-lg"
+                          width={64}
+                          height={64}
                         />
                         <div className="flex-1 min-w-0">
                           <h5 className="text-sm font-medium text-gray-900 truncate">

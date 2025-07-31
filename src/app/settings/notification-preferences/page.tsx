@@ -6,7 +6,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Bell, Shield, ArrowLeft } from "lucide-react"; // Import ArrowLeft
 import { useAuthStore } from "@/store/authStore";
 import { supabase } from "@/lib/supabase";
@@ -25,11 +25,7 @@ export default function NotificationPreferencesPage() {
 
   const user = useAuthStore((state) => state.user);
 
-  useEffect(() => {
-    loadUserPreferences();
-  }, [user]);
-
-  const loadUserPreferences = async () => {
+  const loadUserPreferences = useCallback(async () => {
     if (!user) return;
 
     try {
@@ -57,7 +53,11 @@ export default function NotificationPreferencesPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    loadUserPreferences();
+  }, [loadUserPreferences]);
 
   const handleNotificationChange = async (type: keyof typeof notifications) => {
     if (!user) {

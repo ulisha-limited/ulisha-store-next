@@ -67,7 +67,6 @@ export default function Home() {
       observer.current.observe(sentinelRef.current);
     }
     return () => observer.current?.disconnect();
-    // eslint-disable-next-line
   }, [hasMore, loading, isFetchingMore, page]);
 
   const delay = (ms: number) =>

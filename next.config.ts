@@ -12,6 +12,13 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [new URL("https://xmrnhaktqjmnihzexpsd.supabase.co/**")],
   },
+
+  productionBrowserSourceMaps: true,
+  reactStrictMode: true,
+
+  eslint: {
+    ignoreDuringBuilds: false,
+  },
 };
 
 export default withSentryConfig(nextConfig, {

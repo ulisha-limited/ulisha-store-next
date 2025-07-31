@@ -25,6 +25,7 @@ import { useAuthStore } from "../../store/authStore";
 import { useCurrencyStore } from "../../store/currencyStore";
 import { toast } from "react-toastify";
 import { supabase } from "../../lib/supabase"; // Ensure this path is correct
+import Image from "next/image";
 
 // Define a type for your address structure from 'user_addresses' table
 interface UserAddress {
@@ -176,7 +177,6 @@ export default function Cart() {
         }
         return sum;
       }, 0);
-}, 0);
       
       handlePayment(totalPrice);
 
@@ -302,10 +302,12 @@ export default function Cart() {
                     >
                       <div className="flex items-start sm:items-center space-x-3 sm:space-x-4 flex-grow w-full sm:w-auto">
                         <div className="relative flex-shrink-0">
-                          <img
+                          <Image
                             src={item.product.image}
                             alt={item.product.name}
                             className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg shadow-sm border border-gray-100 transition-transform duration-300 group-hover:scale-105"
+                            width={96}
+                            height={96}
                           />
                           <button
                             onClick={() => handleRemoveItem(item.product_id)}

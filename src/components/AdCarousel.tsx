@@ -4,7 +4,7 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -42,7 +42,7 @@ export function AdCarousel({ className = "" }: AdCarouselProps) {
     return navigator.onLine;
   };
 
-  const fetchAds = async (retryCount = 0): Promise<void> => {
+  const fetchAds = useCallback(async (retryCount = 0): Promise<void> => {
     try {
       // Check network connectivity first
       if (!checkNetworkConnectivity()) {
@@ -96,7 +96,7 @@ export function AdCarousel({ className = "" }: AdCarouselProps) {
       setError(errorMessage);
       setIsLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchAds();
@@ -128,7 +128,7 @@ export function AdCarousel({ className = "" }: AdCarouselProps) {
       window.removeEventListener("online", handleOnline);
       window.removeEventListener("offline", () => {});
     };
-  }, []);
+  }, [error, fetchAds]);
 
   if (isLoading) {
     return (
