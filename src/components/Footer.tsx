@@ -121,6 +121,14 @@ export default function Footer() {
                   Returns
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/sitemap.xml"
+                  className="hover:text-[#FF6600] transition-colors"
+                >
+                  Sitemap
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -205,9 +213,8 @@ export default function Footer() {
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
           <p>
-            &copy;{" "}
-            <span>{new Date().getFullYear()}</span>{" "}
-            UlishaStore. All rights reserved.
+            &copy; <span>{new Date().getFullYear()}</span> UlishaStore. All
+            rights reserved.
           </p>
         </div>
       </div>

@@ -1,30 +1,48 @@
-"use client";
-import { useCategoryStore } from "@/store/categoryStore";
-import Link from "next/link";
-import { useEffect } from "react";
+import Category from "./category.client";
+import { Metadata } from "next";
 
-export default function Category() {
-  const { categories, fetchCategories } = useCategoryStore();
+export const metadata: Metadata = {
+  title: "Categories - Ulisha Store",
+  description:
+    "Browse product categories at Ulisha Store and discover a wide range of quality goods.",
+  keywords: [
+    "Ulisha Store",
+    "Categories",
+    "Shop by Category",
+    "Online Shopping",
+    "E-commerce",
+    "Affordable Products",
+    "Trendy Items",
+    "Quality Goods",
+    "Product Selection",
+  ],
+  openGraph: {
+    title: "Categories - Ulisha Store",
+    description:
+      "Browse product categories at Ulisha Store and discover a wide range of quality goods.",
+    url: "https://ulishastore.com/category",
+    siteName: "Ulisha Store",
+    images: [
+      {
+        url: "https://ulishastore.com/favicon.png",
+        width: 1200,
+        height: 630,
+        alt: "Ulisha Store Icon",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Categories - Ulisha Store",
+    description:
+      "Browse product categories at Ulisha Store and discover a wide range of quality goods.",
+    images: ["https://ulishastore.com/favicon.png"],
+    creator: "@ulishastore",
+  },
+};
 
-  useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
-
-  return (
-    <div className="p-4">
-      <h1 className="text-black text-2xl font-bold mb-4">Categories</h1>
-      <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {categories.map((category) => (
-          <li key={category.name}>
-            <Link
-              href={`/category/${category.name}`}
-              className="block p-4 bg-white rounded shadow hover:bg-orange-50 hover:text-orange-500 text-blue-600"
-            >
-              {category.name}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+export default function CategoryPage() {
+  return <Category />;
 }
