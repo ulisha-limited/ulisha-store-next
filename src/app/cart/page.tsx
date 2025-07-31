@@ -160,44 +160,43 @@ export default function Cart() {
       }, 0);
       
       handlePayment(totalPrice);
-      return;
 
-      if (!user?.id) {
-        showAppNotification("Please log in to proceed to checkout.", "error");
-        router.push("/login");
-        setCheckoutLoading(false); // Make sure to turn off loading on early exit
-        return;
-      }
+      // if (!user?.id) {
+      //   showAppNotification("Please log in to proceed to checkout.", "error");
+      //   router.push("/login");
+      //   setCheckoutLoading(false); // Make sure to turn off loading on early exit
+      //   return;
+      // }
 
-      // Fetch user's primary address to ensure it exists before proceeding
-      const { data: addresses, error: addressError } = await supabase
-        .from("user_addresses")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("is_primary", { ascending: false }) // Assuming an 'is_primary' column
-        .limit(1);
+      // // Fetch user's primary address to ensure it exists before proceeding
+      // const { data: addresses, error: addressError } = await supabase
+      //   .from("user_addresses")
+      //   .select("*")
+      //   .eq("user_id", user.id)
+      //   .order("is_primary", { ascending: false }) // Assuming an 'is_primary' column
+      //   .limit(1);
 
-      if (addressError) {
-        console.error("Failed to fetch address:", addressError);
-        showAppNotification(
-          `Failed to fetch address: ${addressError.message}`,
-          "error"
-        );
-        setCheckoutLoading(false); // Make sure to turn off loading on early exit
-        return;
-      }
+      // if (addressError) {
+      //   console.error("Failed to fetch address:", addressError);
+      //   showAppNotification(
+      //     `Failed to fetch address: ${addressError.message}`,
+      //     "error"
+      //   );
+      //   setCheckoutLoading(false); // Make sure to turn off loading on early exit
+      //   return;
+      // }
 
-      if (!addresses || addresses.length === 0) {
-        showAppNotification(
-          "Please add a delivery address to your profile before checking out.",
-          "error"
-        );
-        router.push("/profile/addresses");
-        setCheckoutLoading(false); // Make sure to turn off loading on early exit
-        return;
-      }
+      // if (!addresses || addresses.length === 0) {
+      //   showAppNotification(
+      //     "Please add a delivery address to your profile before checking out.",
+      //     "error"
+      //   );
+      //   router.push("/profile/addresses");
+      //   setCheckoutLoading(false); // Make sure to turn off loading on early exit
+      //   return;
+      // }
 
-      router.push("/checkout");
+      // router.push("/checkout");
     } finally {
       // The finally block will always execute, ensuring loading is turned off
       // However, for immediate returns within try, we set it manually.
