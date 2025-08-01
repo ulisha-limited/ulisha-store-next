@@ -11,19 +11,28 @@ const PAGE_SIZE = 10;
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
+
   const page = parseInt(searchParams.get("page") || "0", 10);
+  const q = searchParams.get("q")?.trim() || "";
+
   const from = page * PAGE_SIZE;
   const to = from + PAGE_SIZE - 1;
 
-  const { data, error } = await supabase
+  let query = supabase
     .from("products")
     .select("*")
     .order("created_at", { ascending: false })
     .range(from, to);
 
+  if (q) {
+    query = query.ilike("name", `%${q}%`).ilike("description", `%${q}%`);
+  }
+
+  const { data, error } = await query;
+
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json(data, { status: 200 });
+  return NextResponse.json(data);
 }

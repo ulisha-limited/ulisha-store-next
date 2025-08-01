@@ -10,13 +10,13 @@ import "./globals.css";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
-import BottomNav from "@/components/BottomNav";
-import Session from "@/components/Session";
+import Nav from "@/components/layouts/Nav";
+import Footer from "@/components/layouts/Footer";
+import BottomNav from "@/components/layouts/BottomNav";
+import Session from "@/components/auth/Session";
 import NextTopLoader from "nextjs-toploader";
 import { ToastContainer } from "react-toastify";
-import ProtectedRoute from "@/components/ProtectedRoute";
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import Script from "next/script";
 
 const geistSans = Geist({

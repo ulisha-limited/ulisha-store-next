@@ -22,7 +22,7 @@ export interface Product {
   store_id?: string;
   seller_id?: string;
   seller_phone?: string;
-  rating?: number;
+  rating: number;
   shipping_location: string;
   selectedColor?: string;
   selectedSize?: string;

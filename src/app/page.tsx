@@ -5,8 +5,7 @@
  */ 
 
 import { supabase } from "@/lib/supabase";
-import ProductFeed from "@/components/ProductFeed";
-import type { Product } from "@/store/cartStore";
+import ProductFeed from "@/components/feed/ProductFeed";
 
 export const dynamic = "force-dynamic";
 
