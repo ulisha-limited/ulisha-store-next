@@ -34,7 +34,6 @@ export const metadata: Metadata = {
     "Ulisha Store - Shop with ease, Quality Products, Effortless Shopping.",
   description: "Your one-stop shop for all things trendy and affordable.",
   alternates: {
-    canonical: "https://www.ulishastore.com",
     types: {
       "application/xml": "https://www.ulishastore.com/sitemap.xml",
     },
@@ -100,6 +99,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta name="hostname" content="www.ulishastore.com" />
         <Script
           id="ld-json-website"
           type="application/ld+json"
