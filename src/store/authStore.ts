@@ -2,7 +2,7 @@
  * Copyright 2025 Ulisha Limited
  * Licensed under the Apache License, Version 2.0
  * See LICENSE file in the project root for full license information.
- */ 
+ */
 
 import { create } from "zustand";
 import { User, AuthError } from "@supabase/supabase-js";
@@ -11,7 +11,8 @@ import { supabase } from "@/lib/supabase";
 interface AuthState {
   user: User | null;
   session: unknown;
-  loading: boolean;
+  authLoaded: boolean;
+  setAuthLoaded: (loaded: boolean) => void;
   signUp: (email: string, password: string, fullName: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
@@ -22,8 +23,11 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
+  setUser: (user) => set({ user }),
   session: null,
-  loading: false,
+  setSession: (session) => set({ session }),
+  authLoaded: false,
+  setAuthLoaded: (loaded: boolean) => set({ authLoaded: loaded }),
 
   signUp: async (email: string, password: string, fullName: string) => {
     try {
@@ -43,11 +47,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
           if (error.status === 0) {
             throw new Error(
               "Unable to connect to authentication service. Please check your internet connection and try again."
-            );
-          }
-          if (error.message.includes("User already registered")) {
-            throw new Error(
-              "An account with this email already exists. Please sign in instead."
             );
           }
           throw new Error(error.message);
@@ -78,11 +77,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
               "Unable to connect to authentication service. Please check your internet connection and try again."
             );
           }
-          if (error.message.includes("Invalid login credentials")) {
-            throw new Error(
-              "Invalid email or password. Please check your credentials and try again."
-            );
-          }
           throw new Error(error.message);
         }
         throw error;
@@ -101,7 +95,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   signOut: async () => {
     try {
-      // First clear any existing cart/shopping session
       const currentUser = get().user;
       if (currentUser) {
         try {
@@ -124,47 +117,21 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       }
 
       await supabase.auth.signOut();
-      set({ user: null, session: null });
+      set({ user: null, session: null, authLoaded: true });
     } catch (error) {
       console.error("Error signing out:", error);
-      set({ user: null, session: null });
+      set({ user: null, session: null, authLoaded: true });
       throw error;
     }
   },
 
-  setUser: (user) => set({ user }),
-  setSession: (session) => set({ session }),
-
   refreshSession: async () => {
-    try {
-      const {
-        data: { session },
-        error,
-      } = await supabase.auth.getSession();
-
-      if (error) {
-        if (error instanceof AuthError) {
-          if (error.status === 0) {
-            console.error("Unable to connect to authentication service");
-            set({ user: null, session: null });
-            return;
-          }
-          if (error.status === 400 || error.message.includes("refresh_token")) {
-            set({ user: null, session: null });
-            return;
-          }
-        }
-        throw error;
-      }
-
-      if (session) {
-        set({ user: session.user, session });
-      } else {
-        set({ user: null, session: null });
-      }
-    } catch (error) {
-      console.error("Error refreshing session:", error);
+    const { data, error } = await supabase.auth.getSession();
+    if (data.session) {
+      set({ user: data.session.user, session: data.session });
+    } else {
       set({ user: null, session: null });
     }
+    set({ authLoaded: true });
   },
 }));
