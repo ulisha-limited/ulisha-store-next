@@ -65,12 +65,6 @@ export function ProductCard({ product }: { product: Product }) {
     }
   };
 
-  const handleCallSeller = () => {
-    if (product.seller_phone) {
-      window.location.href = `tel:${product.seller_phone}`;
-    }
-  };
-
   const getProductLink = () => {
     return `https://www.ulishastore.com/product/${product.id}`;
   };

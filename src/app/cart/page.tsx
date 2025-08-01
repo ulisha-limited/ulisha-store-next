@@ -148,7 +148,7 @@ export default function Cart() {
         throw new Error(data.error);
       }
       if (data.paymentUrl) {
-        window.location.href = data.paymentUrl;
+        router.push(data.paymentUrl);
       } else {
         throw new Error("Payment URL not returned");
       }

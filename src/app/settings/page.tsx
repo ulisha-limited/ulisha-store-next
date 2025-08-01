@@ -24,10 +24,11 @@ import { useAuthStore } from "@/store/authStore";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 export default function Settings() {
   const [loading, setLoading] = useState(false);
-
+  const router = useRouter();
   const user = useAuthStore((state) => state.user);
 
   const handleLogout = async () => {
@@ -40,7 +41,7 @@ export default function Settings() {
       cookies.remove("partnero_session_uuid");
       cookies.remove("currency");
       setLoading(false);
-      window.location.href = "/login";
+      router.push("/login");
     }
   };
 

@@ -28,7 +28,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useCurrencyStore } from "@/store/currencyStore";
 import type { Product } from "@/store/cartStore";
 import { ProductCard } from "@/components/ProductCard";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -54,7 +54,7 @@ export default function ProductDetails({
   initialSimilarProducts: Product[];
 }) {
   const { id: productId } = useParams<{ id: string }>();
-
+  const router = useRouter();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [linkCopied, setLinkCopied] = useState(false);
@@ -89,7 +89,7 @@ export default function ProductDetails({
   const handleAddToCart = async () => {
     if (!initialProduct || !selectedImage) return;
     if (!isLoggedIn) {
-      window.location.href = "/login";
+      router.push("/login");
       return;
     }
 
@@ -137,7 +137,7 @@ export default function ProductDetails({
     if (!initialProduct || !selectedImage) return;
 
     if (!isLoggedIn) {
-      window.location.href = "/login";
+      router.push("/login");
       return;
     }
 
@@ -181,7 +181,7 @@ export default function ProductDetails({
 
       if (!data.status)
         return toast.error(data.message || "Failed to initialize payment");
-      window.location.href = data.data.authorization_url;
+      router.push(data.data.authorization_url);
     } catch (error) {
       console.log("Error initializing payment:", error);
       toast.error("Failed to initialize payment");
@@ -283,6 +283,20 @@ export default function ProductDetails({
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            name: initialProduct.name,
+            image: initialProduct.image,
+            description: initialProduct.description,
+          }),
+        }}
+      />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-3">
           <Link

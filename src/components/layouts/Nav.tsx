@@ -24,13 +24,13 @@ import {
 import { useAuthStore } from "@/store/authStore";
 import { useCartStore } from "@/store/cartStore";
 import { useCategoryStore } from "@/store/categoryStore";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 function Nav() {
   const location = { pathname: usePathname() };
   const [searchQuery, setSearchQuery] = useState("");
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-
+  const router = useRouter();
   const { user, signOut } = useAuthStore((state) => state);
   const cartItems = useCartStore((state) => state.items);
   const { categories, fetchCategories } = useCategoryStore();
@@ -59,7 +59,7 @@ function Nav() {
   const handleSignOut = async () => {
     try {
       await signOut();
-      window.location.href = "/login";
+      router.push("/login");
     } catch (error) {
       console.error("Error signing out:", error);
     }
@@ -67,9 +67,8 @@ function Nav() {
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
-      window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
-    }
+    if (searchQuery.trim())
+      router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
   };
 
   const handleCameraClick = () => {

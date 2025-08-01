@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [new URL("https://xmrnhaktqjmnihzexpsd.supabase.co/**")],
   },
 
-  productionBrowserSourceMaps: true,
+  productionBrowserSourceMaps: false,
   reactStrictMode: true,
 
   eslint: {
