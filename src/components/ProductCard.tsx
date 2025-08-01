@@ -127,6 +127,7 @@ export function ProductCard({ product }: { product: Product }) {
           onClick={() => navigate(`/product/${product.id}`)}
           width={500}
           height={500}
+          priority={true}
         />
 
         {/* Discount badge */}
