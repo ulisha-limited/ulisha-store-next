@@ -2,7 +2,7 @@
  * Copyright 2025 Ulisha Limited
  * Licensed under the Apache License, Version 2.0
  * See LICENSE file in the project root for full license information.
- */ 
+ */
 
 "use client";
 
@@ -90,7 +90,7 @@ export default function Register() {
             </div>
           )}
 
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <label
                 htmlFor="name"
@@ -103,7 +103,7 @@ export default function Register() {
                   id="name"
                   type="text"
                   required
-                  className="pl-10 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-orange focus:ring-primary-orange"
+                  className="text-gray-600 pl-10 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-orange focus:ring-primary-orange"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
@@ -123,7 +123,7 @@ export default function Register() {
                   id="email"
                   type="email"
                   required
-                  className="pl-10 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-orange focus:ring-primary-orange"
+                  className="text-gray-600 pl-10 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-orange focus:ring-primary-orange"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -143,16 +143,18 @@ export default function Register() {
                   id="password"
                   type="password"
                   required
-                  className="pl-10 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-orange focus:ring-primary-orange"
+                  className="text-gray-600 pl-10 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-orange focus:ring-primary-orange"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 <Lock className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
               </div>
-              <PasswordStrengthMeter
-                password={password}
-                onStrengthChange={setPasswordStrength}
-              />
+              {password && (
+                <PasswordStrengthMeter
+                  password={password}
+                  onStrengthChange={setPasswordStrength}
+                />
+              )}
             </div>
 
             <div>
@@ -167,7 +169,7 @@ export default function Register() {
                   id="confirmPassword"
                   type="password"
                   required
-                  className={`pl-10 block w-full rounded-md border ${
+                  className={`text-gray-600 pl-10 block w-full rounded-md border ${
                     confirmPassword && password !== confirmPassword
                       ? "border-red-300 focus:border-red-500 focus:ring-red-500"
                       : "border-gray-300 focus:border-primary-orange focus:ring-primary-orange"
@@ -217,22 +219,6 @@ export default function Register() {
                 >
                   Returns Policy
                 </a>
-              </label>
-            </div>
-            <div className="flex items-center">
-              <input
-                id="subscribe"
-                name="subscribe"
-                type="checkbox"
-                required
-                className="h-4 w-4 text-orange-500 focus:ring-primary-orange border-gray-300 rounded"
-              />
-              <label
-                htmlFor="subscribe"
-                className="ml-2 block text-sm text-gray-700"
-              >
-                I agree to receive promotional, marketing, and other
-                communications from UlishaStore.
               </label>
             </div>
 

@@ -73,7 +73,7 @@ export default function Login() {
             </div>
           )}
 
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <label
                 htmlFor="email"
@@ -86,7 +86,7 @@ export default function Login() {
                   id="email"
                   type="email"
                   required
-                  className="text-black pl-10 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-orange focus:ring-primary-orange"
+                  className="text-gray-600 pl-10 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-primary-orange focus:ring-primary-orange"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -106,7 +106,7 @@ export default function Login() {
                   id="password"
                   type="password"
                   required
-                  className="text-black pl-10 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange focus:ring-primary-orange"
+                  className="text-gray-600 pl-10 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange focus:ring-primary-orange"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />

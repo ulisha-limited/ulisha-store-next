@@ -151,7 +151,7 @@ export default function RootLayout({
         <div className="bg-white min-h-screen flex flex-col">
           <Nav />
           <NextTopLoader showSpinner={false} color="#FF6600" />
-          <div className="flex-1 pt-[90px]">
+          <div className="flex-1 pt-[90px] mb-[90px] md:mb-0">
             <ProtectedRoute>{children}</ProtectedRoute>
           </div>
           <ToastContainer />
