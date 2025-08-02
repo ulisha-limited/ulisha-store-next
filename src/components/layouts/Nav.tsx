@@ -11,7 +11,6 @@ import { useState, useEffect, Suspense } from "react";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faEnvelope,
   faCamera,
   faSearch,
   faHeart,
@@ -22,6 +21,7 @@ import {
   faHouse,
   faGauge,
   faBell,
+  faRobot,
 } from '@fortawesome/free-solid-svg-icons';
 import { useAuthStore } from "@/store/authStore";
 import { useCartStore } from "@/store/cartStore";
@@ -102,7 +102,7 @@ function Nav() {
           href="/message"
           className="text-white hover:text-[#FF6600] transition-colors mr-3"
         >
-          <FontAwesomeIcon icon={faEnvelope} className="h-5 w-5" />
+          <FontAwesomeIcon icon={faRobot} className="h-5 w-5" />
         </Link>
         {/* Search Bar */}
         <form
