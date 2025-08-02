@@ -6,16 +6,16 @@
 
 import React, { useState, useEffect } from "react";
 import type { Product } from "@/store/cartStore";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Star,
-  ShoppingCart,
-  Phone,
-  Share2,
-  Copy,
-  Check,
-  MapPin,
-  Plane,
-} from "lucide-react";
+  faStar,
+  faShareAlt,
+  faCheck,
+  faPlane,
+} from "@fortawesome/free-solid-svg-icons";
+
+import { faCopy } from "@fortawesome/free-regular-svg-icons";
+
 import { useCartStore } from "@/store/cartStore";
 import { useAuthStore } from "@/store/authStore";
 import { useCurrencyStore } from "@/store/currencyStore";
@@ -134,7 +134,10 @@ export function ProductCard({ product }: { product: Product }) {
         {/* Shipped from abroad badge */}
         {product.shipping_location === "Abroad" && (
           <div className="absolute top-2 right-2 bg-blue-500 text-white px-1.5 sm:px-2 py-0.5 rounded-full text-[8px] sm:text-[10px] font-medium flex items-center">
-            <Plane className="w-2 h-2 sm:w-2.5 sm:h-2.5 mr-0.5" />
+            <FontAwesomeIcon
+              icon={faPlane}
+              className="w-2 h-2 sm:w-2.5 sm:h-2.5 mr-0.5"
+            />
             <span className="hidden xs:inline">Shipped from abroad</span>
             <span className="xs:hidden">From Abroad</span>
           </div>
@@ -145,7 +148,10 @@ export function ProductCard({ product }: { product: Product }) {
           onClick={() => setShowShareOptions(!showShareOptions)}
           className="absolute bottom-2 right-2 bg-white bg-opacity-80 p-2 rounded-full hover:bg-opacity-100 transition-all z-10"
         >
-          <Share2 className="w-4 h-4 text-gray-700" />
+          <FontAwesomeIcon
+            icon={faShareAlt}
+            className="w-4 h-4 text-gray-700"
+          />
         </button>
 
         {/* Share options dropdown */}
@@ -209,12 +215,18 @@ export function ProductCard({ product }: { product: Product }) {
               >
                 {linkCopied ? (
                   <>
-                    <Check className="w-5 h-5 text-green-500" />
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      className="w-5 h-5 text-green-500"
+                    />
                     <span>Copied!</span>
                   </>
                 ) : (
                   <>
-                    <Copy className="w-5 h-5 text-gray-500" />
+                    <FontAwesomeIcon
+                      icon={faCopy}
+                      className="w-5 h-5 text-gray-500"
+                    />
                     <span>Copy Link</span>
                   </>
                 )}
@@ -239,7 +251,8 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="flex items-center mb-2">
           <div className="flex items-center text-orange-400">
             {[...Array(5)].map((_, i) => (
-              <Star
+              <FontAwesomeIcon
+                icon={faStar}
                 key={i}
                 className={`w-3 h-3 ${
                   (product.rating || 5) > i ? "fill-current" : "text-gray-300"

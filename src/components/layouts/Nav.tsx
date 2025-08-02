@@ -8,19 +8,21 @@
 
 import Link from "next/link";
 import { useState, useEffect, Suspense } from "react";
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  Mail,
-  Camera,
-  Search,
-  Heart,
-  ShoppingCart,
-  LogIn,
-  LogOut,
-  Settings,
-  Home,
-  LayoutDashboard,
-  Bell,
-} from "lucide-react";
+  faEnvelope,
+  faCamera,
+  faSearch,
+  faHeart,
+  faShoppingCart,
+  faRightToBracket,
+  faRightFromBracket,
+  faGear,
+  faHouse,
+  faGauge,
+  faBell,
+} from '@fortawesome/free-solid-svg-icons';
 import { useAuthStore } from "@/store/authStore";
 import { useCartStore } from "@/store/cartStore";
 import { useCategoryStore } from "@/store/categoryStore";
@@ -100,7 +102,7 @@ function Nav() {
           href="/message"
           className="text-white hover:text-[#FF6600] transition-colors mr-3"
         >
-          <Mail className="h-5 w-5" />
+          <FontAwesomeIcon icon={faEnvelope} className="h-5 w-5" />
         </Link>
         {/* Search Bar */}
         <form
@@ -120,14 +122,14 @@ function Nav() {
             className="absolute right-10 mx-2 top-1/2 transform -translate-y-1/2 p-1 text-gray-500" // Camera icon color
             aria-label="Open camera search"
           >
-            <Camera size={20} />
+            <FontAwesomeIcon icon={faCamera} className="text-[20px]" />
           </button>
           <button
             type="submit"
             className="bg-orange-500 text-white rounded-full h-8 w-8 flex items-center justify-center mr-1"
             aria-label="Search"
           >
-            <Search size={18} />
+            <FontAwesomeIcon icon={faSearch} className="text-[18px]" />
           </button>
         </form>
         {/* Wishlist */}
@@ -135,14 +137,14 @@ function Nav() {
           href="/wishlist"
           className="text-white hover:text-[#FF6600] transition-colors mx-3"
         >
-          <Heart className="h-5 w-5" />
+          <FontAwesomeIcon icon={faHeart} className="h-5 w-5" />
         </Link>
         {/* Cart */}
         <Link
           href="/cart"
           className="text-white hover:text-[#FF6600] transition-colors hidden md:inline mx-2 relative"
         >
-          <ShoppingCart className="h-5 w-5" />
+          <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5" />
           {cartItemCount > 0 && (
             <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center shadow">
               {cartItemCount}
@@ -153,7 +155,7 @@ function Nav() {
           href="/notifications"
           className="text-white hover:text-[#FF6600] transition-colors hidden md:inline mx-3 relative"
         >
-          <Bell className="h-5 w-5" />
+          <FontAwesomeIcon icon={faBell} className="h-5 w-5" />
         </Link>
         {/* User profile */}
         {!!user ? (
@@ -182,7 +184,7 @@ function Nav() {
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
                   onClick={() => setIsProfileOpen(false)}
                 >
-                  <Home className="h-4 w-4" />
+                  <FontAwesomeIcon icon={faHouse} className="h-4 w-4" />
                   <span>Home</span>
                 </Link>
                 {user && user.email && ADMIN_EMAILS.includes(user.email) && (
@@ -191,7 +193,7 @@ function Nav() {
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
                     onClick={() => setIsProfileOpen(false)}
                   >
-                    <LayoutDashboard className="h-4 w-4" />
+                    <FontAwesomeIcon icon={faGauge} className="h-4 w-4" />
                     <span>Admin</span>
                   </Link>
                 )}
@@ -201,7 +203,7 @@ function Nav() {
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
                   onClick={() => setIsProfileOpen(false)}
                 >
-                  <ShoppingCart className="h-4 w-4" />
+                  <FontAwesomeIcon icon={faShoppingCart} className="h-4 w-4" />
                   <span>My Orders</span>
                 </Link>
                 <Link
@@ -209,7 +211,7 @@ function Nav() {
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
                   onClick={() => setIsProfileOpen(false)}
                 >
-                  <Settings className="h-4 w-4" />
+                  <FontAwesomeIcon icon={faGear} className="h-4 w-4" />
                   <span>Settings</span>
                 </Link>
                 <button
@@ -219,7 +221,7 @@ function Nav() {
                   }}
                   className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
                 >
-                  <LogOut className="h-4 w-4" />
+                  <FontAwesomeIcon icon={faRightFromBracket} className="h-4 w-4" />
                   <span>Logout</span>
                 </button>
               </div>
@@ -230,7 +232,7 @@ function Nav() {
             href="/login"
             className="items-center text-white hover:text-[#FF6600] transition-colors hidden md:flex mx-1"
           >
-            <LogIn className="h-5 w-5 mr-1" />
+            <FontAwesomeIcon icon={faRightToBracket} className="h-5 w-5 mr-1" />
             <span className="text-sm font-medium">Sign In</span>
           </Link>
         )}

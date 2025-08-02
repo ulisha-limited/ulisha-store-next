@@ -7,7 +7,16 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Lock, User, Shield, Eye, EyeOff, Mail, ArrowLeft } from "lucide-react"; // Import ArrowLeft
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faLock,
+  faUser,
+  faShieldAlt,
+  faEye,
+  faEyeSlash,
+  faEnvelope,
+  faArrowLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import { useAuthStore } from "@/store/authStore";
 import { supabase } from "@/lib/supabase";
 import OtpInput from "@/components/OtpInput";
@@ -255,7 +264,7 @@ export default function AccountSecurityPage() {
             className="p-2 mr-4 rounded-full hover:bg-gray-200 transition-colors"
             aria-label="Go back to settings"
           >
-            <ArrowLeft className="w-6 h-6 text-gray-700" />
+            <FontAwesomeIcon icon={faArrowLeft} className="w-6 h-6 text-gray-700" />
           </Link>
           {/* Reduced font size for the heading */}
           <h1 className="text-2xl font-extrabold text-gray-900">
@@ -280,7 +289,7 @@ export default function AccountSecurityPage() {
             <div className="space-y-4">
               <div className="flex items-center justify-between py-2">
                 <div className="flex items-center space-x-3">
-                  <Lock className="w-5 h-5 text-gray-400" />
+                  <FontAwesomeIcon icon={faLock} className="w-5 h-5 text-gray-400" />
                   <div>
                     <p className="font-medium text-gray-900">Password</p>
                     <p className="text-sm text-gray-500">
@@ -300,7 +309,7 @@ export default function AccountSecurityPage() {
                 <div className="mt-4 space-y-4 border-t pt-4">
                   <div className="bg-blue-50 p-4 rounded-md">
                     <div className="flex items-center">
-                      <Shield className="w-5 h-5 text-blue-600 mr-2" />
+                      <FontAwesomeIcon icon={faShieldAlt} className="w-5 h-5 text-blue-600 mr-2" />
                       <p className="text-sm text-blue-800">
                         For your security, we&apos;ll send a verification code
                         to your email before changing your password.
@@ -351,9 +360,9 @@ export default function AccountSecurityPage() {
                           }
                         >
                           {showPasswords.current ? (
-                            <EyeOff className="h-4 w-4 text-gray-400" />
+                            <FontAwesomeIcon icon={faEyeSlash} className="h-4 w-4 text-gray-400" />
                           ) : (
-                            <Eye className="h-4 w-4 text-gray-400" />
+                            <FontAwesomeIcon icon={faEye} className="h-4 w-4 text-gray-400" />
                           )}
                         </button>
                       </div>
@@ -397,9 +406,9 @@ export default function AccountSecurityPage() {
                           }
                         >
                           {showPasswords.new ? (
-                            <EyeOff className="h-4 w-4 text-gray-400" />
+                            <FontAwesomeIcon icon={faEyeSlash} className="h-4 w-4 text-gray-400" />
                           ) : (
-                            <Eye className="h-4 w-4 text-gray-400" />
+                            <FontAwesomeIcon icon={faEye} className="h-4 w-4 text-gray-400" />
                           )}
                         </button>
                       </div>
@@ -442,9 +451,9 @@ export default function AccountSecurityPage() {
                           }
                         >
                           {showPasswords.confirm ? (
-                            <EyeOff className="h-4 w-4 text-gray-400" />
+                            <FontAwesomeIcon icon={faEyeSlash} className="h-4 w-4 text-gray-400" />
                           ) : (
-                            <Eye className="h-4 w-4 text-gray-400" />
+                            <FontAwesomeIcon icon={faEye} className="h-4 w-4 text-gray-400" />
                           )}
                         </button>
                       </div>
@@ -463,7 +472,7 @@ export default function AccountSecurityPage() {
                         disabled={loading}
                         className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-500/90 disabled:opacity-50 flex items-center space-x-2 text-sm"
                       >
-                        <Mail className="w-4 h-4" />
+                        <FontAwesomeIcon icon={faEnvelope} className="w-4 h-4" />
                         <span>
                           {loading
                             ? "Sending Code..."
@@ -479,7 +488,7 @@ export default function AccountSecurityPage() {
                 <div className="mt-4 space-y-4 border-t pt-4">
                   <div className="bg-green-50 p-4 rounded-md">
                     <div className="flex items-center">
-                      <Mail className="w-5 h-5 text-green-600 mr-2" />
+                      <FontAwesomeIcon icon={faEnvelope} className="w-5 h-5 text-green-600 mr-2" />
                       <p className="text-sm text-green-800">
                         We&apos;ve sent a 6-digit verification code to{" "}
                         <strong>{user?.email}</strong>

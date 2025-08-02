@@ -8,14 +8,15 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Facebook,
-  Twitter,
-  Instagram,
-  Youtube,
-  // If your lucide-react version has it, uncomment the next line and use <Tiktok />
-  // Tiktok,
-} from "lucide-react";
+  faFacebook,
+  faTwitter,
+  faInstagram,
+  faYoutube,
+  faTiktok,
+} from "@fortawesome/free-brands-svg-icons";
+
 import { useCategoryStore } from "@/store/categoryStore";
 import Image from "next/image";
 
@@ -186,7 +187,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="hover:text-[#FF6600] transition-colors"
               >
-                <Facebook className="w-6 h-6" />
+                <FontAwesomeIcon icon={faFacebook} className="w-6 h-6" />
               </a>
               <a
                 href="https://x.com/ulishastores"
@@ -194,7 +195,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="hover:text-[#FF6600] transition-colors"
               >
-                <Twitter className="w-6 h-6" />
+                <FontAwesomeIcon icon={faTwitter} className="w-6 h-6" />
               </a>
               <a
                 href="https://www.instagram.com/ulisha_store"
@@ -202,7 +203,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="hover:text-[#FF6600] transition-colors"
               >
-                <Instagram className="w-6 h-6" />
+                <FontAwesomeIcon icon={faInstagram} className="w-6 h-6" />
               </a>
               <a
                 href="https://www.tiktok.com/@ulishastores"
@@ -211,7 +212,7 @@ export default function Footer() {
                 className="hover:text-[#FF6600] transition-colors"
               >
                 {/* Use <Tiktok className="w-6 h-6" /> if available in your lucide-react version */}
-                <Youtube className="w-6 h-6" />
+                <FontAwesomeIcon icon={faTiktok} className="w-6 h-6" />
               </a>
             </div>
           </div>

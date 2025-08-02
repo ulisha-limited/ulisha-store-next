@@ -6,7 +6,9 @@
 
 import { useEffect } from "react";
 import zxcvbn from "zxcvbn";
-import { Check } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+
 
 interface PasswordStrengthMeterProps {
   password: string;
@@ -73,7 +75,8 @@ export function PasswordStrengthMeter({
       </div>
       <div className="grid grid-cols-2 gap-2">
         <div className="flex items-center text-xs text-gray-500">
-          <Check
+          <FontAwesomeIcon
+            icon={faCheck}
             className={`h-3 w-3 mr-1 ${
               password.length >= 8 ? "text-green-500" : "text-gray-300"
             }`}
@@ -81,7 +84,8 @@ export function PasswordStrengthMeter({
           <span>8+ characters</span>
         </div>
         <div className="flex items-center text-xs text-gray-500">
-          <Check
+          <FontAwesomeIcon
+            icon={faCheck}
             className={`h-3 w-3 mr-1 ${
               /[A-Z]/.test(password) ? "text-green-500" : "text-gray-300"
             }`}
@@ -89,7 +93,8 @@ export function PasswordStrengthMeter({
           <span>Uppercase</span>
         </div>
         <div className="flex items-center text-xs text-gray-500">
-          <Check
+          <FontAwesomeIcon
+            icon={faCheck}
             className={`h-3 w-3 mr-1 ${
               /[a-z]/.test(password) ? "text-green-500" : "text-gray-300"
             }`}
@@ -97,7 +102,8 @@ export function PasswordStrengthMeter({
           <span>Lowercase</span>
         </div>
         <div className="flex items-center text-xs text-gray-500">
-          <Check
+          <FontAwesomeIcon
+            icon={faCheck}
             className={`h-3 w-3 mr-1 ${
               /[0-9]/.test(password) ? "text-green-500" : "text-gray-300"
             }`}

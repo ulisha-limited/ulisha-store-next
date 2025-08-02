@@ -8,14 +8,16 @@
 
 import Link from "next/link";
 import { useState } from "react";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Home,
-  ShoppingCart,
-  LayoutDashboard,
-  Settings,
-  User as UserIcon,
-  Group,
-} from "lucide-react";
+  faHome,
+  faShoppingCart,
+  faTachometerAlt,
+  faCog,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
+
 import { useAuthStore } from "@/store/authStore";
 import { useCartStore } from "@/store/cartStore";
 import { usePathname } from "next/navigation";
@@ -58,7 +60,7 @@ export default function BottomNav() {
             location.pathname === "/" ? "text-[#FF6600]" : "text-gray-400"
           } hover:text-[#FF6600] transition-colors`}
         >
-          <Home className="h-5 w-5 mb-1" />
+          <FontAwesomeIcon icon={faHome} className="h-5 w-5 mb-1" />
           <span>Home</span>
         </Link>
         {user && user.email && ADMIN_EMAILS.includes(user.email) && (
@@ -70,7 +72,7 @@ export default function BottomNav() {
                 : "text-gray-400"
             } hover:text-[#FF6600] transition-colors`}
           >
-            <LayoutDashboard className="h-5 w-5 mb-1" />
+            <FontAwesomeIcon icon={faTachometerAlt} className="h-5 w-5 mb-1" />
             <span>Admin</span>
           </Link>
         )}
@@ -81,7 +83,7 @@ export default function BottomNav() {
           } hover:text-[#FF6600] transition-colors`}
         >
           <span className="relative flex items-center justify-center">
-            <ShoppingCart className="h-5 w-5 mb-1" />
+            <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5 mb-1" />
             {cartItemCount > 0 && (
               <span className="absolute -top-3 -right-2 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center shadow">
                 {cartItemCount}
@@ -132,7 +134,7 @@ export default function BottomNav() {
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
                     onClick={() => setIsProfileOpen(false)}
                   >
-                    <ShoppingCart className="h-4 w-4" />
+                    <FontAwesomeIcon icon={faShoppingCart} className="h-4 w-4" />
                     <span>Orders</span>
                   </Link>
                   <Link
@@ -140,7 +142,7 @@ export default function BottomNav() {
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
                     onClick={() => setIsProfileOpen(false)}
                   >
-                    <Settings className="h-4 w-4" />
+                    <FontAwesomeIcon icon={faCog} className="h-4 w-4" />
                     <span>Settings</span>
                   </Link>
                 </div>
@@ -156,7 +158,7 @@ export default function BottomNav() {
                 : "text-gray-400"
             } hover:text-[#FF6600] transition-colors`}
           >
-            <UserIcon className="h-5 w-5 mb-1" />
+            <FontAwesomeIcon icon={faUser} className="h-5 w-5 mb-1" />
             <span>Login</span>
           </Link>
         )}

@@ -9,20 +9,27 @@
 import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Loader,
-  ShoppingCart,
-  Star,
-  Phone,
-  ChevronLeft,
-  Copy,
-  Check,
-  Percent,
-  Share2,
-  Twitter,
-  MessageCircle,
-  Facebook,
-} from "lucide-react";
+  faShoppingCart,
+  faStar,
+  faChevronLeft,
+  faCheck,
+  faPercent,
+  faShareAlt,
+} from "@fortawesome/free-solid-svg-icons";
+
+import {
+  faCopy,
+  faComment,
+} from "@fortawesome/free-regular-svg-icons";
+
+import {
+  faTwitter,
+  faFacebook,
+} from "@fortawesome/free-brands-svg-icons";
+
 import { useCartStore } from "@/store/cartStore";
 import { useAuthStore } from "@/store/authStore";
 import { useCurrencyStore } from "@/store/currencyStore";
@@ -257,7 +264,7 @@ export default function ProductDetails({
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <ShoppingCart className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+          <FontAwesomeIcon icon={faShoppingCart} className="h-16 w-16 text-gray-400 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
             Product not found
           </h2>
@@ -303,7 +310,7 @@ export default function ProductDetails({
             href="/"
             className="inline-flex items-center text-gray-600 hover:text-orange-500"
           >
-            <ChevronLeft className="w-5 h-5 mr-1" />
+            <FontAwesomeIcon icon={faChevronLeft} className="w-5 h-5 mr-1" />
             <span>Back to products</span>
           </Link>
         </div>
@@ -322,7 +329,7 @@ export default function ProductDetails({
                 {initialProduct.discount_active &&
                   (initialProduct.discount_percentage ?? 0) > 0 && (
                     <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full flex items-center space-x-1">
-                      <Percent className="w-4 h-4" />
+                      <FontAwesomeIcon icon={faPercent} className="w-4 h-4" />
                       <span className="font-bold">
                         {initialProduct.discount_percentage}% OFF
                       </span>
@@ -335,13 +342,13 @@ export default function ProductDetails({
                       onClick={prevImage}
                       className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-100 rounded-full p-2 transition-all"
                     >
-                      <ChevronLeft className="w-5 h-5 text-gray-800" />
+                      <FontAwesomeIcon icon={faChevronLeft} className="w-5 h-5 text-gray-800" />
                     </button>
                     <button
                       onClick={nextImage}
                       className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-100 rounded-full p-2 transition-all"
                     >
-                      <ChevronLeft className="w-5 h-5 text-gray-800 transform rotate-180" />
+                      <FontAwesomeIcon icon={faChevronLeft} className="w-5 h-5 text-gray-800 transform rotate-180" />
                     </button>
                   </>
                 )}
@@ -381,7 +388,7 @@ export default function ProductDetails({
                   onClick={() => setShowShareOptions(!showShareOptions)}
                   className="hover:bg-orange-200 p-2 rounded-full transition-all ml-2"
                 >
-                  <Share2 className="w-5 h-5 text-gray-700" />
+                  <FontAwesomeIcon icon={faShareAlt} className="w-5 h-5 text-gray-700" />
                 </button>
 
                 {/* Share options dropdown */}
@@ -392,21 +399,21 @@ export default function ProductDetails({
                         onClick={() => shareToSocial("facebook")}
                         className="hover:bg-orange-100 text-gray-600 flex items-center space-x-2 px-3 py-2 rounded-md text-sm whitespace-nowrap"
                       >
-                        <Facebook className="w-7 h-7 p-1 bg-blue-600 text-white flex items-center justify-center rounded-full" />
+                        <FontAwesomeIcon icon={faFacebook} className="w-7 h-7 p-1 bg-blue-600 text-white flex items-center justify-center rounded-full" />
                         <span>Facebook</span>
                       </button>
                       <button
                         onClick={() => shareToSocial("twitter")}
                         className="hover:bg-orange-100 text-gray-600 flex items-center space-x-2 px-3 py-2 rounded-md text-sm whitespace-nowrap"
                       >
-                        <Twitter className="w-7 h-7 p-1 bg-black text-white flex items-center justify-center rounded-full" />
+                        <FontAwesomeIcon icon={faTwitter} className="w-7 h-7 p-1 bg-black text-white flex items-center justify-center rounded-full" />
                         <span>Twitter</span>
                       </button>
                       <button
                         onClick={() => shareToSocial("whatsapp")}
                         className="hover:bg-orange-100 text-gray-600 flex items-center space-x-2 px-3 py-2 rounded-md text-sm whitespace-nowrap"
                       >
-                        <MessageCircle className="w-7 h-7 p-1 bg-green-500 text-white flex items-center justify-center rounded-full" />
+                        <FontAwesomeIcon icon={faComment} className="w-7 h-7 p-1 bg-green-500 text-white flex items-center justify-center rounded-full" />
                         <span>WhatsApp</span>
                       </button>
                       <button
@@ -415,12 +422,12 @@ export default function ProductDetails({
                       >
                         {linkCopied ? (
                           <>
-                            <Check className="w-7 h-7 text-green-500" />
+                            <FontAwesomeIcon icon={faCheck} className="w-7 h-7 text-green-500" />
                             <span>Copied!</span>
                           </>
                         ) : (
                           <>
-                            <Copy className="w-7 h-7 text-gray-500" />
+                            <FontAwesomeIcon icon={faCopy} className="w-7 h-7 text-gray-500" />
                             <span>Copy Link</span>
                           </>
                         )}
@@ -441,7 +448,8 @@ export default function ProductDetails({
                       type="button"
                       className="focus:outline-none"
                     >
-                      <Star
+                      <FontAwesomeIcon
+                        icon={faStar}
                         className={`w-5 h-5 ${
                           initialProduct.rating > i
                             ? "fill-current"
@@ -557,7 +565,7 @@ export default function ProductDetails({
                   }
                   className="flex items-center justify-center w-40 space-x-2 text-orange-500 text-xs hover:bg-orange-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:no-underline border border-orange-500 rounded-lg py-2 px-4 transition-colors duration-200"
                 >
-                  <ShoppingCart className="w-5 h-5" />
+                  <FontAwesomeIcon icon={faShoppingCart} className="w-5 h-5" />
                   <span>
                     {initialVariants.length > 0
                       ? selectedColor && selectedSize

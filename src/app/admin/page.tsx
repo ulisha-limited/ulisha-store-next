@@ -4,12 +4,13 @@
  * See LICENSE file in the project root for full license information.
  */ 
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  ChevronRightIcon,
-  LayoutDashboardIcon,
-  ShoppingBasket,
-  ShoppingCart,
-} from "lucide-react";
+  faChevronRight,
+  faTachometerAlt,   // Dashboard icon
+  faShoppingBasket,
+  faShoppingCart,
+} from '@fortawesome/free-solid-svg-icons';
 import Link from "next/link";
 
 export default function AdminPanel() {
@@ -28,10 +29,10 @@ export default function AdminPanel() {
                 href="/admin/dashboard"
               >
                 <div className="flex items-center space-x-3">
-                  <LayoutDashboardIcon className="w-5 h-5 text-gray-400" />
+                  <FontAwesomeIcon icon={faTachometerAlt} className="w-5 h-5 text-gray-400" />
                   <p className="font-medium text-gray-900">Dashboard</p>
                 </div>
-                <ChevronRightIcon className="w-5 h-5 text-gray-400" />
+                <FontAwesomeIcon icon={faChevronRight} className="w-5 h-5 text-gray-400" />
               </Link>
 
               {/* Orders */}
@@ -40,10 +41,10 @@ export default function AdminPanel() {
                 href="/admin/orders"
               >
                 <div className="flex items-center space-x-3">
-                  <ShoppingCart className="w-5 h-5 text-gray-400" />
+                  <FontAwesomeIcon icon={faShoppingCart} className="w-5 h-5 text-gray-400" />
                   <p className="font-medium text-gray-900">Orders</p>
                 </div>
-                <ChevronRightIcon className="w-5 h-5 text-gray-400" />
+                <FontAwesomeIcon icon={faChevronRight} className="w-5 h-5 text-gray-400" />
               </Link>
 
               {/* Products */}
@@ -52,10 +53,10 @@ export default function AdminPanel() {
                 href="/admin/products"
               >
                 <div className="flex items-center space-x-3">
-                  <ShoppingBasket className="w-5 h-5 text-gray-400" />
+                  <FontAwesomeIcon icon={faShoppingBasket} className="w-5 h-5 text-gray-400" />
                   <p className="font-medium text-gray-900">Products</p>
                 </div>
-                <ChevronRightIcon className="w-5 h-5 text-gray-400" />
+                <FontAwesomeIcon icon={faChevronRight} className="w-5 h-5 text-gray-400" />
               </Link>
             </div>
           </section>

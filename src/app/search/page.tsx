@@ -12,7 +12,8 @@ import { ProductCard } from "@/components/ProductCard";
 import { supabase } from "@/lib/supabase";
 import { Product } from "@/store/cartStore";
 import { usePathname, useSearchParams } from "next/navigation";
-import { Loader } from "lucide-react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const PAGE_SIZE = 10;
 
@@ -177,7 +178,7 @@ export default function SearchPage() {
   return (
     <Suspense
       fallback={
-        <Loader className="w-12 h-12 animate-spin text-primary-orange mx-auto mt-20" />
+        <FontAwesomeIcon icon={faSpinner} className="w-12 h-12 animate-spin text-primary-orange mx-auto mt-20" />
       }
     >
       <Search />

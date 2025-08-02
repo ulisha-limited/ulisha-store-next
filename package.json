@@ -11,6 +11,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/free-brands-svg-icons": "^7.0.0",
+    "@fortawesome/free-regular-svg-icons": "^7.0.0",
+    "@fortawesome/free-solid-svg-icons": "^7.0.0",
+    "@fortawesome/react-fontawesome": "^0.2.3",
     "@sentry/nextjs": "^9.43.0",
     "@supabase/supabase-js": "^2.53.0",
     "axios": "^1.11.0",

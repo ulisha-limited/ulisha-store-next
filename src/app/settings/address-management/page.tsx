@@ -9,7 +9,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
 import { useAuthStore } from "@/store/authStore";
-import { MapPin, ArrowLeft } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMapMarkerAlt,
+  faArrowLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { toast } from "react-toastify";
 
@@ -209,7 +213,7 @@ export default function AddressManagementPage() {
             className="p-2 mr-4 rounded-full hover:bg-gray-200 transition-colors"
             aria-label="Go back to settings"
           >
-            <ArrowLeft className="w-6 h-6 text-gray-700" />
+            <FontAwesomeIcon icon={faArrowLeft} className="w-6 h-6 text-gray-700" />
           </Link>
 
           <h1 className="text-2xl font-extrabold text-gray-900">
@@ -247,7 +251,7 @@ export default function AddressManagementPage() {
               }}
               className="px-3 py-1.5 bg-orange-500 text-white rounded-md hover:bg-orange-500/90 flex items-center space-x-1.5 text-xs sm:text-sm"
             >
-              <MapPin className="w-4 h-4" />
+              <FontAwesomeIcon icon={faMapMarkerAlt} className="w-4 h-4" />
               <span>Add New Address</span>
             </button>
           </div>
