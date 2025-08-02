@@ -18,6 +18,7 @@ import {
   faCircleExclamation,
   faCircleInfo,
   faShoppingCart,
+  faExclamationCircle
   faCircleXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
@@ -404,7 +405,7 @@ export default function Cart() {
 
               {error && (
                 <div className="mb-5 p-3 bg-red-100 border border-red-300 text-red-800 rounded-lg flex items-start animate-fade-in">
-                  <FontAwesomeIcon icon={faAlertCircle} className="w-5 h-5 text-red-600 mr-3 flex-shrink-0 mt-0.5" />
+                  <FontAwesomeIcon icon={faExclamationCircle} className="w-5 h-5 text-red-600 mr-3 flex-shrink-0 mt-0.5" />
                   <p className="text-sm font-medium">{error}</p>
                 </div>
               )}
