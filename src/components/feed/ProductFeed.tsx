@@ -11,7 +11,8 @@ import { ProductCard } from "@/components/ProductCard";
 import { PromoPopup } from "@/components/PromoPopup";
 import { usePromoPopup } from "@/hooks/usePromoPopup";
 import { AdCarousel } from "@/components/AdCarousel";
-import { Phone } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import type { Product } from "@/store/cartStore";
 
 const PAGE_SIZE = 10;
@@ -78,7 +79,7 @@ export default function ProductFeed({
                   href="tel:+2347060438205"
                   className="flex items-center hover:text-white/90 transition-colors"
                 >
-                  <Phone className="h-4 w-4 mr-2" />
+                  <FontAwesomeIcon icon={faPhone} className="h-4 w-4 mr-2" />
                   <span>Call to place order: +234 913 478 1219</span>
                 </a>
               </div>

@@ -9,7 +9,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Mail, Lock, User, ShoppingBag, Chrome, Monitor } from "lucide-react"; // Import Chrome and Monitor icons
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faEnvelope,
+  faLock,
+  faUser,
+  faBagShopping,
+} from '@fortawesome/free-solid-svg-icons';
 import { useAuthStore } from "@/store/authStore";
 import { PasswordStrengthMeter } from "@/components/PasswordStrengthMeter";
 import { supabase } from "@/lib/supabase";
@@ -70,7 +76,7 @@ export default function Register() {
       <div className="sm:mx-auto sm:w-full sm:max-w-md flex flex-col justify-center min-h-[220px]">
         <div className="flex flex-col items-center text-center mb-6 justify-center flex-1">
           <div className="flex justify-center">
-            <ShoppingBag className="h-12 w-12 text-orange-500" />
+            <FontAwesomeIcon icon={faBagShopping} className="h-12 w-12 text-orange-500" />
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2">
             Create your UlishaStore account
@@ -107,7 +113,7 @@ export default function Register() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
-                <User className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+                <FontAwesomeIcon icon={faUser} className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
               </div>
             </div>
 
@@ -127,7 +133,7 @@ export default function Register() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                <Mail className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+                <FontAwesomeIcon icon={faEnvelope} className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
               </div>
             </div>
 
@@ -147,7 +153,7 @@ export default function Register() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
-                <Lock className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+                <FontAwesomeIcon icon={faLock} className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
               </div>
               {password && (
                 <PasswordStrengthMeter
@@ -177,7 +183,7 @@ export default function Register() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
-                <Lock className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+                <FontAwesomeIcon icon={faLock} className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
               </div>
               {confirmPassword && password !== confirmPassword && (
                 <p className="mt-1 text-sm text-red-600">

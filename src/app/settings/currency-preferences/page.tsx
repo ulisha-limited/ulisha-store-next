@@ -7,7 +7,10 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowLeft, DollarSign } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCircleChevronLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { useAuthStore } from "@/store/authStore";
 import { supabase } from "@/lib/supabase"; // Assuming you still need supabase for updates
@@ -54,7 +57,7 @@ export default function CurrencyPreferencesPage() {
             className="p-2 mr-4 rounded-full hover:bg-gray-200 transition-colors"
             aria-label="Go back to settings"
           >
-            <ArrowLeft className="w-6 h-6 text-gray-700" />
+            <FontAwesomeIcon icon={faCircleChevronLeft} className="w-6 h-6 text-gray-700" />
           </Link>
 
           <h1 className="text-2xl font-extrabold text-gray-900">

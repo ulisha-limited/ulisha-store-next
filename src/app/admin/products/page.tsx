@@ -8,15 +8,18 @@
 
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/lib/supabase";
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  Loader,
-  Trash2,
-  Edit,
-  X,
-  Package,
-  Plus,
-  ArrowLeft,
-} from "lucide-react";
+  faSpinner,
+  faTrash,
+  faEdit,
+  faXmark,
+  faBox,
+  faPlus,
+  faCircleChevronLeft,
+} from '@fortawesome/free-solid-svg-icons';
+
 import { v4 as uuidv4 } from "uuid";
 import type { Product } from "@/store/cartStore";
 import imageCompression from "browser-image-compression";
@@ -350,7 +353,7 @@ export default function Products() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader className="w-8 h-8 animate-spin text-primary-orange" />
+        <FontAwesomeIcon icon={faSpinner} className="w-8 h-8 animate-spin text-primary-orange" />
       </div>
     );
   }
@@ -366,7 +369,7 @@ export default function Products() {
                 className="p-2 mr-4 rounded-full hover:bg-gray-200 transition-colors"
                 aria-label="Go back to admin panel"
               >
-                <ArrowLeft className="w-6 h-6 text-gray-700" />
+                <FontAwesomeIcon icon={faCircleChevronLeft} className="w-6 h-6 text-gray-700" />
               </Link>
 
               <h1 className="text-2xl font-extrabold text-gray-900">
@@ -378,7 +381,7 @@ export default function Products() {
                 onClick={() => setShowProductForm(!showProductForm)}
                 className="bg-orange-500 text-white px-2 py-1 rounded-md hover:bg-orange-500/90 transition-colors flex items-center space-x-2"
               >
-                <Plus className="h-5 w-5" />
+                <FontAwesomeIcon icon={faPlus} className="h-5 w-5" />
                 <span>Add Product</span>
               </button>
             </div>
@@ -399,7 +402,7 @@ export default function Products() {
                 }}
                 className="text-gray-500 hover:text-gray-700"
               >
-                <X className="h-5 w-5" />
+                <FontAwesomeIcon icon={faXmark} className="h-5 w-5" />
               </button>
             </div>
 
@@ -612,7 +615,7 @@ export default function Products() {
                         onClick={() => removeAdditionalImage(index)}
                         className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
                       >
-                        <Trash2 className="h-3 w-3" />
+                        <FontAwesomeIcon icon={faTrash} className="h-3 w-3" />
                       </button>
                     </div>
                   ))}
@@ -637,14 +640,14 @@ export default function Products() {
                 >
                   {formLoading ? (
                     <>
-                      <Loader className="h-5 w-5 animate-spin" />
+                      <FontAwesomeIcon icon={faSpinner} className="h-5 w-5 animate-spin" />
                       <span>
                         {editingProduct ? "Updating..." : "Adding..."}
                       </span>
                     </>
                   ) : (
                     <>
-                      <Plus className="h-5 w-5" />
+                      <FontAwesomeIcon icon={faPlus} className="h-5 w-5" />
                       <span>
                         {editingProduct ? "Update Product" : "Add Product"}
                       </span>
@@ -763,13 +766,13 @@ export default function Products() {
                               }}
                               className="text-blue-600 hover:text-blue-900"
                             >
-                              <Edit className="h-4 w-4" />
+                              <FontAwesomeIcon icon={faEdit} className="h-4 w-4" />
                             </button>
                             <button
                               onClick={() => setDeleteConfirmation(product.id)}
                               className="text-red-600 hover:text-red-900"
                             >
-                              <Trash2 className="h-4 w-4" />
+                              <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
                             </button>
                           </div>
                           {deleteConfirmation === product.id && (
@@ -787,7 +790,7 @@ export default function Products() {
                                   className="text-red-600 hover:text-red-900 text-sm font-medium"
                                 >
                                   {deleteLoading ? (
-                                    <Loader className="h-4 w-4 animate-spin" />
+                                    <FontAwesomeIcon icon={faSpinner} className="h-4 w-4 animate-spin" />
                                   ) : (
                                     "Delete"
                                   )}
@@ -811,7 +814,7 @@ export default function Products() {
           </div>
         ) : (
           <div className="bg-white rounded-lg shadow-md p-8 text-center">
-            <Package className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+            <FontAwesomeIcon icon={faBox} className="h-16 w-16 text-gray-400 mx-auto mb-4" />
             <h2 className="text-xl font-bold text-gray-900 mb-2">
               No products yet
             </h2>
@@ -822,7 +825,7 @@ export default function Products() {
               onClick={() => setShowProductForm(true)}
               className="bg-orange-500 text-white px-6 py-3 rounded-md hover:bg-orange-500/90 transition-colors flex items-center mx-auto"
             >
-              <Plus className="h-5 w-5 mr-2" />
+              <FontAwesomeIcon icon={faPlus} className="h-5 w-5 mr-2" />
               <span>Add Product</span>
             </button>
           </div>

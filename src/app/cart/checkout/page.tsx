@@ -8,16 +8,19 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  Loader,
-  AlertCircle,
-  Info,
-  MapPin,
-  CreditCard,
-  CheckCircle,
-  XCircle,
-  ShoppingCart,
-} from "lucide-react";
+  faSpinner,
+  faCircleExclamation,
+  faCircleInfo,
+  faMapPin,
+  faCreditCard,
+  faCircleCheck,
+  faCircleXmark,
+  faShoppingCart,
+} from '@fortawesome/free-solid-svg-icons';
+
 import { useCartStore } from "../../../store/cartStore";
 import { useAuthStore } from "../../../store/authStore";
 import { useCurrencyStore } from "../../../store/currencyStore";
@@ -270,7 +273,7 @@ export default function Checkout() {
   if (loading || cartLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Loader className="h-8 w-8 animate-spin text-primary-orange" />
+        <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-primary-orange" />
       </div>
     );
   }
@@ -279,7 +282,7 @@ export default function Checkout() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="text-center p-6 bg-white rounded-lg shadow-xl animate-fade-in max-w-sm w-full">
-          <ShoppingCart className="h-20 w-20 text-gray-400 mx-auto mb-6 drop-shadow-md" />
+          <FontAwesomeIcon icon={faShoppingCart} className="h-20 w-20 text-gray-400 mx-auto mb-6 drop-shadow-md" />
           <h2 className="text-2xl font-extrabold text-gray-900 mb-3">
             Your cart is empty!
           </h2>
@@ -303,7 +306,7 @@ export default function Checkout() {
         <div className="bg-white rounded-xl shadow-2xl p-4 md:p-10 border border-gray-100 transform transition-all duration-300 hover:shadow-3xl">
           <div className="flex items-center justify-between mb-6 pb-3 border-b border-gray-200">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center space-x-2 sm:space-x-3">
-              <CreditCard className="h-7 w-7 sm:h-8 sm:w-8 text-primary-orange" />
+              <FontAwesomeIcon icon={faCreditCard} className="h-7 w-7 sm:h-8 sm:w-8 text-primary-orange" />
               <span>Checkout</span>
             </h2>
           </div>
@@ -318,9 +321,9 @@ export default function Checkout() {
               } max-w-[calc(100%-2rem)]`}
             >
               {notification.type === "success" ? (
-                <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0" />
+                <FontAwesomeIcon icon={faCircleCheck} className="w-5 h-5 mr-2 flex-shrink-0" />
               ) : (
-                <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0" />
+                <FontAwesomeIcon icon={faCircleExclamation} className="w-5 h-5 mr-2 flex-shrink-0" />
               )}
               <span className="text-sm sm:text-base break-words">
                 {notification.message}
@@ -329,14 +332,14 @@ export default function Checkout() {
                 onClick={() => setNotification(null)}
                 className="ml-auto p-1 rounded-full hover:bg-white/20 transition-colors flex-shrink-0"
               >
-                <XCircle className="w-4 h-4" />
+                <FontAwesomeIcon icon={faCircleXmark} className="w-4 h-4" />
               </button>
             </div>
           )}
 
           {error && (
             <div className="mb-6 p-4 bg-red-100 border border-red-300 text-red-800 rounded-lg flex items-start animate-fade-in">
-              <AlertCircle className="w-5 h-5 text-red-600 mr-3 flex-shrink-0 mt-0.5" />
+              <FontAwesomeIcon icon={faCircleExclamation} className="w-5 h-5 text-red-600 mr-3 flex-shrink-0 mt-0.5" />
               <p className="text-sm font-medium">{error}</p>
             </div>
           )}
@@ -369,12 +372,12 @@ export default function Checkout() {
           {/* Delivery Address Section */}
           <div className="mb-8 p-6 bg-gray-50 rounded-xl border border-gray-200 shadow-inner">
             <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center space-x-2 border-b pb-3 border-gray-200">
-              <MapPin className="h-6 w-6 text-primary-orange" />
+              <FontAwesomeIcon icon={faMapPin} className="h-6 w-6 text-primary-orange" />
               <span>Delivery Address</span>
             </h3>
             {addresses.length === 0 ? (
               <div className="p-4 bg-blue-100 border border-blue-300 text-blue-800 rounded-lg flex items-start">
-                <Info className="w-5 h-5 text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
+                <FontAwesomeIcon icon={faCircleInfo} className="w-5 h-5 text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
                 <p className="text-sm">
                   You don&apos;t have any saved addresses. Please{" "}
                   <button
@@ -425,7 +428,7 @@ export default function Checkout() {
           {/* Payment Method Section */}
           <div className="mb-8 p-6 bg-gray-50 rounded-xl border border-gray-200 shadow-inner">
             <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center space-x-2 border-b pb-3 border-gray-200">
-              <CreditCard className="h-6 w-6 text-primary-orange" />
+              <FontAwesomeIcon icon={faCreditCard} className="h-6 w-6 text-primary-orange" />
               <span>Payment Method</span>
             </h3>
             <div className="space-y-4">
@@ -485,9 +488,9 @@ export default function Checkout() {
               }`}
           >
             {checkoutProcessing ? (
-              <Loader className="animate-spin h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3" />
+              <FontAwesomeIcon icon={faSpinner} className="animate-spin h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3" />
             ) : (
-              <ShoppingCart className="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3" />
+              <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3" />
             )}
             {checkoutProcessing ? "Placing Order..." : "Place Order"}
           </button>
@@ -529,7 +532,7 @@ export default function Checkout() {
                 className="px-5 py-2 rounded-full bg-primary-orange text-white hover:bg-primary-orange-dark transition-colors flex items-center"
                 disabled={checkoutProcessing}
               >
-                {checkoutProcessing && <Loader className="animate-spin h-4 w-4 mr-2" />}
+                {checkoutProcessing && <FontAwesomeIcon icon={faSpinner} className="animate-spin h-4 w-4 mr-2" />}
                 Confirm Order
               </button>
             </div>

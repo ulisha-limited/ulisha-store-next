@@ -5,15 +5,16 @@
  */ 
 
 import {
-  ShoppingBag,
-  Truck,
-  Shield,
-  CreditCard,
-  Users,
-  Phone,
-  Mail,
-  MapPin,
-} from "lucide-react";
+  faShoppingBag,
+  faTruck,
+  faShieldAlt,        // 'Shield' alternative
+  faCreditCard,
+  faUsers,
+  faPhone,
+  faEnvelope,         // 'Mail' alternative
+  faMapMarkerAlt,     // 'MapPin' alternative
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -96,7 +97,7 @@ export default function About() {
         <div className="bg-gradient-to-r from-orange-50 to-white rounded-xl shadow-lg p-10 mb-12 grid md:grid-cols-2 gap-10 items-center">
           <div className="flex flex-col items-center text-center md:items-start md:text-left group">
             <div className="bg-orange-500/10 rounded-full p-4 mb-4 transition-transform group-hover:scale-110">
-              <Shield className="h-8 w-8 text-orange-500 animate-bounce" />
+              <FontAwesomeIcon icon={faShieldAlt} className="h-8 w-8 text-orange-500 animate-bounce" />
             </div>
             <h2 className="text-2xl font-extrabold text-gray-900 mb-2 tracking-tight">
               Our Mission
@@ -110,7 +111,7 @@ export default function About() {
           </div>
           <div className="flex flex-col items-center text-center md:items-start md:text-left group">
             <div className="bg-orange-500/10 rounded-full p-4 mb-4 transition-transform group-hover:scale-110">
-              <ShoppingBag className="h-8 w-8 text-orange-500 animate-bounce" />
+              <FontAwesomeIcon icon={faShoppingBag} className="h-8 w-8 text-orange-500 animate-bounce" />
             </div>
             <h2 className="text-2xl font-extrabold text-gray-900 mb-2 tracking-tight">
               Our Vision
@@ -128,17 +129,17 @@ export default function About() {
         <div className="grid md:grid-cols-3 gap-8 mb-12">
           {[
             {
-              icon: <Shield className="h-8 w-8" />,
+              icon: <FontAwesomeIcon icon={faShieldAlt} className="h-8 w-8" />,
               title: "Secure Shopping",
               desc: "Your security is our priority. We use industry-standard encryption to protect your personal and payment information.",
             },
             {
-              icon: <CreditCard className="h-8 w-8" />,
+              icon: <FontAwesomeIcon icon={faCreditCard} className="h-8 w-8" />,
               title: "Multiple Payment Options",
               desc: "Choose from various payment methods including credit cards, bank transfers, and cryptocurrencies.",
             },
             {
-              icon: <Truck className="h-8 w-8" />,
+              icon: <FontAwesomeIcon icon={faTruck} className="h-8 w-8" />,
               title: "Fast Delivery",
               desc: "We partner with reliable logistics companies to ensure your orders reach you quickly and safely.",
             },
@@ -166,22 +167,22 @@ export default function About() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
-                icon: <ShoppingBag className="h-6 w-6 text-orange-500" />,
+                icon: <FontAwesomeIcon icon={faShoppingBag} className="h-6 w-6 text-orange-500" />,
                 title: "Quality Products",
                 desc: "Carefully curated selection of high-quality items",
               },
               {
-                icon: <CreditCard className="h-6 w-6 text-orange-500" />,
+                icon: <FontAwesomeIcon icon={faCreditCard} className="h-6 w-6 text-orange-500" />,
                 title: "Secure Payments",
                 desc: "Multiple secure payment options available",
               },
               {
-                icon: <Users className="h-6 w-6 text-orange-500" />,
+                icon: <FontAwesomeIcon icon={faUsers} className="h-6 w-6 text-orange-500" />,
                 title: "Customer Support",
                 desc: "Dedicated team ready to assist you",
               },
               {
-                icon: <Truck className="h-6 w-6 text-orange-500" />,
+                icon: <FontAwesomeIcon icon={faTruck} className="h-6 w-6 text-orange-500" />,
                 title: "Fast Shipping",
                 desc: "Quick and reliable delivery service",
               },
@@ -211,7 +212,7 @@ export default function About() {
             {[
               {
                 icon: (
-                  <Phone className="h-6 w-6 text-orange-500 animate-pulse" />
+                  <FontAwesomeIcon icon={faPhone} className="h-6 w-6 text-orange-500 animate-pulse" />
                 ),
                 label: "Phone",
                 value: "+234 (0) 706 043 8205",
@@ -219,7 +220,7 @@ export default function About() {
               },
               {
                 icon: (
-                  <Mail className="h-6 w-6 text-orange-500 animate-pulse" />
+                  <FontAwesomeIcon icon={faEnvelope} className="h-6 w-6 text-orange-500 animate-pulse" />
                 ),
                 label: "Email",
                 value: "support@ulishastore.com",
@@ -227,7 +228,7 @@ export default function About() {
               },
               {
                 icon: (
-                  <MapPin className="h-6 w-6 text-orange-500 animate-pulse" />
+                  <FontAwesomeIcon icon={faMapMarkerAlt} className="h-6 w-6 text-orange-500 animate-pulse" />
                 ),
                 label: "Address",
                 value: "Lagos, Nigeria",

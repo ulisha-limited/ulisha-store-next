@@ -5,7 +5,11 @@
  */ 
 
 import { useRef } from "react";
-import { Download, Printer } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faDownload,
+  faPrint,
+} from "@fortawesome/free-solid-svg-icons";
 
 /*
  * TODO: needed to be migrate into nextjs api for security reasons.
@@ -268,14 +272,14 @@ export function OrderReceipt({ order, transactionRef }: OrderReceiptProps) {
             onClick={handlePrint}
             className="flex items-center space-x-1 bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-md transition-colors"
           >
-            <Printer className="w-4 h-4" />
+            <FontAwesomeIcon icon={faPrint} className="w-4 h-4" />
             <span>Print</span>
           </button>
           <button
             onClick={handleDownload}
             className="flex items-center space-x-1 bg-orange-500 hover:bg-orange-500/90 text-white px-3 py-2 rounded-md transition-colors"
           >
-            <Download className="w-4 h-4" />
+            <FontAwesomeIcon icon={faDownload} className="w-4 h-4" />
             <span>Download</span>
           </button>
         </div>

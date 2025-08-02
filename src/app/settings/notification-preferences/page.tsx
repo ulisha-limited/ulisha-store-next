@@ -7,7 +7,12 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Bell, Shield, ArrowLeft } from "lucide-react"; // Import ArrowLeft
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBell,
+  faShieldAlt,
+  faCircleChevronLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import { useAuthStore } from "@/store/authStore";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
@@ -105,7 +110,7 @@ export default function NotificationPreferencesPage() {
             className="p-2 mr-4 rounded-full hover:bg-gray-200 transition-colors"
             aria-label="Go back to settings"
           >
-            <ArrowLeft className="w-6 h-6 text-gray-700" />
+            <FontAwesomeIcon icon={faCircleChevronLeft} className="w-6 h-6 text-gray-700" />
           </Link>
           {/* Reduced font size for the heading */}
           <h1 className="text-2xl font-extrabold text-gray-900">
@@ -130,7 +135,7 @@ export default function NotificationPreferencesPage() {
             <div className="space-y-4">
               <div className="flex items-center justify-between py-2">
                 <div className="flex items-center space-x-3">
-                  <Bell className="w-5 h-5 text-gray-400" />
+                  <FontAwesomeIcon icon={faBell} className="w-5 h-5 text-gray-400" />
                   <div>
                     <p className="font-medium text-gray-900">Order Updates</p>
                     <p className="text-sm text-gray-500">
@@ -152,7 +157,7 @@ export default function NotificationPreferencesPage() {
 
               <div className="flex items-center justify-between py-2">
                 <div className="flex items-center space-x-3">
-                  <Bell className="w-5 h-5 text-gray-400" />
+                  <FontAwesomeIcon icon={faBell} className="w-5 h-5 text-gray-400" />
                   <div>
                     <p className="font-medium text-gray-900">Promotions</p>
                     <p className="text-sm text-gray-500">
@@ -174,7 +179,7 @@ export default function NotificationPreferencesPage() {
 
               <div className="flex items-center justify-between py-2">
                 <div className="flex items-center space-x-3">
-                  <Shield className="w-5 h-5 text-gray-400" />
+                  <FontAwesomeIcon icon={faShieldAlt} className="w-5 h-5 text-gray-400" />
                   <div>
                     <p className="font-medium text-gray-900">Security Alerts</p>
                     <p className="text-sm text-gray-500">

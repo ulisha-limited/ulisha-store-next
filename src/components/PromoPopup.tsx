@@ -5,7 +5,15 @@
  */ 
 
 import { useState, useEffect } from "react";
-import { X, ShoppingBag, Star, Percent, ArrowRight, Gift } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faXmark,
+  faBagShopping,
+  faStar,
+  faPercent,
+  faArrowRight,
+  faGift,
+} from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { useCurrencyStore } from "@/store/currencyStore";
@@ -113,14 +121,14 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
           }
         >
           <button onClick={onClose} className="absolute top-3 right-3">
-            <X className="w-5 h-5" />
+            <FontAwesomeIcon icon={faXmark} className="w-5 h-5" />
           </button>
           <div className="text-center">
             <div className="flex items-center justify-center mb-2">
               {isSecondShow ? (
-                <Gift className="w-6 h-6 mr-1" />
+                <FontAwesomeIcon icon={faGift} className="w-6 h-6 mr-1" />
               ) : (
-                <ShoppingBag className="w-6 h-6 mr-1" />
+                <FontAwesomeIcon icon={faBagShopping} className="w-6 h-6 mr-1" />
               )}
               <span className="text-xl font-bold">UlishaStore</span>
             </div>
@@ -153,7 +161,7 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
                 />
                 {featuredProduct.discount_active && (
                   <div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-0.5 rounded-full text-xs font-bold flex items-center">
-                    <Percent className="w-3 h-3 mr-1" />
+                    <FontAwesomeIcon icon={faPercent} className="w-3 h-3 mr-1" />
                     {featuredProduct.discount_percentage}% OFF
                   </div>
                 )}
@@ -171,7 +179,8 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
               </h3>
               <div className="flex justify-center items-center text-orange-400 mb-2">
                 {[...Array(5)].map((_, i) => (
-                  <Star
+                  <FontAwesomeIcon
+                    icon={faStar}
                     key={i}
                     className={`w-4 h-4 ${
                       (featuredProduct.rating || 5) > i
@@ -202,9 +211,9 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
                 } hover:opacity-90 text-white py-2 px-3 rounded-lg flex justify-center items-center space-x-2`}
                 style={isSecondShow ? { background: blue } : undefined}
               >
-                <ShoppingBag className="w-4 h-4" />
+                <FontAwesomeIcon icon={faBagShopping} className="w-4 h-4" />
                 <span>{isSecondShow ? "Grab This Deal" : "Shop Now"}</span>
-                <ArrowRight className="w-4 h-4" />
+                <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4" />
               </button>
               <p className="text-xs text-gray-600 mt-2 mb-2">
                 {isSecondShow
@@ -277,7 +286,7 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
                 />
                 {featuredProduct.discount_active && (
                   <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold flex items-center">
-                    <Percent className="w-4 h-4 mr-1" />
+                    <FontAwesomeIcon icon={faPercent} className="w-4 h-4 mr-1" />
                     {featuredProduct.discount_percentage}% OFF
                   </div>
                 )}
@@ -297,7 +306,7 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
               onClick={onClose}
               className="text-black absolute top-3 right-3"
             >
-              <X className="w-5 h-5" />
+              <FontAwesomeIcon icon={faXmark} className="w-5 h-5" />
             </button>
             <div className="text-left">
               <h2 className="text-lg font-bold mb-1 text-orange-500">
@@ -317,7 +326,8 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
                   </h3>
                   <div className="flex text-orange-400 mb-2">
                     {[...Array(5)].map((_, i) => (
-                      <Star
+                      <FontAwesomeIcon
+                        icon={faStar}
                         key={i}
                         className={`w-4 h-4 ${
                           (featuredProduct.rating || 5) > i
@@ -348,9 +358,9 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
                     } hover:opacity-90 text-white py-2 px-4 rounded-lg flex justify-center items-center space-x-2`}
                     style={isSecondShow ? { background: blue } : undefined}
                   >
-                    <ShoppingBag className="w-4 h-4" />
+                    <FontAwesomeIcon icon={faBagShopping} className="w-4 h-4" />
                     <span>{isSecondShow ? "Grab This Deal" : "Shop Now"}</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4" />
                   </button>
                   <p className="text-xs text-gray-600 mt-2 mb-2">
                     {isSecondShow

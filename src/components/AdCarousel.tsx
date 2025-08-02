@@ -7,7 +7,11 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCircleChevronLeft,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "@/lib/supabase";
 import { NavigationOptions } from "swiper/types";
 
@@ -212,13 +216,13 @@ export function AdCarousel({ className = "" }: AdCarouselProps) {
         ref={prevRef}
         className="absolute top-1/2 left-4 z-10 -translate-y-1/2 bg-white/20 hover:bg-white/70 rounded-full p-2 cursor-pointer transition-all"
       >
-        <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+        <FontAwesomeIcon icon={faCircleChevronLeft} className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
       </div>
       <div
         ref={nextRef}
         className="absolute top-1/2 right-4 z-10 -translate-y-1/2 bg-white/20 hover:bg-white/70 rounded-full p-2 cursor-pointer transition-all"
       >
-        <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+        <FontAwesomeIcon icon={faChevronRight} className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
       </div>
     </div>
   );
