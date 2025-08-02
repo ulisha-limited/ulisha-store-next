@@ -9,7 +9,7 @@
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/lib/supabase";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSpinner,
   faTrash,
@@ -18,7 +18,7 @@ import {
   faBox,
   faPlus,
   faCircleChevronLeft,
-} from '@fortawesome/free-solid-svg-icons';
+} from "@fortawesome/free-solid-svg-icons";
 
 import { v4 as uuidv4 } from "uuid";
 import type { Product } from "@/store/cartStore";
@@ -207,6 +207,8 @@ export default function Products() {
 
           if (additionalImagesError) throw additionalImagesError;
         }
+
+        pingIndexNow(editingProduct.id);
       } else {
         if (!productData.image) {
           throw new Error("Product image is required");
@@ -269,6 +271,8 @@ export default function Products() {
 
           if (additionalImagesError) throw additionalImagesError;
         }
+
+        pingIndexNow(newProduct.id);
       }
 
       setProductData({
@@ -301,6 +305,14 @@ export default function Products() {
       toast.error("Error saving product. Please try again.");
     } finally {
       setFormLoading(false);
+    }
+  };
+
+  const pingIndexNow = (productId: string) => {
+    try {
+      fetch(`/api/webmasters/bing/indexnow?productId=${productId}`);
+    } catch (error) {
+      console.error("Error pinging IndexNow:", error);
     }
   };
 
@@ -353,7 +365,10 @@ export default function Products() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <FontAwesomeIcon icon={faSpinner} className="w-8 h-8 animate-spin text-primary-orange" />
+        <FontAwesomeIcon
+          icon={faSpinner}
+          className="w-8 h-8 animate-spin text-primary-orange"
+        />
       </div>
     );
   }
@@ -369,7 +384,10 @@ export default function Products() {
                 className="p-2 mr-4 rounded-full hover:bg-gray-200 transition-colors"
                 aria-label="Go back to admin panel"
               >
-                <FontAwesomeIcon icon={faCircleChevronLeft} className="w-6 h-6 text-gray-700" />
+                <FontAwesomeIcon
+                  icon={faCircleChevronLeft}
+                  className="w-6 h-6 text-gray-700"
+                />
               </Link>
 
               <h1 className="text-2xl font-extrabold text-gray-900">
@@ -640,7 +658,10 @@ export default function Products() {
                 >
                   {formLoading ? (
                     <>
-                      <FontAwesomeIcon icon={faSpinner} className="h-5 w-5 animate-spin" />
+                      <FontAwesomeIcon
+                        icon={faSpinner}
+                        className="h-5 w-5 animate-spin"
+                      />
                       <span>
                         {editingProduct ? "Updating..." : "Adding..."}
                       </span>
@@ -766,13 +787,19 @@ export default function Products() {
                               }}
                               className="text-blue-600 hover:text-blue-900"
                             >
-                              <FontAwesomeIcon icon={faEdit} className="h-4 w-4" />
+                              <FontAwesomeIcon
+                                icon={faEdit}
+                                className="h-4 w-4"
+                              />
                             </button>
                             <button
                               onClick={() => setDeleteConfirmation(product.id)}
                               className="text-red-600 hover:text-red-900"
                             >
-                              <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
+                              <FontAwesomeIcon
+                                icon={faTrash}
+                                className="h-4 w-4"
+                              />
                             </button>
                           </div>
                           {deleteConfirmation === product.id && (
@@ -790,7 +817,10 @@ export default function Products() {
                                   className="text-red-600 hover:text-red-900 text-sm font-medium"
                                 >
                                   {deleteLoading ? (
-                                    <FontAwesomeIcon icon={faSpinner} className="h-4 w-4 animate-spin" />
+                                    <FontAwesomeIcon
+                                      icon={faSpinner}
+                                      className="h-4 w-4 animate-spin"
+                                    />
                                   ) : (
                                     "Delete"
                                   )}
@@ -814,7 +844,10 @@ export default function Products() {
           </div>
         ) : (
           <div className="bg-white rounded-lg shadow-md p-8 text-center">
-            <FontAwesomeIcon icon={faBox} className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+            <FontAwesomeIcon
+              icon={faBox}
+              className="h-16 w-16 text-gray-400 mx-auto mb-4"
+            />
             <h2 className="text-xl font-bold text-gray-900 mb-2">
               No products yet
             </h2>
