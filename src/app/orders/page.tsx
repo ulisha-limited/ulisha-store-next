@@ -31,6 +31,7 @@ import { OrderReceipt } from "@/components/OrderReceipt";
 import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
 
 interface OrderItem {
   id: string;
@@ -749,7 +750,7 @@ function Orders() {
                 onClick={closeReceipt}
                 className="text-gray-500 hover:text-gray-700 p-2 hover:bg-gray-100 rounded-full transition-colors"
               >
-                <FontAwesomeIcon icon={faX} className="w-6 h-6" />
+                <FontAwesomeIcon icon={faXmark} className="w-6 h-6" />
               </button>
             </div>
             <div className="p-6">

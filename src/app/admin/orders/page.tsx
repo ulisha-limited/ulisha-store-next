@@ -24,7 +24,7 @@ import {
   faChevronRight,
   faFilter,
   faSearch,
-  faArrowLeft,
+  faCircleChevronLeft,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { useAuthStore } from "@/store/authStore";
@@ -367,7 +367,7 @@ function Orders() {
                       className="rounded-full hover:bg-white/20 transition-colors"
                       aria-label="Go back to admin panel"
                     >
-                      <FontAwesomeIcon icon={faArrowLeft} className="w-6 h-6 text-white-700" />
+                      <FontAwesomeIcon icon={faCircleChevronLeft} className="w-6 h-6 text-white-700" />
                     </Link>
 
                     <h1 className="ml-3 text-2xl font-extrabold text-white-900">

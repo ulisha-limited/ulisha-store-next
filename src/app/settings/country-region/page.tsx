@@ -9,7 +9,7 @@
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faArrowLeft,
+  faCircleChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuthStore } from "@/store/authStore";
 import { supabase } from "@/lib/supabase";
@@ -142,7 +142,7 @@ export default function CountryRegionPage() {
             className="p-2 mr-4 rounded-full hover:bg-gray-200 transition-colors"
             aria-label="Go back to settings"
           >
-            <FontAwesomeIcon icon={faArrowLeft} className="w-6 h-6 text-gray-700" />
+            <FontAwesomeIcon icon={faCircleChevronLeft} className="w-6 h-6 text-gray-700" />
           </Link>
           {/* Reduced font size for the heading */}
           <h1 className="text-2xl font-extrabold text-gray-900">

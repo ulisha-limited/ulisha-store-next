@@ -9,11 +9,12 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { ProductCard } from "@/components/ProductCard";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faCircleChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { supabase } from "@/lib/supabase";
 import type { Product } from "@/store/cartStore";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import { ChevronLeft } from "react-feather";
 
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000; // 1 second
@@ -122,7 +123,7 @@ export default function ProductList() {
                 className="p-2 mr-4 rounded-full hover:bg-gray-200 transition-colors"
                 aria-label="Go back to settings"
               >
-                <FontAwesomeIcon icon={faArrowLeft} className="w-6 h-6 text-gray-700" />
+                <FontAwesomeIcon icon={faCircleChevronLeft} className="w-6 h-6 text-gray-700" />
               </Link>
               <h1 className="text-2xl font-extrabold text-gray-900">
                 {category ? category : ""}

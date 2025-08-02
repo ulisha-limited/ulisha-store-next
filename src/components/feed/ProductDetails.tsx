@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faShoppingCart,
   faStar,
-  faChevronLeft,
+  faCircleChevronLeft,
   faCheck,
   faPercent,
   faShareAlt,
@@ -310,7 +310,7 @@ export default function ProductDetails({
             href="/"
             className="inline-flex items-center text-gray-600 hover:text-orange-500"
           >
-            <FontAwesomeIcon icon={faChevronLeft} className="w-5 h-5 mr-1" />
+            <FontAwesomeIcon icon={faCircleChevronLeft} className="w-5 h-5 mr-1" />
             <span>Back to products</span>
           </Link>
         </div>
@@ -342,13 +342,13 @@ export default function ProductDetails({
                       onClick={prevImage}
                       className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-100 rounded-full p-2 transition-all"
                     >
-                      <FontAwesomeIcon icon={faChevronLeft} className="w-5 h-5 text-gray-800" />
+                      <FontAwesomeIcon icon={faCircleChevronLeft} className="w-5 h-5 text-gray-800" />
                     </button>
                     <button
                       onClick={nextImage}
                       className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-100 rounded-full p-2 transition-all"
                     >
-                      <FontAwesomeIcon icon={faChevronLeft} className="w-5 h-5 text-gray-800 transform rotate-180" />
+                      <FontAwesomeIcon icon={faCircleChevronLeft} className="w-5 h-5 text-gray-800 transform rotate-180" />
                     </button>
                   </>
                 )}

@@ -20,7 +20,7 @@ import {
   faDollarSign,
   faShoppingCart,
   faCalendar,
-  faArrowLeft,
+  faCircleChevronLeft  
 } from '@fortawesome/free-solid-svg-icons';
 
 
@@ -192,7 +192,7 @@ export default function Dashboard() {
               className="p-2 mr-4 rounded-full hover:bg-gray-200 transition-colors"
               aria-label="Go back to admin panel"
             >
-              <FontAwesomeIcon icon={faArrowLeft} className="w-6 h-6 text-gray-700" />
+              <FontAwesomeIcon icon={faCircleChevronLeft} className="w-6 h-6 text-gray-700" />
             </Link>
 
             <h1 className="text-2xl font-extrabold text-gray-900">Dashboard</h1>
