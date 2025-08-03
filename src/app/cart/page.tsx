@@ -2,14 +2,14 @@
  * Copyright 2025 Ulisha Limited
  * Licensed under the Apache License, Version 2.0
  * See LICENSE file in the project root for full license information.
- */ 
+ */
 
 "use client"; // This directive makes the component a Client Component in Next.js 13+
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMinus,
   faPlus,
@@ -20,7 +20,7 @@ import {
   faShoppingCart,
   faExclamationCircle,
   faCircleXmark,
-} from '@fortawesome/free-solid-svg-icons';
+} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import type { Product } from "@/store/cartStore";
 import { useCartStore } from "../../store/cartStore";
@@ -135,26 +135,26 @@ export default function Cart() {
 
   const handlePayment = async (price: number) => {
     try {
-      // const { data } = await axios.post("/api/paystack/initialize", {
-      //   email: user?.email,
-      //   amount: price,
-      // });
-
-      // if (!data.status)
-      //   return toast.error(data.message || "Failed to initialize payment");
-      // window.location.href = data.data.authorization_url;
-
-      const { data } = await axios.post("/api/mixpay/create-payment", {
+      const { data } = await axios.post("/api/paystack/initialize", {
+        email: user?.email,
         amount: price,
       });
-      if (data.error) {
-        throw new Error(data.error);
-      }
-      if (data.paymentUrl) {
-        router.push(data.paymentUrl);
-      } else {
-        throw new Error("Payment URL not returned");
-      }
+
+      if (!data.status)
+        return toast.error(data.message || "Failed to initialize payment");
+      router.push(data.data.authorization_url);
+
+      // const { data } = await axios.post("/api/mixpay/create-payment", {
+      //   amount: price,
+      // });
+      // if (data.error) {
+      //   throw new Error(data.error);
+      // }
+      // if (data.paymentUrl) {
+      //   router.push(data.paymentUrl);
+      // } else {
+      //   throw new Error("Payment URL not returned");
+      // }
     } catch (error) {
       console.log("Error initializing payment:", error);
       toast.error("Failed to initialize payment");
@@ -180,7 +180,7 @@ export default function Cart() {
         }
         return sum;
       }, 0);
-      
+
       handlePayment(totalPrice);
 
       // if (!user?.id) {
@@ -231,7 +231,10 @@ export default function Cart() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="text-center p-6 bg-white rounded-lg shadow-xl animate-fade-in max-w-sm w-full">
-          <FontAwesomeIcon icon={faShoppingCart} className="h-20 w-20 text-gray-400 mx-auto mb-6 drop-shadow-md" />
+          <FontAwesomeIcon
+            icon={faShoppingCart}
+            className="h-20 w-20 text-gray-400 mx-auto mb-6 drop-shadow-md"
+          />
           <h2 className="text-2xl font-extrabold text-gray-900 mb-3">
             Your cart is empty!
           </h2>
@@ -259,7 +262,10 @@ export default function Cart() {
         <div className="bg-white rounded-xl shadow-2xl p-4 md:p-10 border border-gray-100 transform transition-all duration-300 hover:shadow-3xl">
           <div className="flex items-center justify-between mb-6 pb-3 border-b border-gray-200">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center space-x-2 sm:space-x-3">
-              <FontAwesomeIcon icon={faShoppingCart} className="h-7 w-7 sm:h-8 sm:w-8 text-orange-500" />
+              <FontAwesomeIcon
+                icon={faShoppingCart}
+                className="h-7 w-7 sm:h-8 sm:w-8 text-orange-500"
+              />
               <span>Your Shopping Cart</span>
             </h2>
           </div>
@@ -274,9 +280,15 @@ export default function Cart() {
               } max-w-[calc(100%-2rem)]`}
             >
               {notification.type === "success" ? (
-                <FontAwesomeIcon icon={faCircleInfo} className="w-5 h-5 mr-2 flex-shrink-0" />
+                <FontAwesomeIcon
+                  icon={faCircleInfo}
+                  className="w-5 h-5 mr-2 flex-shrink-0"
+                />
               ) : (
-                <FontAwesomeIcon icon={faCircleExclamation} className="w-5 h-5 mr-2 flex-shrink-0" />
+                <FontAwesomeIcon
+                  icon={faCircleExclamation}
+                  className="w-5 h-5 mr-2 flex-shrink-0"
+                />
               )}
               <span className="text-sm sm:text-base break-words">
                 {notification.message}
@@ -318,7 +330,10 @@ export default function Cart() {
                             aria-label="Remove item"
                             disabled={cartLoading}
                           >
-                            <FontAwesomeIcon icon={faCircleXmark} className="w-4 h-4" />
+                            <FontAwesomeIcon
+                              icon={faCircleXmark}
+                              className="w-4 h-4"
+                            />
                           </button>
                         </div>
                         <div className="flex-grow">
@@ -360,7 +375,10 @@ export default function Cart() {
                             disabled={cartLoading || item.quantity <= 1}
                             aria-label="Decrease quantity"
                           >
-                            <FontAwesomeIcon icon={faMinus} className="w-4 h-4" />
+                            <FontAwesomeIcon
+                              icon={faMinus}
+                              className="w-4 h-4"
+                            />
                           </button>
                           <span className="w-6 sm:w-8 text-center font-medium text-base sm:text-lg text-gray-800">
                             {item.quantity}
@@ -376,7 +394,10 @@ export default function Cart() {
                             disabled={cartLoading}
                             aria-label="Increase quantity"
                           >
-                            <FontAwesomeIcon icon={faPlus} className="w-4 h-4" />
+                            <FontAwesomeIcon
+                              icon={faPlus}
+                              className="w-4 h-4"
+                            />
                           </button>
                         </div>
                       </div>
@@ -395,7 +416,10 @@ export default function Cart() {
               {/* Minimum item checkout warning */}
               {!canCheckout && (
                 <div className="mb-5 p-3 bg-blue-100 border border-blue-300 text-blue-800 rounded-lg flex items-start animate-fade-in">
-                  <FontAwesomeIcon icon={faCircleInfo} className="w-5 h-5 text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
+                  <FontAwesomeIcon
+                    icon={faCircleInfo}
+                    className="w-5 h-5 text-blue-600 mr-3 flex-shrink-0 mt-0.5"
+                  />
                   <p className="text-sm font-medium">
                     You need at least 2 items in your cart to proceed to
                     checkout.
@@ -405,7 +429,10 @@ export default function Cart() {
 
               {error && (
                 <div className="mb-5 p-3 bg-red-100 border border-red-300 text-red-800 rounded-lg flex items-start animate-fade-in">
-                  <FontAwesomeIcon icon={faExclamationCircle} className="w-5 h-5 text-red-600 mr-3 flex-shrink-0 mt-0.5" />
+                  <FontAwesomeIcon
+                    icon={faExclamationCircle}
+                    className="w-5 h-5 text-red-600 mr-3 flex-shrink-0 mt-0.5"
+                  />
                   <p className="text-sm font-medium">{error}</p>
                 </div>
               )}
@@ -437,9 +464,15 @@ export default function Cart() {
                   }`}
               >
                 {checkoutLoading ? (
-                  <FontAwesomeIcon icon={faSpinner} className="animate-spin h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3" />
+                  <FontAwesomeIcon
+                    icon={faSpinner}
+                    className="animate-spin h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3"
+                  />
                 ) : (
-                  <FontAwesomeIcon icon={faBagShopping} className="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3" />
+                  <FontAwesomeIcon
+                    icon={faBagShopping}
+                    className="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3"
+                  />
                 )}
                 {checkoutLoading
                   ? "Processing Order..."
