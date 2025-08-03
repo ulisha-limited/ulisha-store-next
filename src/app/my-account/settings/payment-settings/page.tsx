@@ -85,7 +85,7 @@ export default function PaymentSettingsPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <div className="flex items-center mb-8">
           <Link
-            href="/settings"
+            href="/my-account/settings"
             className="p-2 mr-4 rounded-full hover:bg-gray-200 transition-colors"
             aria-label="Go back to settings"
           >

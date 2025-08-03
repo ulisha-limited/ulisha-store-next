@@ -18,6 +18,7 @@ const PROTECTED_ROUTE_REGEX = [
   /^\/wishlist/,
   /^\/cart/,
   /^\/notifications/,
+  /^\/my-account/,
 ];
 
 export default function ProtectedRoute({

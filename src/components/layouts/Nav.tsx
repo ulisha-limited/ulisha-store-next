@@ -159,74 +159,17 @@ function Nav() {
         </Link>
         {/* User profile */}
         {!!user ? (
-          <div
-            className="relative profile-menu hidden md:inline"
-            onMouseEnter={() => setIsProfileOpen(true)}
-            onMouseLeave={() => setIsProfileOpen(false)}
+           <Link
+            href="/my-account"
+            className="items-center text-white hover:text-[#FF6600] transition-colors hidden md:flex mx-1"
           >
-            <button
-              onClick={() => setIsProfileOpen((open) => !open)}
-              className="text-white hover:text-[#FF6600] transition-colors focus:outline-none mx-2"
-              tabIndex={0}
-            >
-              <div
+             <div
                 className="rounded-full bg-orange-500 flex items-center justify-center"
-                style={{ width: "40px", height: "40px", color: "white" }}
+                style={{ width: "30px", height: "30px", color: "white" }}
               >
                 {getInitials(user?.user_metadata?.full_name)}
               </div>
-            </button>
-
-            {isProfileOpen && (
-              <div className="absolute right-0 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                <Link
-                  href="/"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
-                  onClick={() => setIsProfileOpen(false)}
-                >
-                  <FontAwesomeIcon icon={faHouse} className="h-4 w-4" />
-                  <span>Home</span>
-                </Link>
-                {user && user.email && ADMIN_EMAILS.includes(user.email) && (
-                  <Link
-                    href="/admin"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
-                    onClick={() => setIsProfileOpen(false)}
-                  >
-                    <FontAwesomeIcon icon={faGauge} className="h-4 w-4" />
-                    <span>Admin</span>
-                  </Link>
-                )}
-
-                <Link
-                  href="/orders"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
-                  onClick={() => setIsProfileOpen(false)}
-                >
-                  <FontAwesomeIcon icon={faShoppingCart} className="h-4 w-4" />
-                  <span>My Orders</span>
-                </Link>
-                <Link
-                  href="/settings"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
-                  onClick={() => setIsProfileOpen(false)}
-                >
-                  <FontAwesomeIcon icon={faGear} className="h-4 w-4" />
-                  <span>Settings</span>
-                </Link>
-                <button
-                  onClick={() => {
-                    handleSignOut();
-                    setIsProfileOpen(false);
-                  }}
-                  className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
-                >
-                  <FontAwesomeIcon icon={faRightFromBracket} className="h-4 w-4" />
-                  <span>Logout</span>
-                </button>
-              </div>
-            )}
-          </div>
+          </Link>
         ) : (
           <Link
             href="/login"
