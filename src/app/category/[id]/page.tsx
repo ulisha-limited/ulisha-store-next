@@ -9,7 +9,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { ProductCard } from "@/components/ProductCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faCircleChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "@/lib/supabase";
 import type { Product } from "@/store/cartStore";
 import { useParams } from "next/navigation";
@@ -122,15 +122,16 @@ export default function ProductList() {
             <div className="flex items-center mb-4">
               <Link
                 href="/category"
-                className="p-2 mr-4 rounded-full hover:bg-gray-200 transition-colors"
+                className="p-2 mr-2 rounded-full hover:bg-gray-200 transition-colors"
                 aria-label="Go back to settings"
               >
                 <FontAwesomeIcon
-                  icon={faCircleChevronLeft}
-                  className="w-6 h-6 text-gray-700"
+                  icon={faChevronLeft}
+                  className="text-gray-700"
+                  size="lg"
                 />
               </Link>
-              <h1 className="text-2xl font-extrabold text-gray-900">
+              <h1 className="text-2xl font-extrabold text-gray-900 capitalize">
                 {category ? category : ""}
               </h1>
             </div>

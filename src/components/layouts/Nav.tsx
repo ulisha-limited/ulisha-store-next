@@ -44,11 +44,6 @@ function Nav() {
    * For now, we use a hardcoded list of admin emails.
    * This should be replaced with a more secure method in production.
    */
-  const ADMIN_EMAILS = [
-    "paulelite606@gmail.com",
-    "obajeufedo2@gmail.com",
-    "mrepol742@gmail.com",
-  ];
 
   useEffect(() => {
     fetchCategories();
@@ -102,7 +97,7 @@ function Nav() {
           href="/message"
           className="text-white hover:text-[#FF6600] transition-colors mr-3"
         >
-          <FontAwesomeIcon icon={faRobot} className="h-5 w-5" />
+          <FontAwesomeIcon icon={faRobot} size="lg" />
         </Link>
         {/* Search Bar */}
         <form
@@ -122,14 +117,14 @@ function Nav() {
             className="absolute right-10 mx-2 top-1/2 transform -translate-y-1/2 p-1 text-gray-500" // Camera icon color
             aria-label="Open camera search"
           >
-            <FontAwesomeIcon icon={faCamera} className="text-[20px]" />
+            <FontAwesomeIcon icon={faCamera} size="lg" />
           </button>
           <button
             type="submit"
             className="bg-orange-500 text-white rounded-full h-8 w-8 flex items-center justify-center mr-1"
             aria-label="Search"
           >
-            <FontAwesomeIcon icon={faSearch} className="text-[18px]" />
+            <FontAwesomeIcon icon={faSearch} size="sm" />
           </button>
         </form>
         {/* Wishlist */}
@@ -137,14 +132,14 @@ function Nav() {
           href="/wishlist"
           className="text-white hover:text-[#FF6600] transition-colors mx-3"
         >
-          <FontAwesomeIcon icon={faHeart} className="h-5 w-5" />
+          <FontAwesomeIcon icon={faHeart} size="lg" />
         </Link>
         {/* Cart */}
         <Link
           href="/cart"
           className="text-white hover:text-[#FF6600] transition-colors hidden md:inline mx-2 relative"
         >
-          <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5" />
+          <FontAwesomeIcon icon={faShoppingCart} size="lg" />
           {cartItemCount > 0 && (
             <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center shadow">
               {cartItemCount}
@@ -155,20 +150,20 @@ function Nav() {
           href="/notifications"
           className="text-white hover:text-[#FF6600] transition-colors hidden md:inline mx-3 relative"
         >
-          <FontAwesomeIcon icon={faBell} className="h-5 w-5" />
+          <FontAwesomeIcon icon={faBell} size="lg" />
         </Link>
         {/* User profile */}
         {!!user ? (
-           <Link
+          <Link
             href="/my-account"
             className="items-center text-white hover:text-[#FF6600] transition-colors hidden md:flex mx-1"
           >
-             <div
-                className="rounded-full bg-orange-500 flex items-center justify-center"
-                style={{ width: "30px", height: "30px", color: "white" }}
-              >
-                {getInitials(user?.user_metadata?.full_name)}
-              </div>
+            <div
+              className="rounded-full bg-orange-500 flex items-center justify-center"
+              style={{ width: "30px", height: "30px", color: "white" }}
+            >
+              {getInitials(user?.user_metadata?.full_name)}
+            </div>
           </Link>
         ) : (
           <Link

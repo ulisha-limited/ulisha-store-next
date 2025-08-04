@@ -18,6 +18,10 @@ import {
   faCheck,
   faPercent,
   faShareAlt,
+  faChevronLeft,
+  faChevronRight,
+  faArrowRightLong,
+  faArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -290,7 +294,6 @@ export default function ProductDetails({
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -310,7 +313,10 @@ export default function ProductDetails({
             href="/"
             className="inline-flex items-center text-gray-600 hover:text-orange-500"
           >
-            <FontAwesomeIcon icon={faCircleChevronLeft} className="w-5 h-5 mr-1" />
+            <FontAwesomeIcon
+              icon={faCircleChevronLeft}
+              className="w-5 h-5 mr-1"
+            />
             <span>Back to products</span>
           </Link>
         </div>
@@ -340,15 +346,23 @@ export default function ProductDetails({
                   <>
                     <button
                       onClick={prevImage}
-                      className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-100 rounded-full p-2 transition-all"
+                      className="absolute left-2 top-1/2 transform -translate-y-1/2 hover:bg-gray-300 rounded-full p-2 transition-all"
                     >
-                      <FontAwesomeIcon icon={faCircleChevronLeft} className="w-5 h-5 text-gray-800" />
+                      <FontAwesomeIcon
+                        icon={faChevronLeft}
+                        className="text-gray-800"
+                        size="xl"
+                      />
                     </button>
                     <button
                       onClick={nextImage}
-                      className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 hover:bg-opacity-100 rounded-full p-2 transition-all"
+                      className="absolute right-2 top-1/2 transform -translate-y-1/2 hover:bg-gray-300 rounded-full p-2 transition-all"
                     >
-                      <FontAwesomeIcon icon={faCircleChevronLeft} className="w-5 h-5 text-gray-800 transform rotate-180" />
+                      <FontAwesomeIcon
+                        icon={faChevronRight}
+                        className="text-gray-800"
+                        size="xl"
+                      />
                     </button>
                   </>
                 )}
@@ -386,9 +400,13 @@ export default function ProductDetails({
 
                 <button
                   onClick={() => setShowShareOptions(!showShareOptions)}
-                  className="hover:bg-orange-200 p-2 rounded-full transition-all ml-2"
+                  className="hover:bg-gray-200 p-2 rounded-full transition-all ml-2"
                 >
-                  <FontAwesomeIcon icon={faShareAlt} className="w-5 h-5 text-gray-700" />
+                  <FontAwesomeIcon
+                    icon={faShareAlt}
+                    className="text-gray-700"
+                    size="lg"
+                  />
                 </button>
 
                 {/* Share options dropdown */}
@@ -399,21 +417,30 @@ export default function ProductDetails({
                         onClick={() => shareToSocial("facebook")}
                         className="hover:bg-orange-100 text-gray-600 flex items-center space-x-2 px-3 py-2 rounded-md text-sm whitespace-nowrap"
                       >
-                        <FontAwesomeIcon icon={faFacebook} className="w-7 h-7 p-1 bg-blue-600 text-white flex items-center justify-center rounded-full" />
+                        <FontAwesomeIcon
+                          icon={faFacebook}
+                          className="w-7 h-7 p-1 bg-blue-600 text-white flex items-center justify-center rounded-full"
+                        />
                         <span>Facebook</span>
                       </button>
                       <button
                         onClick={() => shareToSocial("twitter")}
                         className="hover:bg-orange-100 text-gray-600 flex items-center space-x-2 px-3 py-2 rounded-md text-sm whitespace-nowrap"
                       >
-                        <FontAwesomeIcon icon={faTwitter} className="w-7 h-7 p-1 bg-black text-white flex items-center justify-center rounded-full" />
+                        <FontAwesomeIcon
+                          icon={faTwitter}
+                          className="w-7 h-7 p-1 bg-black text-white flex items-center justify-center rounded-full"
+                        />
                         <span>Twitter</span>
                       </button>
                       <button
                         onClick={() => shareToSocial("whatsapp")}
                         className="hover:bg-orange-100 text-gray-600 flex items-center space-x-2 px-3 py-2 rounded-md text-sm whitespace-nowrap"
                       >
-                        <FontAwesomeIcon icon={faComment} className="w-7 h-7 p-1 bg-green-500 text-white flex items-center justify-center rounded-full" />
+                        <FontAwesomeIcon
+                          icon={faComment}
+                          className="w-7 h-7 p-1 bg-green-500 text-white flex items-center justify-center rounded-full"
+                        />
                         <span>WhatsApp</span>
                       </button>
                       <button
@@ -422,12 +449,18 @@ export default function ProductDetails({
                       >
                         {linkCopied ? (
                           <>
-                            <FontAwesomeIcon icon={faCheck} className="w-7 h-7 text-green-500" />
+                            <FontAwesomeIcon
+                              icon={faCheck}
+                              className="w-7 h-7 text-green-500"
+                            />
                             <span>Copied!</span>
                           </>
                         ) : (
                           <>
-                            <FontAwesomeIcon icon={faCopy} className="w-7 h-7 text-gray-500" />
+                            <FontAwesomeIcon
+                              icon={faCopy}
+                              className="w-7 h-7 text-gray-500"
+                            />
                             <span>Copy Link</span>
                           </>
                         )}
@@ -565,7 +598,7 @@ export default function ProductDetails({
                   }
                   className="flex items-center justify-center w-40 space-x-2 text-orange-500 text-xs hover:bg-orange-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:no-underline border border-orange-500 rounded-lg py-2 px-4 transition-colors duration-200"
                 >
-                  <FontAwesomeIcon icon={faShoppingCart} className="w-5 h-5" />
+                  <FontAwesomeIcon icon={faShoppingCart} size="xl" />
                   <span>
                     {initialVariants.length > 0
                       ? selectedColor && selectedSize
@@ -581,9 +614,10 @@ export default function ProductDetails({
                     initialVariants.length > 0 &&
                     (!selectedColor || !selectedSize)
                   }
-                  className="w-40 bg-orange-500 hover:bg-orange-500/90 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                  className="flex items-center justify-center w-40  space-x-2 bg-orange-500 hover:bg-orange-500/90 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                 >
-                  Buy Now
+                  <FontAwesomeIcon icon={faArrowRight} size="lg" />
+                  <span>Buy Now</span>
                 </button>
               </div>
             </div>

@@ -10,6 +10,7 @@ import "./globals.css";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import "@fortawesome/fontawesome-svg-core/styles.css";
 import Nav from "@/components/layouts/Nav";
 import Footer from "@/components/layouts/Footer";
 import BottomNav from "@/components/layouts/BottomNav";
@@ -18,6 +19,9 @@ import NextTopLoader from "nextjs-toploader";
 import { ToastContainer } from "react-toastify";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import Script from "next/script";
+import { config } from "@fortawesome/fontawesome-svg-core";
+
+config.autoAddCss = false;
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

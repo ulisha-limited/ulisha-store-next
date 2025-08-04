@@ -16,6 +16,7 @@ import {
   faTachometerAlt,
   faCog,
   faUser,
+  faBell,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { useAuthStore } from "@/store/authStore";
@@ -53,7 +54,7 @@ export default function BottomNav() {
             location.pathname === "/" ? "text-[#FF6600]" : "text-gray-400"
           } hover:text-[#FF6600] transition-colors`}
         >
-          <FontAwesomeIcon icon={faHome} className="h-5 w-5 mb-1" />
+          <FontAwesomeIcon icon={faHome} className="mb-1" size="xl" />
           <span>Home</span>
         </Link>
         <Link
@@ -63,7 +64,7 @@ export default function BottomNav() {
           } hover:text-[#FF6600] transition-colors`}
         >
           <span className="relative flex items-center justify-center">
-            <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5 mb-1" />
+            <FontAwesomeIcon icon={faShoppingCart} className="mb-1" size="xl" />
             {cartItemCount > 0 && (
               <span className="absolute -top-3 -right-2 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center shadow">
                 {cartItemCount}
@@ -80,7 +81,8 @@ export default function BottomNav() {
               : "text-gray-400"
           } hover:text-[#FF6600] transition-colors`}
         >
-          <Bell className="h-5 w-5 mb-1" />
+          <FontAwesomeIcon icon={faBell} className="mb-1" size="xl" />
+
           <span>Notifications</span>
         </Link>
 
@@ -105,7 +107,6 @@ export default function BottomNav() {
             >
               {getInitials(user?.user_metadata?.full_name)}
             </div>
-            <span>Me</span>
           </Link>
         ) : (
           <Link

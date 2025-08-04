@@ -136,7 +136,8 @@ export function ProductCard({ product }: { product: Product }) {
           <div className="absolute top-2 right-2 bg-blue-500 text-white px-1.5 sm:px-2 py-0.5 rounded-full text-[8px] sm:text-[10px] font-medium flex items-center">
             <FontAwesomeIcon
               icon={faPlane}
-              className="w-2 h-2 sm:w-2.5 sm:h-2.5 mr-0.5"
+              className="mr-2"
+              size="sm"
             />
             <span className="hidden xs:inline">Shipped from abroad</span>
             <span className="xs:hidden">From Abroad</span>
@@ -150,7 +151,8 @@ export function ProductCard({ product }: { product: Product }) {
         >
           <FontAwesomeIcon
             icon={faShareAlt}
-            className="w-4 h-4 text-gray-700"
+            className="text-gray-700"
+            size="lg"
           />
         </button>
 
