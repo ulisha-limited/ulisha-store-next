@@ -7,7 +7,7 @@
 "use client";
 
 import { useEffect, useState, Suspense, useCallback } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBox,
   faSpinner,
@@ -24,7 +24,7 @@ import {
   faChevronRight,
   faFilter,
   faSearch,
-} from '@fortawesome/free-solid-svg-icons';
+} from "@fortawesome/free-solid-svg-icons";
 import { useAuthStore } from "@/store/authStore";
 import { supabase } from "@/lib/supabase";
 import { OrderReceipt } from "@/components/OrderReceipt";
@@ -303,11 +303,8 @@ function Orders() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <FontAwesomeIcon icon={faSpinner} className="w-12 h-12 animate-spin text-primary-orange mx-auto mb-4" />
-          <p className="text-gray-600">Loading your orders...</p>
-        </div>
+      <div className="h-screen flex items-center justify-center py-12">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-orange"></div>
       </div>
     );
   }
@@ -327,7 +324,10 @@ function Orders() {
           <div className="mb-8 bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-400 p-6 rounded-lg shadow-sm">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <FontAwesomeIcon icon={faCheck} className="h-6 w-6 text-green-400" />
+                <FontAwesomeIcon
+                  icon={faCheck}
+                  className="h-6 w-6 text-green-400"
+                />
               </div>
               <div className="ml-3 flex-1">
                 <h3 className="text-lg font-medium text-green-800">
@@ -410,7 +410,10 @@ function Orders() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="flex items-center space-x-3 p-3 bg-green-50 rounded-lg">
                   <div className="p-2 bg-green-100 rounded-full">
-                    <FontAwesomeIcon icon={faCheck} className="w-4 h-4 text-green-600" />
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      className="w-4 h-4 text-green-600"
+                    />
                   </div>
                   <div>
                     <div className="font-semibold text-green-900">
@@ -421,7 +424,10 @@ function Orders() {
                 </div>
                 <div className="flex items-center space-x-3 p-3 bg-yellow-50 rounded-lg">
                   <div className="p-2 bg-yellow-100 rounded-full">
-                    <FontAwesomeIcon icon={faClock} className="w-4 h-4 text-yellow-600" />
+                    <FontAwesomeIcon
+                      icon={faClock}
+                      className="w-4 h-4 text-yellow-600"
+                    />
                   </div>
                   <div>
                     <div className="font-semibold text-yellow-900">
@@ -432,7 +438,10 @@ function Orders() {
                 </div>
                 <div className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
                   <div className="p-2 bg-blue-100 rounded-full">
-                    <FontAwesomeIcon icon={faTruck} className="w-4 h-4 text-blue-600" />
+                    <FontAwesomeIcon
+                      icon={faTruck}
+                      className="w-4 h-4 text-blue-600"
+                    />
                   </div>
                   <div>
                     <div className="font-semibold text-blue-900">
@@ -443,7 +452,10 @@ function Orders() {
                 </div>
                 <div className="flex items-center space-x-3 p-3 bg-purple-50 rounded-lg">
                   <div className="p-2 bg-purple-100 rounded-full">
-                    <FontAwesomeIcon icon={faStar} className="w-4 h-4 text-purple-600" />
+                    <FontAwesomeIcon
+                      icon={faStar}
+                      className="w-4 h-4 text-purple-600"
+                    />
                   </div>
                   <div>
                     <div className="font-semibold text-purple-900">
@@ -466,7 +478,10 @@ function Orders() {
             <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
               {/* Search */}
               <div className="relative">
-                <FontAwesomeIcon icon={faSearch} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <FontAwesomeIcon
+                  icon={faSearch}
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
+                />
                 <input
                   type="text"
                   placeholder="Search orders..."
@@ -478,7 +493,10 @@ function Orders() {
 
               {/* Status Filter */}
               <div className="relative">
-                <FontAwesomeIcon icon={faFilter} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <FontAwesomeIcon
+                  icon={faFilter}
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
+                />
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
@@ -515,7 +533,10 @@ function Orders() {
         {filteredOrders.length === 0 ? (
           <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
             <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <FontAwesomeIcon icon={faBox} className="h-12 w-12 text-gray-400" />
+              <FontAwesomeIcon
+                icon={faBox}
+                className="h-12 w-12 text-gray-400"
+              />
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-3">
               {orders.length === 0
@@ -549,7 +570,10 @@ function Orders() {
                     <div className="flex items-center space-x-4">
                       <div className="flex-shrink-0">
                         <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center">
-                          <FontAwesomeIcon icon={faBox} className="w-6 h-6 text-white" />
+                          <FontAwesomeIcon
+                            icon={faBox}
+                            className="w-6 h-6 text-white"
+                          />
                         </div>
                       </div>
                       <div>
@@ -558,7 +582,10 @@ function Orders() {
                         </h3>
                         <div className="flex items-center space-x-4 text-sm text-gray-500">
                           <div className="flex items-center">
-                            <FontAwesomeIcon icon={faCalendar} className="w-4 h-4 mr-1" />
+                            <FontAwesomeIcon
+                              icon={faCalendar}
+                              className="w-4 h-4 mr-1"
+                            />
                             {new Date(order.created_at).toLocaleDateString(
                               "en-US",
                               {
@@ -569,7 +596,10 @@ function Orders() {
                             )}
                           </div>
                           <div className="flex items-center">
-                            <FontAwesomeIcon icon={faClock} className="w-4 h-4 mr-1" />
+                            <FontAwesomeIcon
+                              icon={faClock}
+                              className="w-4 h-4 mr-1"
+                            />
                             {new Date(order.created_at).toLocaleTimeString(
                               "en-US",
                               {
@@ -617,7 +647,10 @@ function Orders() {
                   {/* Delivery Information */}
                   <div className="mb-6 p-4 bg-gray-50 rounded-xl">
                     <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center">
-                      <FontAwesomeIcon icon={faMapPin} className="w-4 h-4 mr-2 text-primary-orange" />
+                      <FontAwesomeIcon
+                        icon={faMapPin}
+                        className="w-4 h-4 mr-2 text-primary-orange"
+                      />
                       Delivery Information
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
@@ -632,7 +665,10 @@ function Orders() {
                           Phone:
                         </span>
                         <div className="text-gray-900 flex items-center">
-                          <FontAwesomeIcon icon={faPhone} className="w-3 h-3 mr-1" />
+                          <FontAwesomeIcon
+                            icon={faPhone}
+                            className="w-3 h-3 mr-1"
+                          />
                           {order.delivery_phone}
                         </div>
                       </div>
@@ -651,7 +687,10 @@ function Orders() {
                   {(order.payment_method || order.payment_ref) && (
                     <div className="mb-6 p-4 bg-blue-50 rounded-xl">
                       <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center">
-                        <FontAwesomeIcon icon={faCreditCard} className="w-4 h-4 mr-2 text-blue-600" />
+                        <FontAwesomeIcon
+                          icon={faCreditCard}
+                          className="w-4 h-4 mr-2 text-blue-600"
+                        />
                         Payment Information
                       </h4>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
@@ -683,7 +722,10 @@ function Orders() {
                   {/* Order Items */}
                   <div className="space-y-3">
                     <h4 className="text-sm font-semibold text-gray-900 flex items-center">
-                      <FontAwesomeIcon icon={faBox} className="w-4 h-4 mr-2 text-primary-orange" />
+                      <FontAwesomeIcon
+                        icon={faBox}
+                        className="w-4 h-4 mr-2 text-primary-orange"
+                      />
                       Order Items
                     </h4>
                     {order.items.map((item, index) => (
@@ -730,7 +772,10 @@ function Orders() {
                     >
                       <FontAwesomeIcon icon={faEye} className="w-4 h-4" />
                       <span>View Receipt</span>
-                      <FontAwesomeIcon icon={faChevronRight} className="w-4 h-4" />
+                      <FontAwesomeIcon
+                        icon={faChevronRight}
+                        className="w-4 h-4"
+                      />
                     </button>
                   </div>
                 </div>
@@ -770,7 +815,10 @@ export default function OrdersPage() {
   return (
     <Suspense
       fallback={
-        <FontAwesomeIcon icon={faSpinner} className="w-12 h-12 animate-spin text-primary-orange mx-auto mt-20" />
+        <FontAwesomeIcon
+          icon={faSpinner}
+          className="w-12 h-12 animate-spin text-primary-orange mx-auto mt-20"
+        />
       }
     >
       <Orders />
