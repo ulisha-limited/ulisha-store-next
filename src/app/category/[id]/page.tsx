@@ -2,19 +2,20 @@
  * Copyright 2025 Ulisha Limited
  * Licensed under the Apache License, Version 2.0
  * See LICENSE file in the project root for full license information.
- */ 
+ */
 
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
 import { ProductCard } from "@/components/ProductCard";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "@/lib/supabase";
 import type { Product } from "@/store/cartStore";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft } from "react-feather";
+import DisqusComments from "@/components/DisqusComments";
 
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000; // 1 second
@@ -26,82 +27,83 @@ export default function ProductList() {
   const [usesFallback, setUsesFallback] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-
-  const fetchProductsWithRetry = useCallback(async (retryCount = 0) => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      // Check if we have a valid session first
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-
-      if (sessionError) {
-        console.error("Session check error:", sessionError);
-      }
-
-      const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .ilike("category", `%${(category ?? "").replace(/-/g, " ")}%`)
-        .order("created_at", { ascending: false });
-
-      if (error) {
-        // Network or connection errors
-        if (
-          error.code === "PGRST301" ||
-          error.message?.includes("Failed to fetch")
-        ) {
-          if (retryCount < MAX_RETRIES) {
-            console.log(
-              `Retrying fetch attempt ${retryCount + 1} of ${MAX_RETRIES}...`
-            );
-            await delay(RETRY_DELAY * (retryCount + 1));
-            return fetchProductsWithRetry(retryCount + 1);
-          }
-          console.error("Max retries reached, using fallback data");
-          //   setProducts(fallbackProducts);
-          //   setUsesFallback(true);
-          setError(
-            "Unable to connect to the server. Showing offline product data."
-          );
-          return;
-        }
-
-        // Authentication errors
-        if (error.code === "JWT_INVALID") {
-          console.error("Authentication error:", error);
-          //   setProducts(fallbackProducts);
-          //   setUsesFallback(true);
-          return;
-        }
-
-        throw error;
-      }
-
-      if (data && data.length > 0) {
-        setProducts(data);
-        setUsesFallback(false);
+  const fetchProductsWithRetry = useCallback(
+    async (retryCount = 0) => {
+      try {
+        setLoading(true);
         setError(null);
-      } else {
-        // console.log("No products found in database, using fallback data");
-        // setProducts(fallbackProducts);
-        setUsesFallback(true);
-      }
-    } catch (error) {
-      console.error("Error fetching products:", error);
-      setError(
-        "Unable to load products. Please check your connection and try again."
-      );
-      //   setProducts(fallbackProducts);
-      setUsesFallback(true);
-    } finally {
-      setLoading(false);
-    }
-  }, [category]);
 
+        // Check if we have a valid session first
+        const {
+          data: { session },
+          error: sessionError,
+        } = await supabase.auth.getSession();
+
+        if (sessionError) {
+          console.error("Session check error:", sessionError);
+        }
+
+        const { data, error } = await supabase
+          .from("products")
+          .select("*")
+          .ilike("category", `%${(category ?? "").replace(/-/g, " ")}%`)
+          .order("created_at", { ascending: false });
+
+        if (error) {
+          // Network or connection errors
+          if (
+            error.code === "PGRST301" ||
+            error.message?.includes("Failed to fetch")
+          ) {
+            if (retryCount < MAX_RETRIES) {
+              console.log(
+                `Retrying fetch attempt ${retryCount + 1} of ${MAX_RETRIES}...`
+              );
+              await delay(RETRY_DELAY * (retryCount + 1));
+              return fetchProductsWithRetry(retryCount + 1);
+            }
+            console.error("Max retries reached, using fallback data");
+            //   setProducts(fallbackProducts);
+            //   setUsesFallback(true);
+            setError(
+              "Unable to connect to the server. Showing offline product data."
+            );
+            return;
+          }
+
+          // Authentication errors
+          if (error.code === "JWT_INVALID") {
+            console.error("Authentication error:", error);
+            //   setProducts(fallbackProducts);
+            //   setUsesFallback(true);
+            return;
+          }
+
+          throw error;
+        }
+
+        if (data && data.length > 0) {
+          setProducts(data);
+          setUsesFallback(false);
+          setError(null);
+        } else {
+          // console.log("No products found in database, using fallback data");
+          // setProducts(fallbackProducts);
+          setUsesFallback(true);
+        }
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        setError(
+          "Unable to load products. Please check your connection and try again."
+        );
+        //   setProducts(fallbackProducts);
+        setUsesFallback(true);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [category]
+  );
 
   useEffect(() => {
     if (category) {
@@ -114,7 +116,7 @@ export default function ProductList() {
 
   return (
     <>
-      <div className="min-h-screen bg-gray-100 flex flex-col">
+      <div className="min-h-screen flex flex-col">
         <div className="flex-grow">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="flex items-center mb-4">
@@ -123,7 +125,10 @@ export default function ProductList() {
                 className="p-2 mr-4 rounded-full hover:bg-gray-200 transition-colors"
                 aria-label="Go back to settings"
               >
-                <FontAwesomeIcon icon={faCircleChevronLeft} className="w-6 h-6 text-gray-700" />
+                <FontAwesomeIcon
+                  icon={faCircleChevronLeft}
+                  className="w-6 h-6 text-gray-700"
+                />
               </Link>
               <h1 className="text-2xl font-extrabold text-gray-900">
                 {category ? category : ""}
@@ -172,6 +177,13 @@ export default function ProductList() {
                     </p>
                   </div>
                 )}
+
+                <div className="mt-8">
+                  <DisqusComments
+                    slug={category}
+                    title={`Category ${category}`}
+                  />
+                </div>
               </>
             )}
           </div>
