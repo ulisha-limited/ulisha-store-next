@@ -363,7 +363,7 @@ function Orders() {
                 <div>
                   <div className="flex items-center">
                     <Link
-                      href="/admin"
+                      href="/my-account"
                       className="rounded-full hover:bg-white/20 transition-colors"
                       aria-label="Go back to admin panel"
                     >

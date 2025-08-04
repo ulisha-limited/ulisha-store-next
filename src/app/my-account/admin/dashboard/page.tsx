@@ -7,7 +7,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { supabase } from "../../../lib/supabase";
+import { supabase } from "../../../../lib/supabase";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -188,7 +188,7 @@ export default function Dashboard() {
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center">
             <Link
-              href="/admin"
+              href="/my-account"
               className="p-2 mr-4 rounded-full hover:bg-gray-200 transition-colors"
               aria-label="Go back to admin panel"
             >
