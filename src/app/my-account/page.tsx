@@ -9,6 +9,7 @@
 import { useAuthStore } from "@/store/authStore";
 import {
   faArrowRightArrowLeft,
+  faArrowRightFromBracket,
   faBox,
   faCaretDown,
   faChartLine,
@@ -53,9 +54,12 @@ export default function MyAccount() {
             </div>
             <h1 className="me-3 text-3xl">{user?.user_metadata?.full_name}</h1>
           </div>
-          <div>
-            <FontAwesomeIcon icon={faCaretDown} size="xl" />
-          </div>
+          <Link
+            href="/logout"
+            className={`hover:text-orange-500 text-gray-700 text-lg p-2 transition-colors`}
+          >
+            Logout
+          </Link>
         </div>
 
         {ADMIN_EMAILS.includes(user?.email ?? "") && (
@@ -63,7 +67,6 @@ export default function MyAccount() {
             <div className="p-5">
               <div className="flex items-center justify-between mb-5">
                 <span>Admin Control</span>
-                 
               </div>
 
               <div className="flex justify-around items-center">
@@ -100,11 +103,7 @@ export default function MyAccount() {
                   href="/my-account/admin/users"
                   className={`hover:text-orange-500 text-gray-700 flex flex-col items-center justify-center text-xs p-2 transition-colors`}
                 >
-                  <FontAwesomeIcon
-                    icon={faUsers}
-                    className="mb-3"
-                    size="2x"
-                  />
+                  <FontAwesomeIcon icon={faUsers} className="mb-3" size="2x" />
                   <span>Users</span>
                 </Link>
               </div>

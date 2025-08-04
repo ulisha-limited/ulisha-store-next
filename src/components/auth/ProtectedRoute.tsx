@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { useAuthStore } from "@/store/authStore";
 
 const PROTECTED_ROUTE_REGEX = [
+  /^\/logout/,
   /^\/orders/,
   /^\/message/,
   /^\/settings/,
@@ -49,9 +50,13 @@ export default function ProtectedRoute({
 
   if (isProtected && !user) {
     if (typeof window !== "undefined") {
-      router.replace(
-        "/login?next=" + encodeURIComponent(window.location.pathname)
-      );
+      if (/^\/logout/.test(pathname || "")) {
+        router.replace("/login");
+      } else {
+        router.replace(
+          "/login?next=" + encodeURIComponent(window.location.pathname)
+        );
+      }
     }
 
     return null;
