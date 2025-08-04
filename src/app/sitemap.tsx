@@ -50,5 +50,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: "https://www.ulishastore.com/register",
     },
+    {
+      url: "https://www.ulishastore.com/faq",
+    },
   ];
 }

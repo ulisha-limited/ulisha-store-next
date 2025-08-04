@@ -2,7 +2,7 @@
  * Copyright 2025 Ulisha Limited
  * Licensed under the Apache License, Version 2.0
  * See LICENSE file in the project root for full license information.
- */ 
+ */
 
 "use client";
 
@@ -126,6 +126,14 @@ export default function Footer() {
                   className="hover:text-[#FF6600] transition-colors"
                 >
                   Returns
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/faq"
+                  className="hover:text-[#FF6600] transition-colors"
+                >
+                  Faq
                 </Link>
               </li>
               <li>
