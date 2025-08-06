@@ -8,31 +8,65 @@
 
 import { useAuthStore } from "@/store/authStore";
 import {
-  faArrowRightArrowLeft,
   faArrowRightFromBracket,
   faBox,
-  faCaretDown,
   faChartLine,
   faChevronRight,
   faClock,
   faCommentDots,
   faCreditCard,
-  faEllipsis,
   faGear,
   faMessage,
   faRepeat,
+  faShieldHalved,
   faTruckFast,
   faUsers,
-  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
+import { ReactNode } from "react";
+
+const Card = ({ children }: { children: ReactNode }) => (
+  <div className="bg-white shadow-sm border border-slate-200/60 rounded-xl">
+    {children}
+  </div>
+);
+
+const CardHeader = ({
+  title,
+  actionLink,
+  actionText,
+}: {
+  title: string;
+  actionLink?: string;
+  actionText?: string;
+}) => (
+  <div className="flex items-center justify-between p-5 border-b border-slate-200/60">
+    <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
+    {actionLink && actionText && (
+      <Link
+        href={actionLink}
+        className="text-sm font-medium text-orange-500 hover:text-orange-600 flex items-center space-x-1 transition-colors"
+      >
+        <span>{actionText}</span>
+        <FontAwesomeIcon icon={faChevronRight} className="h-3 w-3" />
+      </Link>
+    )}
+  </div>
+);
 
 export default function MyAccount() {
   const user = useAuthStore((state) => state.user);
 
   const getInitials = (name: string) => {
-    return name ? name.charAt(0).toUpperCase() : "";
+    if (!name) return "?";
+    const names = name.split(" ");
+    if (names.length > 1) {
+      return `${names[0].charAt(0)}${names[names.length - 1].charAt(
+        0
+      )}`.toUpperCase();
+    }
+    return name.charAt(0).toUpperCase();
   };
 
   const ADMIN_EMAILS = [
@@ -41,188 +75,147 @@ export default function MyAccount() {
     "mrepol742@gmail.com",
   ];
 
+  const isAdmin = ADMIN_EMAILS.includes(user?.email ?? "");
+
+  const orderLinks = [
+    { href: "?status=to-pay", icon: faCreditCard, label: "To Pay" },
+    { href: "?status=to-ship", icon: faBox, label: "To Ship" },
+    { href: "?status=to-receive", icon: faTruckFast, label: "To Receive" },
+    { href: "?status=to-review", icon: faCommentDots, label: "To Review" },
+  ];
+
+  const adminLinks = [
+    {
+      href: "/my-account/admin/dashboard",
+      icon: faChartLine,
+      label: "Dashboard",
+    },
+    { href: "/my-account/admin/orders", icon: faBox, label: "Orders" },
+    {
+      href: "/my-account/admin/products",
+      icon: faTruckFast,
+      label: "Products",
+    },
+    { href: "/my-account/admin/users", icon: faUsers, label: "Users" },
+  ];
+
+  const moreLinks = [
+    { href: "/my-account/settings", icon: faGear, label: "Account Settings" },
+    { href: "/message", icon: faMessage, label: "My Messages" },
+    { href: "/recently-viewed", icon: faClock, label: "Recently Viewed" },
+    { href: "/buy-again", icon: faRepeat, label: "Buy Again" },
+  ];
+
   return (
-    <div className="min-h-screen bg-gray-50 font-sans">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        <div className="flex items-center justify-between mb-8">
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-10">
           <div className="flex items-center space-x-4">
-            <div
-              className="rounded-full bg-orange-500 flex items-center justify-center"
-              style={{ width: "40px", height: "40px", color: "white" }}
-            >
+            <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-2xl font-bold shadow-md">
               {getInitials(user?.user_metadata?.full_name)}
             </div>
-            <h1 className="me-3 text-3xl">{user?.user_metadata?.full_name}</h1>
+            <div>
+              <p className="text-sm text-slate-500">Welcome back,</p>
+              <h1 className="text-3xl font-bold text-slate-900">
+                {user?.user_metadata?.full_name}
+              </h1>
+            </div>
           </div>
           <Link
             href="/logout"
-            className={`hover:text-orange-500 text-gray-700 text-lg p-2 transition-colors`}
+            className="mt-4 sm:mt-0 flex items-center space-x-2 text-sm font-semibold text-slate-600 hover:text-red-500 bg-white border border-slate-300/70 rounded-lg px-4 py-2 transition-all duration-300 hover:border-red-400/80 hover:shadow-sm"
           >
-            Logout
+            <FontAwesomeIcon icon={faArrowRightFromBracket} />
+            <span>Logout</span>
           </Link>
         </div>
 
-        {ADMIN_EMAILS.includes(user?.email ?? "") && (
-          <div className="bg-white shadow-md rounded-lg mb-6">
-            <div className="p-5">
-              <div className="flex items-center justify-between mb-5">
-                <span>Admin Control</span>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-8">
+            {isAdmin && (
+              <Card>
+                <CardHeader title="Admin Panel" />
+                <div className="p-5">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {adminLinks.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className="group flex flex-col items-center justify-center p-4 bg-slate-50 hover:bg-orange-500 rounded-lg transition-all duration-300"
+                      >
+                        <FontAwesomeIcon
+                          icon={link.icon}
+                          className="h-7 w-7 text-orange-500 group-hover:text-white transition-colors"
+                        />
+                        <span className="mt-2 text-sm font-semibold text-slate-700 group-hover:text-white transition-colors">
+                          {link.label}
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </Card>
+            )}
+
+            <Card>
+              <CardHeader
+                title="My Orders"
+                actionLink="/my-account/orders"
+                actionText="View all orders"
+              />
+              <div className="p-5">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {orderLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={`/my-account/orders${link.href}`}
+                      className="group text-center bg-slate-100/80 rounded-lg p-4 transition-all duration-300 hover:bg-white hover:shadow-lg hover:-translate-y-1"
+                    >
+                      <FontAwesomeIcon
+                        icon={link.icon}
+                        className="h-8 w-8 text-slate-500 group-hover:text-orange-500 transition-colors"
+                      />
+                      <p className="mt-2 font-semibold text-slate-700">
+                        {link.label}
+                      </p>
+
+                      <p className="text-xs text-slate-400">0 Items</p>
+                    </Link>
+                  ))}
+                </div>
               </div>
+            </Card>
+          </div>
 
-              <div className="flex justify-around items-center">
-                <Link
-                  href="/my-account/admin/dashboard"
-                  className={`hover:text-orange-500 text-gray-700 flex flex-col items-center justify-center text-xs p-2 transition-colors`}
-                >
-                  <FontAwesomeIcon
-                    icon={faChartLine}
-                    className="mb-3"
-                    size="2x"
-                  />
-                  <span>Dashboard</span>
-                </Link>
-                <Link
-                  href="/my-account/admin/orders"
-                  className={`hover:text-orange-500 text-gray-700 flex flex-col items-center justify-center text-xs p-2 transition-colors`}
-                >
-                  <FontAwesomeIcon icon={faBox} className="mb-3" size="2x" />
-                  <span>Orders</span>
-                </Link>
-                <Link
-                  href="/my-account/admin/products"
-                  className={`hover:text-orange-500 text-gray-700 flex flex-col items-center justify-center text-xs p-2 transition-colors`}
-                >
-                  <FontAwesomeIcon
-                    icon={faTruckFast}
-                    className="mb-3"
-                    size="2x"
-                  />
-                  <span>Products</span>
-                </Link>
-                <Link
-                  href="/my-account/admin/users"
-                  className={`hover:text-orange-500 text-gray-700 flex flex-col items-center justify-center text-xs p-2 transition-colors`}
-                >
-                  <FontAwesomeIcon icon={faUsers} className="mb-3" size="2x" />
-                  <span>Users</span>
-                </Link>
+          <div className="lg:col-span-1">
+            <Card>
+              <CardHeader title="Account & More" />
+              <div className="p-3">
+                <div className="flex flex-col space-y-1">
+                  {moreLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="flex items-center justify-between p-3 rounded-lg hover:bg-slate-100 transition-colors group"
+                    >
+                      <div className="flex items-center space-x-3">
+                        <FontAwesomeIcon
+                          icon={link.icon}
+                          className="w-5 h-5 text-slate-400 group-hover:text-orange-500 transition-colors"
+                        />
+                        <span className="font-medium text-slate-700">
+                          {link.label}
+                        </span>
+                      </div>
+                      <FontAwesomeIcon
+                        icon={faChevronRight}
+                        className="w-3 h-3 text-slate-300 group-hover:text-slate-500 transition-colors"
+                      />
+                    </Link>
+                  ))}
+                </div>
               </div>
-            </div>
-          </div>
-        )}
-
-        <div className="bg-white shadow-md rounded-lg mb-6">
-          <div className="p-5">
-            <div className="flex items-center justify-between mb-5">
-              <span>My Orders</span>
-              <Link
-                href="/my-account/orders"
-                className="text-gray-500 hover:text-orange-500 flex items-center space-x-2"
-              >
-                <span>View all</span>
-                <FontAwesomeIcon icon={faChevronRight} />
-              </Link>
-            </div>
-
-            <div className="flex justify-around items-center">
-              <Link
-                href="/my-account/orders?status=to-pay"
-                className={`hover:text-orange-500 text-gray-700 flex flex-col items-center justify-center text-xs p-2 transition-colors`}
-              >
-                <FontAwesomeIcon
-                  icon={faCreditCard}
-                  className="mb-3"
-                  size="2x"
-                />
-                <span>To Pay</span>
-              </Link>
-              <Link
-                href="/my-account/orders?status=to-ship"
-                className={`hover:text-orange-500 text-gray-700 flex flex-col items-center justify-center text-xs p-2 transition-colors`}
-              >
-                <FontAwesomeIcon icon={faBox} className="mb-3" size="2x" />
-                <span>To Ship</span>
-              </Link>
-              <Link
-                href="/my-account/orders?status=to-receive"
-                className={`hover:text-orange-500 text-gray-700 flex flex-col items-center justify-center text-xs p-2 transition-colors`}
-              >
-                <FontAwesomeIcon
-                  icon={faTruckFast}
-                  className="mb-3"
-                  size="2x"
-                />
-                <span>To Receive</span>
-              </Link>
-              <Link
-                href="/my-account/orders?status=to-review"
-                className={`hover:text-orange-500 text-gray-700 flex flex-col items-center justify-center text-xs p-2 transition-colors`}
-              >
-                <FontAwesomeIcon
-                  icon={faCommentDots}
-                  className="mb-3"
-                  size="2x"
-                />
-                <span>To Review</span>
-              </Link>
-              <Link
-                href="/my-account/orders?status=refund"
-                className={`hover:text-orange-500 text-gray-700 hidden md:flex flex-col items-center justify-center text-xs p-2 transition-colors`}
-              >
-                <FontAwesomeIcon
-                  icon={faArrowRightArrowLeft}
-                  className="mb-3"
-                  size="2x"
-                />
-                <span>Refund</span>
-              </Link>
-              <Link
-                href="/my-account/orders?status=cancel"
-                className={`hover:text-orange-500 text-gray-700 hidden md:flex flex-col items-center justify-center text-xs p-2 transition-colors`}
-              >
-                <FontAwesomeIcon icon={faXmark} className="mb-3" size="2x" />
-                <span>Cancel</span>
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white shadow-md rounded-lg mb-6">
-          <div className="p-5">
-            <div className="flex items-center justify-between mb-5">
-              <span>More</span>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 px-4 pb-4">
-              <Link
-                href="/my-account/settings"
-                className="flex items-center space-x-2 text-gray-600 hover:text-[#FF6600] transition-colors"
-              >
-                <FontAwesomeIcon icon={faGear} size="xl" />
-                <span>Settings</span>
-              </Link>
-              <Link
-                href="/message"
-                className="flex items-center space-x-2 text-gray-600 hover:text-[#FF6600] transition-colors"
-              >
-                <FontAwesomeIcon icon={faMessage} size="xl" />
-                <span>Messages</span>
-              </Link>
-              <Link
-                href="/recently-viewed"
-                className="flex items-center space-x-2 text-gray-600 hover:text-[#FF6600] transition-colors"
-              >
-                <FontAwesomeIcon icon={faClock} size="xl" />
-                <span>Recently viewed</span>
-              </Link>
-              <Link
-                href="/buy-again"
-                className="flex items-center space-x-2 text-gray-600 hover:text-[#FF6600] transition-colors"
-              >
-                <FontAwesomeIcon icon={faRepeat} size="xl" />
-                <span>Buy Again</span>
-              </Link>
-            </div>
+            </Card>
           </div>
         </div>
       </div>
