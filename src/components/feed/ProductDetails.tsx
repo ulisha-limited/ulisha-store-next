@@ -386,7 +386,7 @@ export default function ProductDetails({
 
                 <button
                   onClick={() => setShowShareOptions(!showShareOptions)}
-                  className="hover:bg-orange-200 p-2 rounded-full transition-all ml-2"
+                  className="shareIconBtn hover:bg-orange-200 p-2 rounded-full transition-all ml-2"
                 >
                   <FontAwesomeIcon icon={faShareAlt} className="w-5 h-5 text-gray-700" />
                 </button>
@@ -563,7 +563,7 @@ export default function ProductDetails({
                     initialVariants.length > 0 &&
                     (!selectedColor || !selectedSize)
                   }
-                  className="flex items-center justify-center w-40 space-x-2 text-orange-500 text-xs hover:bg-orange-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:no-underline border border-orange-500 rounded-lg py-2 px-4 transition-colors duration-200"
+                  className="addToCartBtn flex items-center justify-center w-40 space-x-2 text-orange-500 text-xs hover:bg-orange-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:no-underline border border-orange-500 rounded-lg py-2 px-4 transition-colors duration-200"
                 >
                   <FontAwesomeIcon icon={faShoppingCart} className="w-5 h-5" />
                   <span>
@@ -581,7 +581,7 @@ export default function ProductDetails({
                     initialVariants.length > 0 &&
                     (!selectedColor || !selectedSize)
                   }
-                  className="w-40 bg-orange-500 hover:bg-orange-500/90 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                  className="buyNowBtn w-40 bg-orange-500 hover:bg-orange-500/90 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                 >
                   Buy Now
                 </button>

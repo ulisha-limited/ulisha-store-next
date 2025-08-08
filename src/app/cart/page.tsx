@@ -314,7 +314,7 @@ export default function Cart() {
                           />
                           <button
                             onClick={() => handleRemoveItem(item.product_id)}
-                            className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform scale-0 group-hover:scale-100 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 z-10"
+                            className="removeItemBtn absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform scale-0 group-hover:scale-100 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 z-10"
                             aria-label="Remove item"
                             disabled={cartLoading}
                           >
@@ -356,7 +356,7 @@ export default function Cart() {
                                 item.quantity - 1
                               )
                             }
-                            className="p-1 sm:p-1.5 rounded-full text-gray-600 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            className="qty-btn p-1 sm:p-1.5 rounded-full text-gray-600 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                             disabled={cartLoading || item.quantity <= 1}
                             aria-label="Decrease quantity"
                           >
@@ -372,7 +372,7 @@ export default function Cart() {
                                 item.quantity + 1
                               )
                             }
-                            className="p-1 sm:p-1.5 rounded-full text-gray-600 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            className="qty-btn p-1 sm:p-1.5 rounded-full text-gray-600 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                             disabled={cartLoading}
                             aria-label="Increase quantity"
                           >

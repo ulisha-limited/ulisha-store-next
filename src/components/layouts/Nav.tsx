@@ -45,6 +45,7 @@ function Nav() {
    * This should be replaced with a more secure method in production.
    */
   const ADMIN_EMAILS = [
+    "akashnai632@gmail.com",
     "paulelite606@gmail.com",
     "obajeufedo2@gmail.com",
     "mrepol742@gmail.com",
@@ -126,7 +127,7 @@ function Nav() {
           </button>
           <button
             type="submit"
-            className="bg-orange-500 text-white rounded-full h-8 w-8 flex items-center justify-center mr-1"
+            className="searchBtn bg-orange-500 text-white rounded-full h-8 w-8 flex items-center justify-center mr-1"
             aria-label="Search"
           >
             <FontAwesomeIcon icon={faSearch} className="text-[18px]" />
@@ -166,7 +167,7 @@ function Nav() {
           >
             <button
               onClick={() => setIsProfileOpen((open) => !open)}
-              className="text-white hover:text-[#FF6600] transition-colors focus:outline-none mx-2"
+              className="userProfile text-white hover:text-[#FF6600] transition-colors focus:outline-none mx-2"
               tabIndex={0}
             >
               <div
