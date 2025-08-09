@@ -2,7 +2,7 @@
  * Copyright 2025 Ulisha Limited
  * Licensed under the Apache License, Version 2.0
  * See LICENSE file in the project root for full license information.
- */ 
+ */
 
 import React, { useState, useEffect } from "react";
 import type { Product } from "@/store/cartStore";
@@ -112,13 +112,15 @@ export function ProductCard({ product }: { product: Product }) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 group overflow-hidden">
+    <div
+      className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 group overflow-hidden"
+      onClick={() => navigate(`/product/${product.id}`)}
+    >
       <div className="relative pb-[100%] overflow-hidden rounded-t-lg">
         <Image
           src={product.image}
           alt={product.name}
           className="absolute top-0 left-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-200 cursor-pointer"
-          onClick={() => navigate(`/product/${product.id}`)}
           width={500}
           height={500}
           priority={true}
@@ -134,11 +136,7 @@ export function ProductCard({ product }: { product: Product }) {
         {/* Shipped from abroad badge */}
         {product.shipping_location === "Abroad" && (
           <div className="absolute top-2 right-2 bg-blue-500 text-white px-1.5 sm:px-2 py-0.5 rounded-full text-[8px] sm:text-[10px] font-medium flex items-center">
-            <FontAwesomeIcon
-              icon={faPlane}
-              className="mr-2"
-              size="sm"
-            />
+            <FontAwesomeIcon icon={faPlane} className="mr-2" size="sm" />
             <span className="hidden xs:inline">Shipped from abroad</span>
             <span className="xs:hidden">From Abroad</span>
           </div>
@@ -244,10 +242,7 @@ export function ProductCard({ product }: { product: Product }) {
             {product.category}
           </span>
         </div>
-        <h3
-          className="text-sm font-medium text-gray-900 line-clamp-2 mb-1 min-h-[2.5rem] cursor-pointer hover:text-[#FF6600]"
-          onClick={() => navigate(`/product/${product.id}`)}
-        >
+        <h3 className="text-sm font-medium text-gray-900 line-clamp-2 mb-1 min-h-[2.5rem] cursor-pointer hover:text-[#FF6600]">
           {product.name}
         </h3>
         <div className="flex items-center mb-2">

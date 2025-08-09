@@ -2,7 +2,7 @@
  * Copyright 2025 Ulisha Limited
  * Licensed under the Apache License, Version 2.0
  * See LICENSE file in the project root for full license information.
- */ 
+ */
 
 import { supabase } from "../lib/supabase";
 import { create } from "zustand";
@@ -36,25 +36,15 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
     isFetching = true;
     set({ loading: true, error: null });
     const { data, error } = await supabase
-      .from("products")
-      .select("category")
-      .order("created_at", { ascending: false });
+      .from("product_categories")
+      .select("name");
     if (data) {
-      const categoryCountMap: Record<string, number> = {};
-      data.forEach((product: { category?: string }) => {
-        const cat = product.category?.trim();
-        if (cat) {
-          categoryCountMap[cat] = (categoryCountMap[cat] || 0) + 1;
-        }
-      });
-      const uniqueCategories = Object.entries(categoryCountMap).map(
-        ([name, count]) => ({
-          name,
-          count,
-        })
-      );
-      cachedCategories = uniqueCategories;
-      set({ categories: uniqueCategories, loading: false, error: null });
+      const categories = data.map((cat) => ({
+        name: cat.name,
+        count: 0, // Placeholder for count, can be updated later
+      }));
+      cachedCategories = categories;
+      set({ categories, loading: false, error: null });
     } else if (error) {
       set({ error: error.message, loading: false });
     }

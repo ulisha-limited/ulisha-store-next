@@ -20,7 +20,7 @@ import {
 import { useCategoryStore } from "@/store/categoryStore";
 import Image from "next/image";
 
-type Category = { name: string; count: number };
+type Category = { name: string; };
 
 const slugify = (s: string) =>
   s
@@ -58,7 +58,7 @@ export default function Footer() {
                     href={`/category/${slugify(category.name)}`}
                     className="hover:text-[#FF6600] transition-colors whitespace-nowrap"
                   >
-                    {category.name} ({category.count})
+                    {category.name}
                   </Link>
                 </li>
               ))}
