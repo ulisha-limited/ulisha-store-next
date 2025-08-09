@@ -540,6 +540,7 @@ export default function Products() {
                     <option value="Female clothings">Female clothings</option>
                     <option value="Computer & gaming">Computer & gaming</option>
                     <option value="E-bikes">E-bikes</option>
+                    <option value="E-bikes">Sports</option>
                   </select>
                 </div>
               </div>

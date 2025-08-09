@@ -7,9 +7,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, Suspense, useRef } from "react"; // Import useRef
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCamera,
   faSearch,
@@ -22,7 +22,7 @@ import {
   faGauge,
   faBell,
   faRobot,
-} from '@fortawesome/free-solid-svg-icons';
+} from "@fortawesome/free-solid-svg-icons";
 import { useAuthStore } from "@/store/authStore";
 import { useCartStore } from "@/store/cartStore";
 import { useCategoryStore } from "@/store/categoryStore";
@@ -37,6 +37,7 @@ function Nav() {
   const cartItems = useCartStore((state) => state.items);
   const { categories, fetchCategories } = useCategoryStore();
   const searchParams = useSearchParams();
+  const fileInputRef = useRef<HTMLInputElement>(null); // Create a ref for the file input
 
   /*
    * Check if the user is an admin based on their email.
@@ -68,9 +69,32 @@ function Nav() {
       router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
   };
 
+  // --- MODIFICATIONS START ---
+
+  /**
+   * Handles the camera icon click by programmatically clicking the hidden file input.
+   */
   const handleCameraClick = () => {
-    alert("Camera icon clicked!");
+    fileInputRef.current?.click();
   };
+
+  /**
+   * Handles the file selection event.
+   * @param e - The change event from the file input.
+   */
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      console.log("Selected file for image search:", file);
+      // TODO: Implement the image upload and search logic.
+      // For example, you might upload the file to a server,
+      // get a result ID, and then navigate to the search results page.
+      alert(`Searching for image: ${file.name}`);
+      // router.push(`/image-search?fileId=${result.id}`);
+    }
+  };
+
+  // --- MODIFICATIONS END ---
 
   const getInitials = (name: string) => {
     return name ? name.charAt(0).toUpperCase() : "";
@@ -110,6 +134,14 @@ function Nav() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="flex-grow bg-transparent outline-none border-none text-sm px-3 pr-10 text-gray-700" // Input text color
+          />
+          {/* Add the hidden file input */}
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            accept="image/*"
+            className="hidden" // Use Tailwind 'hidden' class
           />
           <button
             type="button"

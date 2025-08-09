@@ -1,0 +1,78 @@
+// app/api/image-search/route.ts
+import { NextResponse } from 'next/server';
+import { ImageAnnotatorClient } from '@google-cloud/vision';
+import { createClient } from '@supabase/supabase-js';
+import { promises as fs } from 'fs';
+import path from 'path';
+
+// Supabase configuration from environment variables
+// Make sure to set these in your .env.local file
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Missing Supabase environment variables');
+}
+
+// Initialize the Supabase client
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+// IMPORTANT: Never expose your API key or key file on the client-side.
+const keyFilename = path.join(process.cwd(), 'path/to/your-google-cloud-key-file.json');
+
+// Initialize the Vision client
+const visionClient = new ImageAnnotatorClient({ keyFilename });
+
+// This interface should match the structure of your Supabase table
+interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  image_url: string;
+  tags: string[]; // Assuming your Supabase column is a text array
+}
+
+export async function POST(req: Request) {
+  try {
+    // Parse the incoming form data to get the image file
+    const formData = await req.formData();
+    const file = formData.get('file') as File;
+
+    if (!file) {
+      return NextResponse.json({ error: 'No file received.' }, { status: 400 });
+    }
+
+    // Convert the file to a Buffer
+    const imageBuffer = Buffer.from(await file.arrayBuffer());
+
+    // Send the image to the Google Cloud Vision API for label detection
+    const [result] = await visionClient.labelDetection(imageBuffer);
+    const labels = result.labelAnnotations || [];
+    const detectedLabels = labels.map(label => label.description?.toLowerCase()).filter(Boolean) as string[];
+
+    console.log('Detected labels:', detectedLabels);
+
+    // Fetch products from the Supabase table where the tags column contains any of the detected labels.
+    // The query uses the 'overlap' operator (@>) for array columns.
+    const { data: products, error } = await supabase
+      .from('products')
+      .select('*')
+      .overlaps('tags', detectedLabels);
+
+    if (error) {
+      console.error('Supabase query error:', error);
+      return NextResponse.json({ error: 'Failed to fetch products from the database.' }, { status: 500 });
+    }
+
+    return NextResponse.json({
+      success: true,
+      labels: detectedLabels,
+      products: products as Product[],
+    }, { status: 200 });
+
+  } catch (error) {
+    console.error('Error in image search API:', error);
+    return NextResponse.json({ error: 'Failed to process image search.' }, { status: 500 });
+  }
+}
