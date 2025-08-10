@@ -332,231 +332,263 @@ export default function ProductDetailPage() {
     : null;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-3">
-          <Link
-            href="/"
-            className="inline-flex items-center text-gray-600 hover:text-orange-500"
-          >
-            <FontAwesomeIcon icon={faChevronLeft} className="w-5 h-5 mr-1" />
-            <span>Back to products</span>
-          </Link>
-        </div>
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6">
-            <div>
-              <div className="aspect-square overflow-hidden rounded-lg mb-4 relative">
-                <Image
-                  src={selectedImage || initialProduct.image}
-                  alt={initialProduct.name}
-                  className="w-full h-full object-cover"
-                  width={500}
-                  height={500}
-                />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org/",
+            "@type": "Product",
+            name: initialProduct.name,
+            image: initialImages,
+            description: initialProduct.description,
+            sku: initialProduct.id,
+            brand: {
+              "@type": "Brand",
+              name: "Ulisha",
+            },
+            offers: {
+              "@type": "Offer",
+              url: `https://www.ulishastore.com/products/${initialProduct.id}`,
+              priceCurrency: "NGN",
+              price: initialProduct.price,
+              itemCondition: "https://schema.org/NewCondition",
+              availability: "https://schema.org/InStock",
+              seller: {
+                "@type": "Organization",
+                name: "Ulisha Store",
+              },
+            },
+          }),
+        }}
+      />
 
-                {initialProduct.discount_active &&
-                  (initialProduct.discount_percentage ?? 0) > 0 && (
-                    <div className="font-bold absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full flex items-center space-x-1">
-                      {initialProduct.discount_percentage}{" "}
-                      <FontAwesomeIcon icon={faPercent} className="w-4 h-4" />
-                      OFF
-                    </div>
-                  )}
-
-                {initialImages.length > 1 && (
-                  <>
-                    <button
-                      onClick={prevImage}
-                      className="absolute left-2 top-1/2 transform -translate-y-1/2 hover:bg-gray-300 rounded-full p-2 transition-all"
-                    >
-                      <FontAwesomeIcon
-                        icon={faChevronLeft}
-                        className="text-gray-800"
-                        size="xl"
-                      />
-                    </button>
-                    <button
-                      onClick={nextImage}
-                      className="absolute right-2 top-1/2 transform -translate-y-1/2 hover:bg-gray-300 rounded-full p-2 transition-all"
-                    >
-                      <FontAwesomeIcon
-                        icon={faChevronRight}
-                        className="text-gray-800"
-                        size="xl"
-                      />
-                    </button>
-                  </>
-                )}
-              </div>
-              {initialImages.length > 1 && (
-                <div className="grid grid-cols-5 gap-2">
-                  {initialImages.map((img, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleImageSelect(img, index)}
-                      className={`aspect-square rounded-md overflow-hidden border-2 transition-all ${
-                        selectedImage === img
-                          ? "border-primary-orange ring-2 ring-primary-orange/20"
-                          : "border-transparent hover:border-gray-300"
-                      }`}
-                    >
-                      <Image
-                        src={img}
-                        alt={`${initialProduct.name} thumbnail ${index + 1}`}
-                        className="w-full h-full object-cover"
-                        width={500}
-                        height={500}
-                      />
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div>
-              <div className="mb-2 flex items-center justify-between relative">
-                <span className="text-xs font-medium px-2 py-1 bg-gray-100 text-gray-600 rounded-full">
-                  {initialProduct.category}
-                </span>
-
-                <button
-                  onClick={() => setShowShareOptions(!showShareOptions)}
-                  className="hover:bg-gray-200 p-2 rounded-full transition-all ml-2"
-                >
-                  <FontAwesomeIcon
-                    icon={faShareAlt}
-                    className="text-gray-700"
-                    size="lg"
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-3">
+            <Link
+              href="/"
+              className="inline-flex items-center text-gray-600 hover:text-orange-500"
+            >
+              <FontAwesomeIcon icon={faChevronLeft} className="w-5 h-5 mr-1" />
+              <span>Back to products</span>
+            </Link>
+          </div>
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6">
+              <div>
+                <div className="aspect-square overflow-hidden rounded-lg mb-4 relative">
+                  <Image
+                    src={selectedImage || initialProduct.image}
+                    alt={initialProduct.name}
+                    className="w-full h-full object-cover"
+                    width={500}
+                    height={500}
                   />
-                </button>
 
-                {/* Share options dropdown */}
-                {showShareOptions && (
-                  <div className="absolute bottom-0 right-0 translate-y-full bg-white rounded-lg shadow-lg p-2 z-20 mt-2">
-                    <div className="flex flex-col space-y-1">
+                  {initialProduct.discount_active &&
+                    (initialProduct.discount_percentage ?? 0) > 0 && (
+                      <div className="font-bold absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full flex items-center space-x-1">
+                        {initialProduct.discount_percentage}{" "}
+                        <FontAwesomeIcon icon={faPercent} className="w-4 h-4" />
+                        OFF
+                      </div>
+                    )}
+
+                  {initialImages.length > 1 && (
+                    <>
                       <button
-                        onClick={() => shareToSocial("facebook")}
-                        className="hover:bg-orange-100 text-gray-600 flex items-center space-x-2 px-3 py-2 rounded-md text-sm whitespace-nowrap"
+                        onClick={prevImage}
+                        className="absolute left-2 top-1/2 transform -translate-y-1/2 hover:bg-gray-300 rounded-full p-2 transition-all"
                       >
                         <FontAwesomeIcon
-                          icon={faFacebook}
-                          className="w-7 h-7 p-1 bg-blue-600 text-white flex items-center justify-center rounded-full"
+                          icon={faChevronLeft}
+                          className="text-gray-800"
+                          size="xl"
                         />
-                        <span>Facebook</span>
                       </button>
                       <button
-                        onClick={() => shareToSocial("twitter")}
-                        className="hover:bg-orange-100 text-gray-600 flex items-center space-x-2 px-3 py-2 rounded-md text-sm whitespace-nowrap"
+                        onClick={nextImage}
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 hover:bg-gray-300 rounded-full p-2 transition-all"
                       >
                         <FontAwesomeIcon
-                          icon={faTwitter}
-                          className="w-7 h-7 p-1 bg-black text-white flex items-center justify-center rounded-full"
+                          icon={faChevronRight}
+                          className="text-gray-800"
+                          size="xl"
                         />
-                        <span>Twitter</span>
                       </button>
+                    </>
+                  )}
+                </div>
+                {initialImages.length > 1 && (
+                  <div className="grid grid-cols-5 gap-2">
+                    {initialImages.map((img, index) => (
                       <button
-                        onClick={() => shareToSocial("whatsapp")}
-                        className="hover:bg-orange-100 text-gray-600 flex items-center space-x-2 px-3 py-2 rounded-md text-sm whitespace-nowrap"
+                        key={index}
+                        onClick={() => handleImageSelect(img, index)}
+                        className={`aspect-square rounded-md overflow-hidden border-2 transition-all ${
+                          selectedImage === img
+                            ? "border-primary-orange ring-2 ring-primary-orange/20"
+                            : "border-transparent hover:border-gray-300"
+                        }`}
                       >
-                        <FontAwesomeIcon
-                          icon={faComment}
-                          className="w-7 h-7 p-1 bg-green-500 text-white flex items-center justify-center rounded-full"
+                        <Image
+                          src={img}
+                          alt={`${initialProduct.name} thumbnail ${index + 1}`}
+                          className="w-full h-full object-cover"
+                          width={500}
+                          height={500}
                         />
-                        <span>WhatsApp</span>
                       </button>
-                      <button
-                        onClick={copyToClipboard}
-                        className="hover:bg-orange-100 text-gray-600 flex items-center space-x-2 px-3 py-2 rounded-md text-sm whitespace-nowrap"
-                      >
-                        {linkCopied ? (
-                          <>
-                            <FontAwesomeIcon
-                              icon={faCheck}
-                              className="w-7 h-7 text-green-500"
-                            />
-                            <span>Copied!</span>
-                          </>
-                        ) : (
-                          <>
-                            <FontAwesomeIcon
-                              icon={faCopy}
-                              className="w-7 h-7 text-gray-500"
-                            />
-                            <span>Copy Link</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
+                    ))}
                   </div>
                 )}
               </div>
-              <h1 className="text-1xl md:text-3xl font-bold text-gray-900 mb-4">
-                {initialProduct.name}
-              </h1>
 
-              <div className="flex items-center mb-4">
-                <div className="flex items-center text-orange-400">
-                  {[...Array(5)].map((_, i) => (
-                    <button
-                      key={i}
-                      type="button"
-                      className="focus:outline-none"
-                    >
-                      <FontAwesomeIcon
-                        icon={faStar}
-                        className={`w-5 h-5 ${
-                          initialProduct.rating > i
-                            ? "fill-current"
-                            : "text-gray-300"
-                        }`}
-                      />
-                    </button>
-                  ))}
+              <div>
+                <div className="mb-2 flex items-center justify-between relative">
+                  <span className="text-xs font-medium px-2 py-1 bg-gray-100 text-gray-600 rounded-full">
+                    {initialProduct.category}
+                  </span>
+
+                  <button
+                    onClick={() => setShowShareOptions(!showShareOptions)}
+                    className="hover:bg-gray-200 p-2 rounded-full transition-all ml-2"
+                  >
+                    <FontAwesomeIcon
+                      icon={faShareAlt}
+                      className="text-gray-700"
+                      size="lg"
+                    />
+                  </button>
+
+                  {/* Share options dropdown */}
+                  {showShareOptions && (
+                    <div className="absolute bottom-0 right-0 translate-y-full bg-white rounded-lg shadow-lg p-2 z-20 mt-2">
+                      <div className="flex flex-col space-y-1">
+                        <button
+                          onClick={() => shareToSocial("facebook")}
+                          className="hover:bg-orange-100 text-gray-600 flex items-center space-x-2 px-3 py-2 rounded-md text-sm whitespace-nowrap"
+                        >
+                          <FontAwesomeIcon
+                            icon={faFacebook}
+                            className="w-7 h-7 p-1 bg-blue-600 text-white flex items-center justify-center rounded-full"
+                          />
+                          <span>Facebook</span>
+                        </button>
+                        <button
+                          onClick={() => shareToSocial("twitter")}
+                          className="hover:bg-orange-100 text-gray-600 flex items-center space-x-2 px-3 py-2 rounded-md text-sm whitespace-nowrap"
+                        >
+                          <FontAwesomeIcon
+                            icon={faTwitter}
+                            className="w-7 h-7 p-1 bg-black text-white flex items-center justify-center rounded-full"
+                          />
+                          <span>Twitter</span>
+                        </button>
+                        <button
+                          onClick={() => shareToSocial("whatsapp")}
+                          className="hover:bg-orange-100 text-gray-600 flex items-center space-x-2 px-3 py-2 rounded-md text-sm whitespace-nowrap"
+                        >
+                          <FontAwesomeIcon
+                            icon={faComment}
+                            className="w-7 h-7 p-1 bg-green-500 text-white flex items-center justify-center rounded-full"
+                          />
+                          <span>WhatsApp</span>
+                        </button>
+                        <button
+                          onClick={copyToClipboard}
+                          className="hover:bg-orange-100 text-gray-600 flex items-center space-x-2 px-3 py-2 rounded-md text-sm whitespace-nowrap"
+                        >
+                          {linkCopied ? (
+                            <>
+                              <FontAwesomeIcon
+                                icon={faCheck}
+                                className="w-7 h-7 text-green-500"
+                              />
+                              <span>Copied!</span>
+                            </>
+                          ) : (
+                            <>
+                              <FontAwesomeIcon
+                                icon={faCopy}
+                                className="w-7 h-7 text-gray-500"
+                              />
+                              <span>Copy Link</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
-              <div className="mb-3">
-                {initialProduct.discount_active &&
-                initialProduct.original_price ? (
-                  <div className="space-y-1">
+                <h1 className="text-1xl md:text-3xl font-bold text-gray-900 mb-4">
+                  {initialProduct.name}
+                </h1>
+
+                <div className="flex items-center mb-4">
+                  <div className="flex items-center text-orange-400">
+                    {[...Array(5)].map((_, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        className="focus:outline-none"
+                      >
+                        <FontAwesomeIcon
+                          icon={faStar}
+                          className={`w-5 h-5 ${
+                            initialProduct.rating > i
+                              ? "fill-current"
+                              : "text-gray-300"
+                          }`}
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="mb-3">
+                  {initialProduct.discount_active &&
+                  initialProduct.original_price ? (
+                    <div className="space-y-1">
+                      <div className="text-2xl font-bold text-gray-900">
+                        {formattedPrice}
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-lg text-gray-500 line-through">
+                          {formattedOriginalPrice}
+                        </span>
+
+                        <span className="text-red-500 font-medium">
+                          Save {initialProduct.discount_percentage}%
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
                     <div className="text-2xl font-bold text-gray-900">
                       {formattedPrice}
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <span className="text-lg text-gray-500 line-through">
-                        {formattedOriginalPrice}
-                      </span>
-
-                      <span className="text-red-500 font-medium">
-                        Save {initialProduct.discount_percentage}%
-                      </span>
-                    </div>
+                  )}
+                  {/* Currency indicator */}
+                  <div className="text-sm text-gray-500 mt-1">
+                    {currency === "USD"
+                      ? "USD (converted from NGN)"
+                      : "Nigerian Naira"}
                   </div>
-                ) : (
-                  <div className="text-2xl font-bold text-gray-900">
-                    {formattedPrice}
-                  </div>
-                )}
-                {/* Currency indicator */}
-                <div className="text-sm text-gray-500 mt-1">
-                  {currency === "USD"
-                    ? "USD (converted from NGN)"
-                    : "Nigerian Naira"}
                 </div>
-              </div>
 
-              {initialAvailableColors && initialAvailableColors.length > 0 && (
-                <div className="mb-3">
-                  <h3 className="text-sm font-medium text-gray-900 mb-3">
-                    Color
-                  </h3>
+                {initialAvailableColors &&
+                  initialAvailableColors.length > 0 && (
+                    <div className="mb-3">
+                      <h3 className="text-sm font-medium text-gray-900 mb-3">
+                        Color
+                      </h3>
 
-                  <div className="flex flex-wrap gap-2">
-                    {initialAvailableColors.map((color) => (
-                      <button
-                        key={color}
-                        onClick={() => setSelectedColor(color)}
-                        className={`
+                      <div className="flex flex-wrap gap-2">
+                        {initialAvailableColors.map((color) => (
+                          <button
+                            key={color}
+                            onClick={() => setSelectedColor(color)}
+                            className={`
  px-4 py-2 rounded-full text-sm font-medium
  ${
    selectedColor === color
@@ -565,33 +597,33 @@ export default function ProductDetailPage() {
  }
  transition-colors
     `}
-                      >
-                        {color}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
+                          >
+                            {color}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
-              {availableSizes.length > 0 && (
-                <div className="mb-3">
-                  <h3 className="text-sm font-medium text-gray-900 mb-3">
-                    Size
-                  </h3>
+                {availableSizes.length > 0 && (
+                  <div className="mb-3">
+                    <h3 className="text-sm font-medium text-gray-900 mb-3">
+                      Size
+                    </h3>
 
-                  <div className="flex flex-wrap gap-2">
-                    {availableSizes.map((size) => {
-                      const variant = initialVariants.find(
-                        (v) => v.color === selectedColor && v.size === size
-                      );
-                      const isOutOfStock = variant?.stock === 0;
+                    <div className="flex flex-wrap gap-2">
+                      {availableSizes.map((size) => {
+                        const variant = initialVariants.find(
+                          (v) => v.color === selectedColor && v.size === size
+                        );
+                        const isOutOfStock = variant?.stock === 0;
 
-                      return (
-                        <button
-                          key={size}
-                          onClick={() => setSelectedSize(size)}
-                          disabled={isOutOfStock}
-                          className={`
+                        return (
+                          <button
+                            key={size}
+                            onClick={() => setSelectedSize(size)}
+                            disabled={isOutOfStock}
+                            className={`
   px-4 py-2 rounded-full text-sm font-medium
   ${
     selectedSize === size
@@ -602,62 +634,65 @@ export default function ProductDetailPage() {
   }
   transition-colors
  `}
-                        >
-                          {size} {isOutOfStock && " (Out of Stock)"}
-                        </button>
-                      );
-                    })}
+                          >
+                            {size} {isOutOfStock && " (Out of Stock)"}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              )}
-              <p className="text-gray-600 mb-6">{initialProduct.description}</p>
-              <div className="flex-1 flex items-right gap-4">
-                <button
-                  onClick={handleAddToCart}
-                  disabled={
-                    initialVariants.length > 0 &&
-                    (!selectedColor || !selectedSize)
-                  }
-                  className="flex items-center justify-center w-40 space-x-2 text-orange-500 text-xs hover:bg-orange-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:no-underline border border-orange-500 rounded-lg py-2 px-4 transition-colors duration-200"
-                >
-                  <FontAwesomeIcon icon={faShoppingCart} size="xl" />
-                  <span>
-                    {initialVariants.length > 0
-                      ? selectedColor && selectedSize
-                        ? "Add to Cart"
-                        : "Select Options"
-                      : "Add to Cart"}
-                  </span>
-                </button>
+                )}
+                <p className="text-gray-600 mb-6">
+                  {initialProduct.description}
+                </p>
+                <div className="flex-1 flex items-right gap-4">
+                  <button
+                    onClick={handleAddToCart}
+                    disabled={
+                      initialVariants.length > 0 &&
+                      (!selectedColor || !selectedSize)
+                    }
+                    className="flex items-center justify-center w-40 space-x-2 text-orange-500 text-xs hover:bg-orange-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:no-underline border border-orange-500 rounded-lg py-2 px-4 transition-colors duration-200"
+                  >
+                    <FontAwesomeIcon icon={faShoppingCart} size="xl" />
+                    <span>
+                      {initialVariants.length > 0
+                        ? selectedColor && selectedSize
+                          ? "Add to Cart"
+                          : "Select Options"
+                        : "Add to Cart"}
+                    </span>
+                  </button>
 
-                <button
-                  onClick={handleBuyNow}
-                  disabled={
-                    initialVariants.length > 0 &&
-                    (!selectedColor || !selectedSize)
-                  }
-                  className="flex items-center justify-center w-40  space-x-2 bg-orange-500 hover:bg-orange-500/90 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-                >
-                  <FontAwesomeIcon icon={faArrowRight} size="lg" />
-                  <span>Buy Now</span>
-                </button>
+                  <button
+                    onClick={handleBuyNow}
+                    disabled={
+                      initialVariants.length > 0 &&
+                      (!selectedColor || !selectedSize)
+                    }
+                    className="flex items-center justify-center w-40  space-x-2 bg-orange-500 hover:bg-orange-500/90 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                  >
+                    <FontAwesomeIcon icon={faArrowRight} size="lg" />
+                    <span>Buy Now</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        {initialSimilarProducts.length > 0 && (
-          <div className="mt-16">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3">
-              Similar Products
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {initialSimilarProducts.map((similarProduct, idx) => (
-                <ProductCard key={idx} product={similarProduct} />
-              ))}
+          {initialSimilarProducts.length > 0 && (
+            <div className="mt-16">
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">
+                Similar Products
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {initialSimilarProducts.map((similarProduct, idx) => (
+                  <ProductCard key={idx} product={similarProduct} />
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -93,6 +93,54 @@ export default function HomePage() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "Organization",
+                "@id": "https://www.ulishastore.com/#organization",
+                name: "Ulisha Store",
+                url: "https://www.ulishastore.com",
+                logo: "https://www.ulishastore.com/favicon.png",
+                email: "ulishastore@gmail.com",
+                contactPoint: {
+                  "@type": "ContactPoint",
+                  telephone: "+2349134781219",
+                  contactType: "customer service",
+                },
+                sameAs: [
+                  "https://x.com/ulishastores",
+                  "https://www.instagram.com/ulisha_store",
+                  "https://www.tiktok.com/@ulishastores",
+                ],
+                description:
+                  "Ulisha Store – your one‑stop shop for fashion, accessories, electronics & more, offering quality products at competitive prices.",
+              },
+              {
+                "@type": "WebSite",
+                "@id": "https://www.ulishastore.com/#website",
+                url: "https://www.ulishastore.com/",
+                name: "Ulisha Store",
+                description:
+                  "Online store offering a wide range of fashion, electronics, accessories, and more.",
+                publisher: {
+                  "@id": "https://www.ulishastore.com/#organization",
+                },
+                potentialAction: {
+                  "@type": "SearchAction",
+                  target:
+                    "https://www.ulishastore.com/search?&q={search_term_string}",
+                  "query-input": "required name=search_term_string",
+                },
+              },
+            ],
+          }),
+        }}
+      />
+      
       <div className="min-h-screen bg-gray-100 flex flex-col">
         <div className="flex-grow">
           <div className="bg-orange-500 text-white py-2">
