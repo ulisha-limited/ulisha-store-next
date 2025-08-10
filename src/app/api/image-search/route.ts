@@ -1,21 +1,8 @@
 // app/api/image-search/route.ts
 import { NextResponse } from 'next/server';
 import { ImageAnnotatorClient } from '@google-cloud/vision';
-import { createClient } from '@supabase/supabase-js';
-import { promises as fs } from 'fs';
+import { supabase } from '@/lib/supabase';
 import path from 'path';
-
-// Supabase configuration from environment variables
-// Make sure to set these in your .env.local file
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables');
-}
-
-// Initialize the Supabase client
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // IMPORTANT: Never expose your API key or key file on the client-side.
 const keyFilename = path.join(process.cwd(), 'path/to/your-google-cloud-key-file.json');
