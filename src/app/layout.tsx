@@ -2,7 +2,7 @@
  * Copyright 2025 Ulisha Limited
  * Licensed under the Apache License, Version 2.0
  * See LICENSE file in the project root for full license information.
- */ 
+ */
 
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -19,6 +19,7 @@ import NextTopLoader from "nextjs-toploader";
 import { ToastContainer } from "react-toastify";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import { config } from "@fortawesome/fontawesome-svg-core";
+import CanonicalUrl from "@/components/Canonical";
 
 config.autoAddCss = false;
 
@@ -57,6 +58,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="hostname" content="www.ulishastore.com" />
+        <CanonicalUrl />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
