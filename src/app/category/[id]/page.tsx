@@ -9,7 +9,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { ProductCard } from "@/components/ProductCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faCircleChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronLeft,
+  faCircleChevronLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "@/lib/supabase";
 import type { Product } from "@/store/cartStore";
 import { useParams } from "next/navigation";
@@ -24,7 +27,6 @@ export default function ProductList() {
   const { id: category } = useParams<{ id: string }>();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [usesFallback, setUsesFallback] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const fetchProductsWithRetry = useCallback(
@@ -63,8 +65,6 @@ export default function ProductList() {
               return fetchProductsWithRetry(retryCount + 1);
             }
             console.error("Max retries reached, using fallback data");
-            //   setProducts(fallbackProducts);
-            //   setUsesFallback(true);
             setError(
               "Unable to connect to the server. Showing offline product data."
             );
@@ -74,8 +74,6 @@ export default function ProductList() {
           // Authentication errors
           if (error.code === "JWT_INVALID") {
             console.error("Authentication error:", error);
-            //   setProducts(fallbackProducts);
-            //   setUsesFallback(true);
             return;
           }
 
@@ -84,20 +82,13 @@ export default function ProductList() {
 
         if (data && data.length > 0) {
           setProducts(data);
-          setUsesFallback(false);
           setError(null);
-        } else {
-          // console.log("No products found in database, using fallback data");
-          // setProducts(fallbackProducts);
-          setUsesFallback(true);
         }
       } catch (error) {
         console.error("Error fetching products:", error);
         setError(
           "Unable to load products. Please check your connection and try again."
         );
-        //   setProducts(fallbackProducts);
-        setUsesFallback(true);
       } finally {
         setLoading(false);
       }
@@ -146,19 +137,6 @@ export default function ProductList() {
               </div>
             )}
 
-            {usesFallback && (
-              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
-                <div className="flex">
-                  <div className="ml-3">
-                    <p className="text-sm text-yellow-700">
-                      Currently showing demo products. Admin products will
-                      appear here once uploaded.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-
             {loading ? (
               <div className="h-screen flex items-center justify-center py-12">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-orange"></div>
@@ -174,17 +152,19 @@ export default function ProductList() {
                 {products.length === 0 && (
                   <div className="text-center py-12">
                     <p className="text-gray-500">
-                      No products found matching your criteria.
+                      No products found in this category.
                     </p>
                   </div>
                 )}
 
-                <div className="mt-8">
-                  <DisqusComments
-                    slug={category}
-                    title={`Category ${category}`}
-                  />
-                </div>
+                {products.length !== 0 && (
+                  <div className="mt-8">
+                    <DisqusComments
+                      slug={category}
+                      title={`Category ${category}`}
+                    />
+                  </div>
+                )}
               </>
             )}
           </div>

@@ -21,7 +21,6 @@ function Search() {
   const [searchQuery, setSearchQuery] = useState("");
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [usesFallback, setUsesFallback] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -40,7 +39,6 @@ function Search() {
     setPage(0);
     setHasMore(true);
     setError(null);
-    setUsesFallback(false);
     setLoading(true);
     fetchProductsPage(0, true);
     // eslint-disable-next-line
@@ -84,23 +82,14 @@ function Search() {
         setProducts((prev) => (isInitial ? data : [...prev, ...data]));
         setPage(pageToFetch);
         setHasMore(data.length === PAGE_SIZE);
-        setUsesFallback(false);
         setError(null);
       } else {
-        // if (isInitial) {
-        //   setProducts(fallbackProducts);
-        //   setUsesFallback(true);
-        // }
         setHasMore(false);
       }
     } catch (error) {
       setError(
         "Unable to load products. Please check your connection and try again."
       );
-      //   if (isInitial) {
-      //     setProducts(fallbackProducts);
-      //     setUsesFallback(true);
-      //   }
       setHasMore(false);
     } finally {
       if (isInitial) setLoading(false);
@@ -118,19 +107,6 @@ function Search() {
                 <div className="flex">
                   <div className="ml-3">
                     <p className="text-sm text-red-700">{error}</p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {usesFallback && (
-              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
-                <div className="flex">
-                  <div className="ml-3">
-                    <p className="text-sm text-yellow-700">
-                      Currently showing demo products. Admin products will
-                      appear here once uploaded.
-                    </p>
                   </div>
                 </div>
               </div>
@@ -161,7 +137,7 @@ function Search() {
                 {products.length === 0 && !loading && (
                   <div className="text-center py-12">
                     <p className="text-gray-500">
-                      No products found matching your criteria.
+                      No products found matching your search criteria.
                     </p>
                   </div>
                 )}
