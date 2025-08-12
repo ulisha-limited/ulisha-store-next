@@ -20,6 +20,7 @@ import { ToastContainer } from "react-toastify";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import CanonicalUrl from "@/components/Canonical";
+import MainLayout from "@/components/layouts/MainLayout";
 
 config.autoAddCss = false;
 
@@ -64,16 +65,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="bg-white min-h-screen flex flex-col">
-          <Nav />
-          <NextTopLoader showSpinner={false} color="#FF6600" />
-          <div className="flex-1 pt-[90px] mb-[90px] md:mb-0">
-            <ProtectedRoute>{children}</ProtectedRoute>
-          </div>
-          <ToastContainer />
-          <Footer />
-          <BottomNav />
-        </div>
+        <MainLayout>{children}</MainLayout>
         <Session />
       </body>
     </html>

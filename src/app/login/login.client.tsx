@@ -57,7 +57,7 @@ export default function Login() {
   return (
     <div className="flex flex-col lg:flex-row justify-center m-5">
       <div className="sm:mx-auto sm:w-full sm:max-w-md flex flex-col justify-center min-h-[220px]">
-        <div className="flex flex-col items-center text-center mb-6 justify-center flex-1">
+        <Link href="/" className="flex flex-col items-center text-center mb-6 justify-center flex-1">
           <div className="flex justify-center">
             <FontAwesomeIcon
               icon={faBagShopping}
@@ -72,7 +72,7 @@ export default function Login() {
           <p className="text-orange-500 font-medium mt-2">
             Enjoy up to 20% discounts on all products!
           </p>
-        </div>
+        </Link>
       </div>
 
       <div className="mt-8 sm:mx-auto w-full sm:max-w-md">
