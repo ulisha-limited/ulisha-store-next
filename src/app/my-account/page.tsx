@@ -97,6 +97,16 @@ export default function MyAccount() {
       label: "Products",
     },
     { href: "/my-account/admin/users", icon: faUsers, label: "Users" },
+    {
+      href: "/my-account/admin/short-links",
+      icon: faShieldHalved,
+      label: "Short Links",
+    },
+    {
+      href: "/my-account/admin/reviews",
+      icon: faCommentDots,
+      label: "Reviews",
+    },
   ];
 
   const moreLinks = [
