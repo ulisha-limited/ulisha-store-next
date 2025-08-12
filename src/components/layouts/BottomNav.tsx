@@ -117,7 +117,7 @@ export default function BottomNav() {
                 : "text-gray-400"
             } hover:text-[#FF6600] transition-colors`}
           >
-            <FontAwesomeIcon icon={faUser} className="h-5 w-5 mb-1" />
+            <FontAwesomeIcon icon={faUser} className="mb-1" size="xl" />
             <span>Login</span>
           </Link>
         )}

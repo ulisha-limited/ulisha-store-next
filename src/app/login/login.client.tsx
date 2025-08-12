@@ -2,18 +2,18 @@
  * Copyright 2025 Ulisha Limited
  * Licensed under the Apache License, Version 2.0
  * See LICENSE file in the project root for full license information.
- */ 
+ */
 
 "use client";
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEnvelope,
   faLock,
   faBagShopping,
-} from '@fortawesome/free-solid-svg-icons';
+} from "@fortawesome/free-solid-svg-icons";
 
 import { useAuthStore } from "@/store/authStore";
 import { supabase } from "@/lib/supabase";
@@ -59,7 +59,11 @@ export default function Login() {
       <div className="sm:mx-auto sm:w-full sm:max-w-md flex flex-col justify-center min-h-[220px]">
         <div className="flex flex-col items-center text-center mb-6 justify-center flex-1">
           <div className="flex justify-center">
-            <FontAwesomeIcon icon={faBagShopping} className="h-12 w-12 text-orange-500" />
+            <FontAwesomeIcon
+              icon={faBagShopping}
+              className=" text-orange-500"
+              size="4x"
+            />
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2">
             Hello, welcome back to UlishaStore
@@ -96,7 +100,10 @@ export default function Login() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                <FontAwesomeIcon icon={faEnvelope} className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+                <FontAwesomeIcon
+                  icon={faEnvelope}
+                  className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2"
+                />
               </div>
             </div>
 
@@ -116,7 +123,10 @@ export default function Login() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
-                <FontAwesomeIcon icon={faLock} className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+                <FontAwesomeIcon
+                  icon={faLock}
+                  className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2"
+                />
               </div>
             </div>
 
