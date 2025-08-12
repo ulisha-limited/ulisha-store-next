@@ -205,26 +205,26 @@ export default function Register() {
                 className="ml-2 block text-sm text-gray-700"
               >
                 I agree to the{" "}
-                <a
-                  href="/terms"
+                <Link
+                  href="/legal/terms"
                   className="text-orange-500 hover:text-orange-500/90"
                 >
                   Terms
-                </a>
+                </Link>
                 ,{" "}
-                <a
-                  href="/privacy"
+                <Link
+                  href="/legal/privacy"
                   className="text-orange-500 hover:text-orange-500/90"
                 >
                   Privacy
-                </a>{" "}
+                </Link>{" "}
                 and{" "}
-                <a
-                  href="/returns"
+                <Link
+                  href="/legal/returns"
                   className="text-orange-500 hover:text-orange-500/90"
                 >
                   Returns Policy
-                </a>
+                </Link>
               </label>
             </div>
 

@@ -20,7 +20,7 @@ import {
 import { useCategoryStore } from "@/store/categoryStore";
 import Image from "next/image";
 
-type Category = { name: string; };
+type Category = { name: string };
 
 const slugify = (s: string) =>
   s
@@ -68,7 +68,7 @@ export default function Footer() {
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-8">
           {/* About UlishaStore Section */}
           <div>
             <div className="mb-4">
@@ -98,34 +98,10 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/about"
+                  href="/category"
                   className="hover:text-[#FF6600] transition-colors"
                 >
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/terms"
-                  className="hover:text-[#FF6600] transition-colors"
-                >
-                  Terms
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/privacy"
-                  className="hover:text-[#FF6600] transition-colors"
-                >
-                  Privacy
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/returns"
-                  className="hover:text-[#FF6600] transition-colors"
-                >
-                  Returns
+                  Category
                 </Link>
               </li>
               <li>
@@ -138,10 +114,48 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  href="/about"
+                  className="hover:text-[#FF6600] transition-colors"
+                >
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/sitemap.xml"
                   className="hover:text-[#FF6600] transition-colors"
                 >
                   Sitemap
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Legal</h3>
+            <ul className="space-y-2 text-gray-400">
+              <li>
+                <Link
+                  href="/legal/terms"
+                  className="hover:text-[#FF6600] transition-colors"
+                >
+                  Terms
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/legal/privacy-policy"
+                  className="hover:text-[#FF6600] transition-colors"
+                >
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/legal/refund-policy"
+                  className="hover:text-[#FF6600] transition-colors"
+                >
+                  Refund Policy
                 </Link>
               </li>
             </ul>
