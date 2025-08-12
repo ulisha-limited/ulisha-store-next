@@ -55,7 +55,7 @@ export default function Legal() {
           </Link>
 
           <Link
-            href="/legal/refund-policy"
+            href="/legal/return-policy"
             className="block p-6 bg-white rounded-2xl shadow hover:shadow-lg transition-shadow border border-gray-200"
           >
             <FontAwesomeIcon
@@ -64,10 +64,10 @@ export default function Legal() {
               size="3x"
             />
             <h2 className="text-xl font-semibold text-gray-800 my-2">
-              Refund Policy
+              Return Policy
             </h2>
             <p className="text-gray-600 text-sm">
-              Learn about our refund and return process.
+              Learn about our return and refund process.
             </p>
           </Link>
 

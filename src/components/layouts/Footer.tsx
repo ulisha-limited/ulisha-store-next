@@ -152,10 +152,10 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/legal/refund-policy"
+                  href="/legal/return-policy"
                   className="hover:text-[#FF6600] transition-colors"
                 >
-                  Refund Policy
+                  Return Policy
                 </Link>
               </li>
             </ul>

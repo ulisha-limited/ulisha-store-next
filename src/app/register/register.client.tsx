@@ -229,17 +229,17 @@ export default function Register() {
                 </Link>
                 ,{" "}
                 <Link
-                  href="/legal/privacy"
+                  href="/legal/privacy-policy"
                   className="text-orange-500 hover:text-orange-500/90"
                 >
                   Privacy
                 </Link>{" "}
                 and{" "}
                 <Link
-                  href="/legal/returns"
+                  href="/legal/return-policy"
                   className="text-orange-500 hover:text-orange-500/90"
                 >
-                  Returns Policy
+                  Return Policy
                 </Link>
               </label>
             </div>
