@@ -34,6 +34,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.ulishastore.com"),
   title:
     "Ulisha Store - Shop with ease, Quality Products, Effortless Shopping.",
   description: "Your one-stop shop for all things trendy and affordable.",
