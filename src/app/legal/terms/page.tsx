@@ -72,8 +72,10 @@ export default function Terms() {
                 1. Introduction
               </h2>
               <p className="text-gray-600 mb-4">
-                Welcome to Ulisha Store. These terms and conditions outline the
-                rules and regulations for the use of our website and services.
+                Welcome to Ulisha Store, the online platform owned and operated
+                by Ulisha Limited (“Ulisha Limited,” “we,” “our,” or “us”).
+                These Terms and Conditions govern your access to and use of our
+                website, products, and services.
               </p>
               <p className="text-gray-600">
                 By accessing this website, we assume you accept these terms and
