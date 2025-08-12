@@ -36,15 +36,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: "https://www.ulishastore.com/category/smart-watches",
     },
     {
-      url: "https://www.ulishastore.com/about",
-    },
-    {
-      url: "https://www.ulishastore.com/privacy",
-    },
-    {
-      url: "https://www.ulishastore.com/returns",
-    },
-    {
       url: "https://www.ulishastore.com/login",
     },
     {
@@ -52,6 +43,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: "https://www.ulishastore.com/faq",
+    },
+    {
+      url: "https://www.ulishastore.com/legal/terms",
+    },
+    {
+      url: "https://www.ulishastore.com/legal/privacy",
+    },
+    {
+      url: "https://www.ulishastore.com/legal/return-policy",
     },
   ];
 }
