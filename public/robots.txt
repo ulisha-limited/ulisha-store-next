@@ -1,11 +1,26 @@
+# Welcome, noble bots! Please wipe your digital feet before entering.
+# Feel free to browse — just don’t peek into the restricted closets.
+
 User-agent: *
-User-agent: Yandex
 Allow: /
 Disallow: /search
 Disallow: /?
+Disallow: /api
+Disallow: /cart
+Disallow: /buy-again
+Disallow: /logout
+Disallow: /message
+Disallow: /my-account
+Disallow: /notifications
+Disallow: /recently-viewed
+Disallow: /wishlist
 
 User-agent: facebookexternalhit
 User-agent: Twitterbot
 Allow: /search
+Allow: ?
 
 Sitemap: https://www.ulishastore.com/sitemap.xml
+
+# Thanks for visiting, crawler friends.
+# Remember: indexing responsibly is sexy.
