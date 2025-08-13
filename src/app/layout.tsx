@@ -60,6 +60,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="hostname" content="www.ulishastore.com" />
+        <meta name="manifest" content="/manifest.webmanifest" />
         <CanonicalUrl />
       </head>
       <body

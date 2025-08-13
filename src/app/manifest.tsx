@@ -7,12 +7,28 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Your one-stop shop for all things Ulisha",
     start_url: "/",
     display: "standalone",
-    background_color: "#0068d6ff",
+    display_override: ["window-controls-overlay", "standalone"],
+    background_color: "#ffffff",
     theme_color: "#0068d6ff",
     icons: [
       {
-        src: "/favicon.png",
+        src: "/ulisha-store-icon-96.png",
+        sizes: "96x96",
+        type: "image/png",
+      },
+      {
+        src: "/ulisha-store-icon-144.png",
+        sizes: "144x144",
+        type: "image/png",
+      },
+      {
+        src: "/ulisha-store-icon-192.png",
         sizes: "192x192",
+        type: "image/png",
+      },
+      {
+        src: "/ulisha-store-icon.png",
+        sizes: "500x500",
         type: "image/png",
       },
     ],
@@ -24,9 +40,9 @@ export default function manifest(): MetadataRoute.Manifest {
         url: "/cart",
         icons: [
           {
-            src: "/favicon.png",
+            src: "/icons/cart.svg",
             sizes: "192x192",
-            type: "image/png",
+            type: "image/svg+xml",
           },
         ],
       },
@@ -37,9 +53,9 @@ export default function manifest(): MetadataRoute.Manifest {
         url: "/my-account/orders",
         icons: [
           {
-            src: "/favicon.png",
+            src: "/icons/list.svg",
             sizes: "192x192",
-            type: "image/png",
+            type: "image/svg+xml",
           },
         ],
       },
@@ -50,12 +66,12 @@ export default function manifest(): MetadataRoute.Manifest {
         url: "/my-account",
         icons: [
           {
-            src: "/favicon.png",
+            src: "/icons/user.svg",
             sizes: "192x192",
-            type: "image/png",
+            type: "image/svg+xml",
           },
         ],
-      }
+      },
     ],
   };
 }
