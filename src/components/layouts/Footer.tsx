@@ -106,6 +106,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  prefetch={false}
                   href="/faq"
                   className="hover:text-[#FF6600] transition-colors"
                 >
@@ -114,6 +115,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  prefetch={false}
                   href="/about"
                   className="hover:text-[#FF6600] transition-colors"
                 >
@@ -122,6 +124,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  prefetch={false}
                   href="/sitemap.xml"
                   className="hover:text-[#FF6600] transition-colors"
                 >
@@ -136,6 +139,7 @@ export default function Footer() {
             <ul className="space-y-2 text-gray-400">
               <li>
                 <Link
+                  prefetch={false}
                   href="/legal/terms"
                   className="hover:text-[#FF6600] transition-colors"
                 >
@@ -144,6 +148,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  prefetch={false}
                   href="/legal/privacy-policy"
                   className="hover:text-[#FF6600] transition-colors"
                 >
@@ -152,6 +157,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  prefetch={false}
                   href="/legal/return-policy"
                   className="hover:text-[#FF6600] transition-colors"
                 >
@@ -197,7 +203,9 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-1">Contact Us</h3>
             <ul className="space-y-2 text-gray-400">
               <li className="flex items-center space-x-2">
-                <Link href="mailto:support@ulishastore.com">support@ulishastore.com</Link>
+                <Link href="mailto:support@ulishastore.com">
+                  support@ulishastore.com
+                </Link>
               </li>
               <li className="flex items-center space-x-2">
                 <Link href="">+234 913 478 1219</Link>
@@ -206,31 +214,31 @@ export default function Footer() {
 
             <h3 className="text-lg font-semibold mt-6 mb-4">Follow Us</h3>
             <div className="flex space-x-4">
-              <a
+              <Link
                 href="https://www.facebook.com/share/1AhYhxox4X/?mibextid=wwXIfr"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-[#FF6600] transition-colors"
               >
                 <FontAwesomeIcon icon={faFacebook} className="w-6 h-6" />
-              </a>
-              <a
+              </Link>
+              <Link
                 href="https://x.com/ulishastores"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-[#FF6600] transition-colors"
               >
                 <FontAwesomeIcon icon={faTwitter} className="w-6 h-6" />
-              </a>
-              <a
+              </Link>
+              <Link
                 href="https://www.instagram.com/ulisha_store"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-[#FF6600] transition-colors"
               >
                 <FontAwesomeIcon icon={faInstagram} className="w-6 h-6" />
-              </a>
-              <a
+              </Link>
+              <Link
                 href="https://www.tiktok.com/@ulishastores"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -238,7 +246,7 @@ export default function Footer() {
               >
                 {/* Use <Tiktok className="w-6 h-6" /> if available in your lucide-react version */}
                 <FontAwesomeIcon icon={faTiktok} className="w-6 h-6" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>
