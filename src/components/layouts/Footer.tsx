@@ -49,7 +49,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Categories Section */}
         <div className="mb-8">
-          <h3 className="text-lg font-semibold mb-4">Categories</h3>
+          <h3 className="text-lg font-semibold mb-1">Categories</h3>
           {hasCategories ? (
             <ul className="flex flex-wrap text-gray-400 gap-x-2 gap-y-1">
               {categories.map((category: Category) => (
@@ -86,7 +86,7 @@ export default function Footer() {
 
           {/* Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Links</h3>
+            <h3 className="text-lg font-semibold mb-1">Links</h3>
             <ul className="space-y-2 text-gray-400">
               <li>
                 <Link
@@ -132,7 +132,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-4">Legal</h3>
+            <h3 className="text-lg font-semibold mb-1">Legal</h3>
             <ul className="space-y-2 text-gray-400">
               <li>
                 <Link
@@ -163,7 +163,7 @@ export default function Footer() {
 
           {/* Payment Methods */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Payment Methods</h3>
+            <h3 className="text-lg font-semibold mb-1">Payment Methods</h3>
             <div className="flex flex-wrap items-center gap-3">
               <Image
                 src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg"
@@ -194,10 +194,13 @@ export default function Footer() {
 
           {/* Contact & Social */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
+            <h3 className="text-lg font-semibold mb-1">Contact Us</h3>
             <ul className="space-y-2 text-gray-400">
               <li className="flex items-center space-x-2">
-                <span>ulishastore@gmail.com</span>
+                <Link href="mailto:support@ulishastore.com">support@ulishastore.com</Link>
+              </li>
+              <li className="flex items-center space-x-2">
+                <Link href="">+234 913 478 1219</Link>
               </li>
             </ul>
 
