@@ -151,6 +151,7 @@ export default function MyAccount() {
                       <Link
                         key={link.href}
                         href={link.href}
+                        prefetch={false}
                         className="group flex flex-col items-center justify-center p-4 bg-slate-50 hover:bg-orange-500 rounded-lg transition-all duration-300"
                       >
                         <FontAwesomeIcon
@@ -178,6 +179,7 @@ export default function MyAccount() {
                   {orderLinks.map((link) => (
                     <Link
                       key={link.href}
+                      prefetch={false}
                       href={`/my-account/orders${link.href}`}
                       className="group text-center bg-slate-100/80 rounded-lg p-4 transition-all duration-300 hover:bg-white hover:shadow-lg hover:-translate-y-1"
                     >
@@ -205,6 +207,7 @@ export default function MyAccount() {
                   {moreLinks.map((link) => (
                     <Link
                       key={link.href}
+                      prefetch={false}
                       href={link.href}
                       className="flex items-center justify-between p-3 rounded-lg hover:bg-slate-100 transition-colors group"
                     >

@@ -22,6 +22,7 @@ import { useCurrencyStore } from "@/store/currencyStore";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 export function ProductCard({ product }: { product: Product }) {
   const [showShareOptions, setShowShareOptions] = useState(false);
@@ -112,9 +113,10 @@ export function ProductCard({ product }: { product: Product }) {
   };
 
   return (
-    <div
+    <Link
       className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 group overflow-hidden"
-      onClick={() => navigate(`/product/${product.id}`)}
+      href={`/product/${product.id}`}
+      prefetch={false}
     >
       <div className="relative pb-[100%] overflow-hidden rounded-t-lg">
         <Image
@@ -271,6 +273,6 @@ export function ProductCard({ product }: { product: Product }) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

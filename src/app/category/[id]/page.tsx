@@ -113,6 +113,7 @@ export default function ProductList() {
             <div className="flex items-center mb-4">
               <Link
                 href="/category"
+                prefetch={false}
                 className="p-2 mr-2 rounded-full hover:bg-gray-200 transition-colors"
                 aria-label="Go back to settings"
               >

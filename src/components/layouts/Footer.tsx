@@ -7,86 +7,71 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebook,
   faTwitter,
   faInstagram,
-  faYoutube,
   faTiktok,
 } from "@fortawesome/free-brands-svg-icons";
-
-import { useCategoryStore } from "@/store/categoryStore";
 import Image from "next/image";
-
-type Category = { name: string };
-
-const slugify = (s: string) =>
-  s
-    .normalize("NFKD") // split accents
-    .replace(/[\u0300-\u036f]/g, "") // remove accents
-    .toLowerCase()
-    .trim()
-    .replace(/&/g, "and")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)+/g, "");
+import { faClock, faEnvelope, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons";
 
 export default function Footer() {
-  const { categories = [], fetchCategories } = useCategoryStore();
-
-  // Fetch once on mount (avoids re-runs if the function identity changes)
-  useEffect(() => {
-    fetchCategories?.();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const hasCategories = categories && categories.length > 0;
-
   return (
     // Only visible on large screens and up; hidden on small/medium
     <footer className="hidden md:block bg-gray-900 text-white mt-12 mb-12 md:mb-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Categories Section */}
-        <div className="mb-8">
-          <h3 className="text-lg font-semibold mb-1">Categories</h3>
-          {hasCategories ? (
-            <ul className="flex flex-wrap text-gray-400 gap-x-2 gap-y-1">
-              {categories.map((category: Category) => (
-                <li key={category.name}>
-                  <Link
-                    href={`/category/${slugify(category.name)}`}
-                    className="hover:text-[#FF6600] transition-colors whitespace-nowrap"
-                  >
-                    {category.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-gray-500 text-sm">No categories found.</p>
-          )}
-        </div>
-
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-8">
           {/* About UlishaStore Section */}
           <div>
-            <div className="mb-4">
+            <h3 className="mb-3">
               <span className="text-xl lg:text-2xl font-bold">
                 <span className="text-[#FF6600]">Ulisha</span>
                 <span className="text-white">Store</span>
               </span>
-            </div>
+            </h3>
             <p className="text-gray-400 text-sm">
               Your one-stop shop for fashion, accessories, shoes, and smart
               devices. We bring you the best quality products at competitive
               prices.
             </p>
+            <div className="flex space-x-2 mt-3">
+              <Link
+                href="https://www.facebook.com/share/1AhYhxox4X/?mibextid=wwXIfr"
+                target="_blank"
+                className="hover:text-[#FF6600] transition-colors bg-gray-800 p-2 rounded"
+              >
+                <FontAwesomeIcon icon={faFacebook} size="1x" />
+              </Link>
+              <Link
+                href="https://x.com/ulishastores"
+                target="_blank"
+                className="hover:text-[#FF6600] transition-colors bg-gray-800 p-2 rounded"
+              >
+                <FontAwesomeIcon icon={faTwitter} size="1x" />
+              </Link>
+              <Link
+                href="https://www.instagram.com/ulisha_store"
+                target="_blank"
+                className="hover:text-[#FF6600] transition-colors bg-gray-800 p-2 rounded"
+              >
+                <FontAwesomeIcon icon={faInstagram} size="1x" />
+              </Link>
+              <Link
+                href="https://www.tiktok.com/@ulishastores"
+                target="_blank"
+                className="hover:text-[#FF6600] transition-colors bg-gray-800 p-2 rounded"
+              >
+                {/* Use <Tiktok className="w-6 h-6" /> if available in your lucide-react version */}
+                <FontAwesomeIcon icon={faTiktok} size="1x" />
+              </Link>
+            </div>
           </div>
 
           {/* Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-1">Links</h3>
+            <h3 className="text-lg font-semibold mb-3">Links</h3>
             <ul className="space-y-2 text-gray-400">
               <li>
                 <Link
@@ -135,7 +120,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-1">Legal</h3>
+            <h3 className="text-lg font-semibold mb-3">Legal</h3>
             <ul className="space-y-2 text-gray-400">
               <li>
                 <Link
@@ -169,7 +154,7 @@ export default function Footer() {
 
           {/* Payment Methods */}
           <div>
-            <h3 className="text-lg font-semibold mb-1">Payment Methods</h3>
+            <h3 className="text-lg font-semibold mb-3">Payment Methods</h3>
             <div className="flex flex-wrap items-center gap-3">
               <Image
                 src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg"
@@ -200,54 +185,45 @@ export default function Footer() {
 
           {/* Contact & Social */}
           <div>
-            <h3 className="text-lg font-semibold mb-1">Contact Us</h3>
+            <h3 className="text-lg font-semibold mb-3">Contact Info</h3>
             <ul className="space-y-2 text-gray-400">
               <li className="flex items-center space-x-2">
-                <Link href="mailto:support@ulishastore.com">
+                <Link
+                  href="tel:+2349134781219"
+                  className="flex items-center hover:text-[#FF6600] transition-colors"
+                >
+                  <FontAwesomeIcon icon={faLocationDot} className="me-2" />
+                  Delta, Nigeria
+                </Link>
+              </li>
+              <li className="flex items-center space-x-2">
+                <Link
+                  href="tel:+2349134781219"
+                  className="flex items-center hover:text-[#FF6600] transition-colors"
+                >
+                  <FontAwesomeIcon icon={faPhone} className="me-2" />
+                  +234 913 478 1219
+                </Link>
+              </li>
+              <li className="flex items-center space-x-2">
+                <Link
+                  href="mailto:support@ulishastore.com"
+                  className="flex items-center hover:text-[#FF6600] transition-colors"
+                >
+                  <FontAwesomeIcon icon={faEnvelope} className="me-2" />
                   support@ulishastore.com
                 </Link>
               </li>
               <li className="flex items-center space-x-2">
-                <Link href="">+234 913 478 1219</Link>
+                <Link
+                  href="tel:+2349134781219"
+                  className="flex items-center hover:text-[#FF6600] transition-colors"
+                >
+                  <FontAwesomeIcon icon={faClock} className="me-2" />
+                  Mon-Sat: 8AM - 6PM
+                </Link>
               </li>
             </ul>
-
-            <h3 className="text-lg font-semibold mt-6 mb-4">Follow Us</h3>
-            <div className="flex space-x-4">
-              <Link
-                href="https://www.facebook.com/share/1AhYhxox4X/?mibextid=wwXIfr"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-[#FF6600] transition-colors"
-              >
-                <FontAwesomeIcon icon={faFacebook} className="w-6 h-6" />
-              </Link>
-              <Link
-                href="https://x.com/ulishastores"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-[#FF6600] transition-colors"
-              >
-                <FontAwesomeIcon icon={faTwitter} className="w-6 h-6" />
-              </Link>
-              <Link
-                href="https://www.instagram.com/ulisha_store"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-[#FF6600] transition-colors"
-              >
-                <FontAwesomeIcon icon={faInstagram} className="w-6 h-6" />
-              </Link>
-              <Link
-                href="https://www.tiktok.com/@ulishastores"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-[#FF6600] transition-colors"
-              >
-                {/* Use <Tiktok className="w-6 h-6" /> if available in your lucide-react version */}
-                <FontAwesomeIcon icon={faTiktok} className="w-6 h-6" />
-              </Link>
-            </div>
           </div>
         </div>
 

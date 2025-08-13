@@ -99,6 +99,7 @@ export default function Category() {
             <li key={category.name}>
               <Link
                 href={`/category/${category.name}`}
+                prefetch={false}
                 className="group flex flex-col items-center justify-center p-6 bg-white rounded-2xl shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-xl"
               >
                 <div className="text-5xl text-gray-600 mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:text-orange-500">

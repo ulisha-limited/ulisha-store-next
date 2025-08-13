@@ -110,15 +110,14 @@ function Nav() {
       <div className="flex items-center justify-between px-4">
         <Link
           href="/"
-          className="flex items-center space-x-2 group hidden md:inline mr-3"
+          prefetch={false}
+          className="flex items-center space-x-2 group hidden md:inline mr-3 text-xl lg:text-2xl font-bold hover:text-[#FF6600] transition-colors"
         >
-          <span className="text-xl lg:text-2xl font-bold">
-            <span className="text-[#FF6600]">Ulisha</span>
-            <span className="text-white">Store</span>
-          </span>
+          UlishaStore
         </Link>
         <Link
           href="/message"
+          prefetch={false}
           className="text-white hover:text-[#FF6600] transition-colors mr-3"
         >
           <FontAwesomeIcon icon={faRobot} size="lg" />
@@ -203,14 +202,14 @@ function Nav() {
             className="items-center text-white hover:text-[#FF6600] transition-colors hidden md:flex mx-1"
           >
             <FontAwesomeIcon icon={faRightToBracket} className="h-5 w-5 mr-1" />
-            <span className="text-sm font-medium">Sign In</span>
+            <span className="text-sm font-medium">Login</span>
           </Link>
         )}
       </div>
 
       {/* Categories (Horizontal Scroll) */}
       <div
-        className="flex overflow-x-auto whitespace-nowrap px-4 mt-2"
+        className="flex overflow-x-auto whitespace-nowrap px-2 mt-2"
         style={{ scrollbarWidth: "none" }}
       >
         <Link
@@ -232,7 +231,7 @@ function Nav() {
             href={`/category/${category.name
               .toLowerCase()
               .replace(/\s+/g, "-")}`}
-            className={`text-white text-sm px-3 py-1 pb-2 font-medium relative hover:text-orange-500 ${
+            className={`text-white text-sm px-2 py-1 pb-2 font-medium relative hover:text-orange-500 ${
               location.pathname ===
               `/category/${category.name.toLowerCase().replace(/\s+/g, "-")}`
                 ? "text-orange-300"
