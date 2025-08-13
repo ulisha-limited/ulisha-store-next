@@ -216,7 +216,7 @@ function Nav() {
         <Link
           key="all"
           href="/"
-          className={`text-white text-sm px-3 py-1 pb-2 font-medium relative ${
+          className={`text-white text-sm px-3 py-1 pb-2 font-medium relative hover:text-orange-500 ${
             location.pathname === "/" ? "text-orange-300" : ""
           }`}
         >
@@ -232,7 +232,7 @@ function Nav() {
             href={`/category/${category.name
               .toLowerCase()
               .replace(/\s+/g, "-")}`}
-            className={`text-white text-sm px-3 py-1 pb-2 font-medium relative ${
+            className={`text-white text-sm px-3 py-1 pb-2 font-medium relative hover:text-orange-500 ${
               location.pathname ===
               `/category/${category.name.toLowerCase().replace(/\s+/g, "-")}`
                 ? "text-orange-300"
