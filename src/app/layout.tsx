@@ -60,8 +60,14 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="hostname" content="www.ulishastore.com" />
+        <meta name="google-adsense-account" content="ca-pub-5077097159223655" />
         <meta name="manifest" content="/manifest.webmanifest" />
         <CanonicalUrl />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5077097159223655"
+          crossOrigin="anonymous"
+        ></script>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
