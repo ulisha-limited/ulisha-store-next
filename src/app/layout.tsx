@@ -61,6 +61,10 @@ export default function RootLayout({
       <head>
         <meta name="hostname" content="www.ulishastore.com" />
         <meta name="google-adsense-account" content="ca-pub-5077097159223655" />
+        <meta
+          name="p:domain_verify"
+          content="b455103d3d00b5b90ad6fd02adcda753"
+        />
         <meta name="manifest" content="/manifest.webmanifest" />
         <CanonicalUrl />
         <script
