@@ -15,7 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "@/lib/supabase";
 import type { Product } from "@/store/cartStore";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft } from "react-feather";
 import DisqusComments from "@/components/DisqusComments";
@@ -28,6 +28,7 @@ export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const fetchProductsWithRetry = useCallback(
     async (retryCount = 0) => {
@@ -111,9 +112,8 @@ export default function ProductList() {
         <div className="flex-grow">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="flex items-center mb-4">
-              <Link
-                href="/category"
-                prefetch={false}
+              <button
+                onClick={() => router.back()}
                 className="p-2 mr-2 rounded-full hover:bg-gray-200 transition-colors"
                 aria-label="Go back to settings"
               >
@@ -122,7 +122,7 @@ export default function ProductList() {
                   className="text-gray-700"
                   size="lg"
                 />
-              </Link>
+              </button>
               <h1 className="text-2xl font-extrabold text-gray-900 capitalize">
                 {category ? category : ""}
               </h1>

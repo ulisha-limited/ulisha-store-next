@@ -22,8 +22,13 @@ import {
   faChevronRight,
   faArrowRightLong,
   faArrowRight,
+  faStarHalfAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import { faCopy, faComment } from "@fortawesome/free-regular-svg-icons";
+import {
+  faCopy,
+  faComment,
+  faHeart,
+} from "@fortawesome/free-regular-svg-icons";
 import { faTwitter, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { useCartStore } from "@/store/cartStore";
 import { useAuthStore } from "@/store/authStore";
@@ -363,19 +368,38 @@ export default function ProductDetailPage() {
         }}
       />
 
+      {/*-- Navbar for easy navigation --*/}
+      <div className="flex justify-between md:hidden fixed top-23 left-0 right-0 bg-white border-t shadow-md p-3 z-100">
+        <button
+          className="text-gray-600 hover:text-orange-500"
+          onClick={() => router.back()}
+        >
+          <FontAwesomeIcon icon={faChevronLeft} size="1x" className="me-2" />
+          Back
+        </button>
+        <div>
+          <button>
+            <FontAwesomeIcon
+              icon={faHeart}
+              size="lg"
+              className="text-gray-600 hover:text-orange-500"
+            />
+          </button>
+        </div>
+      </div>
+
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-3">
-            <Link
-              href="/"
-              prefetch={false}
+          <div className="mb-3 hidden md:block">
+            <button
+              onClick={() => router.back()}
               className="inline-flex items-center text-gray-600 hover:text-orange-500"
             >
               <FontAwesomeIcon icon={faChevronLeft} className="w-5 h-5 mr-1" />
               <span>Back to products</span>
-            </Link>
+            </button>
           </div>
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="bg-white rounded-lg shadow-md overflow-hidden mt-8 md:mt-0">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6">
               <div>
                 <div className="aspect-square overflow-hidden rounded-lg mb-4 relative">
@@ -646,7 +670,7 @@ export default function ProductDetailPage() {
                 <p className="text-gray-600 mb-6">
                   {initialProduct.description}
                 </p>
-                <div className="flex-1 flex items-right gap-4">
+                <div className="flex-1 items-right gap-4 hidden md:flex">
                   <button
                     onClick={handleAddToCart}
                     disabled={
@@ -693,6 +717,30 @@ export default function ProductDetailPage() {
             </div>
           )}
         </div>
+      </div>
+
+      {/*-- Footer with Add to Cart and Buy Now buttons --*/}
+      <div className="flex md:hidden fixed bottom-16 left-0 right-0 bg-white border-t shadow-md p-1 items-center justify-around z-100">
+        <button
+          className="text-orange-500 w-full"
+          onClick={handleAddToCart}
+          disabled={
+            initialVariants.length > 0 && (!selectedColor || !selectedSize)
+          }
+        >
+          <FontAwesomeIcon icon={faShoppingCart} size="1x" className="me-2" />
+          Add to cart
+        </button>
+        <button
+          className="bg-orange-500 text-white w-full py-2 rounded-lg"
+          onClick={handleBuyNow}
+          disabled={
+            initialVariants.length > 0 && (!selectedColor || !selectedSize)
+          }
+        >
+          <FontAwesomeIcon icon={faArrowRight} size="lg" className="me-2" />
+          Buy Now
+        </button>
       </div>
     </>
   );
