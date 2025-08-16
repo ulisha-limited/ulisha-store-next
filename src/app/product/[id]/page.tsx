@@ -363,6 +363,37 @@ export default function ProductDetailPage() {
                 "@type": "Organization",
                 name: "Ulisha Store",
               },
+              hasMerchantReturnPolicy: {
+                "@type": "MerchantReturnPolicy",
+                returnPolicyCategory: "https://schema.org/ReturnByMail",
+                returnPolicyCountry: "NG",
+                returnPolicyURL:
+                  "https://www.ulishastore.com/legal/return-policy",
+                returnShippingFees: "https://schema.org/FreeReturnShipping",
+                returnFees: "https://schema.org/FreeReturnShipping",
+                returnPolicyMinLength: 30,
+                returnPolicyMaxLength: 90,
+              },
+              shippingDetails: {
+                "@type": "OfferShippingDetails",
+                shippingDestination: {
+                  "@type": "DefinedRegion",
+                  addressCountry: "NG",
+                },
+                shippingRate: {
+                  "@type": "MonetaryAmountDistribution",
+                  currency: "NGN",
+                  value: 4500,
+                },
+                deliveryTime: {
+                  "@type": "ShippingDeliveryTime",
+                  transitTime: {
+                    "@type": "QuantitativeValue",
+                    value: 9,
+                    unitCode: "DAY",
+                  },
+                },
+              },
             },
           }),
         }}
