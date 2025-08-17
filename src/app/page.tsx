@@ -15,6 +15,7 @@ import { AdCarousel } from "@/components/AdCarousel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import type { Product } from "@/store/cartStore";
+import Image from "next/image";
 
 const PAGE_SIZE = 10;
 
@@ -140,9 +141,38 @@ export default function HomePage() {
           }),
         }}
       />
-      
+
       <div className="min-h-screen bg-gray-100 flex flex-col">
-        <div className="flex-grow">
+        <div className="flex-grow relative">
+          {/* Left Banner */}
+          <div className="hidden 2xl:flex absolute top-180 -translate-y-1/2 left-0">
+            <div className="ml-4">
+              <Image
+                src="/images/ad-banner.png"
+                alt="Left Ad Banner"
+                className="w-full h-auto"
+                loading="lazy"
+                width={160}
+                height={500}
+              />
+            </div>
+          </div>
+
+          {/* Right Banner */}
+          <div className="hidden 2xl:flex absolute top-180 -translate-y-1/2 right-0">
+            <div className="mr-4">
+              <Image
+                src="/images/ad-banner.png"
+                alt="Right Ad Banner"
+                className="w-full h-auto"
+                loading="lazy"
+                width={160}
+                height={500}
+              />
+            </div>
+          </div>
+
+          {/* Main Content */}
           <div className="bg-orange-500 text-white py-2">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex items-center justify-center sm:justify-end space-x-4 text-sm">
@@ -174,7 +204,42 @@ export default function HomePage() {
               ))}
             </div>
 
-            <h2 className="mt-2 text-lg font-semibold text-gray-900">
+            <h2 className="mt-3 text-lg font-semibold text-gray-900">
+              Stuff You Might Like
+            </h2>
+            <div className="flex overflow-x-auto gap-4 mt-2 pb-2">
+              {[...products, ...newProducts]
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 15)
+                .map((product) => (
+                  <div
+                    key={product.id}
+                    className="min-w-[220px] max-w-xs flex-shrink-1"
+                  >
+                    <ProductCard product={product} />
+                  </div>
+                ))}
+            </div>
+
+            <h2 className="mt-3 text-lg font-semibold text-gray-900">
+              Trending Products
+            </h2>
+            <div className="mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+              {[...products, ...newProducts]
+                .filter((product) => product.discount_percentage > 30)
+                .slice(0, 15)
+                .map((product) => (
+                  <div
+                    key={product.id}
+                    className="min-w-[220px] max-w-xs flex-shrink-1"
+                  >
+                    {product.discount_percentage}
+                    <ProductCard product={product} />
+                  </div>
+                ))}
+            </div>
+
+            <h2 className="mt-3 text-lg font-semibold text-gray-900">
               Discover Products
             </h2>
             <div className="mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
@@ -197,6 +262,7 @@ export default function HomePage() {
           </div>
         </div>
       </div>
+
       <PromoPopup isVisible={showPopup} onClose={closePopup} />
     </>
   );

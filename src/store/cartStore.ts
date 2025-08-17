@@ -14,7 +14,7 @@ export interface Product {
   original_price?: number;
   discount_price?: number;
   discount_active?: boolean;
-  discount_percentage?: number;
+  discount_percentage: number;
   category: string;
   image: string;
   description: string;

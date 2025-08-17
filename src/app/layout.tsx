@@ -5,32 +5,22 @@
  */
 
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Lato } from "next/font/google";
 import "./globals.css";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import Nav from "@/components/layouts/Nav";
-import Footer from "@/components/layouts/Footer";
-import BottomNav from "@/components/layouts/BottomNav";
 import Session from "@/components/auth/Session";
-import NextTopLoader from "nextjs-toploader";
-import { ToastContainer } from "react-toastify";
-import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import CanonicalUrl from "@/components/Canonical";
 import MainLayout from "@/components/layouts/MainLayout";
 
 config.autoAddCss = false;
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const latoSans = Lato({
+  variable: "--font-lato-sans",
+  weight: ["400", "700"],
   subsets: ["latin"],
 });
 
@@ -74,7 +64,7 @@ export default function RootLayout({
         ></script>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${latoSans.variable} antialiased`}
       >
         <MainLayout>{children}</MainLayout>
         <Session />

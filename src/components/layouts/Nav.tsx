@@ -111,9 +111,18 @@ function Nav() {
         <Link
           href="/"
           prefetch={false}
-          className="flex items-center space-x-2 group hidden md:inline mr-3 text-xl lg:text-2xl font-bold hover:text-[#FF6600] transition-colors"
+          className="flex items-center space-x-2 group hidden md:inline mr-3 text-xl lg:text-2xl font-semibold hover:text-[#FF6600] transition-colors bg-gradient-to-r from-orange-400 via-orange-500 to-yellow-400 bg-[length:200%_auto] bg-clip-text text-transparent animate-gradient-x"
+          style={{
+            backgroundImage:
+              "linear-gradient(270deg, #fb923c, #f97316, #fbbf24, #fb923c)",
+            backgroundSize: "200% auto",
+            backgroundClip: "text",
+            WebkitBackgroundClip: "text",
+            color: "transparent",
+            animation: "gradient-x 3s ease-in-out infinite",
+          }}
         >
-          UlishaStore
+          ULISHA
         </Link>
         <Link
           href="/message"
@@ -201,8 +210,7 @@ function Nav() {
             href="/login"
             className="items-center text-white hover:text-[#FF6600] transition-colors hidden md:flex mx-1"
           >
-            <FontAwesomeIcon icon={faRightToBracket} className="h-5 w-5 mr-1" />
-            <span className="text-sm font-medium">Login</span>
+            Login
           </Link>
         )}
       </div>
