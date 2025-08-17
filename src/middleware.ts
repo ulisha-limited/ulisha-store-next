@@ -2,11 +2,25 @@
  * Copyright 2025 Ulisha Limited
  * Licensed under the Apache License, Version 2.0
  * See LICENSE file in the project root for full license information.
- */ 
+ */
 
 import { NextRequest, NextResponse } from "next/server";
 
+const MAINTENANCE = process.env.MAINTENANCE_MODE === 'true';
+
 export async function middleware(request: NextRequest) {
+  if (/hello-world$/.test(request.nextUrl.pathname)) return new NextResponse('Hello World', { status: 200 });
+  if (!MAINTENANCE && /maintenance$/.test(request.nextUrl.pathname)) return NextResponse.rewrite(new URL("/not-found", request.url));
+  /*
+   * controls the maintenance state
+   */
+  if (MAINTENANCE) {
+    if (/images/.test(request.nextUrl.pathname)) return NextResponse.next();
+    const maintenanceUrl = request.nextUrl.clone();
+    maintenanceUrl.pathname = '/maintenance';
+    return NextResponse.rewrite(maintenanceUrl);
+  }
+
   const userAgent = request.headers.get("user-agent");
 
   const bots = [
