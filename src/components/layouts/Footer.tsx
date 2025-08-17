@@ -13,6 +13,7 @@ import {
   faTwitter,
   faInstagram,
   faTiktok,
+  faPinterest,
 } from "@fortawesome/free-brands-svg-icons";
 import Image from "next/image";
 import { faClock, faEnvelope, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons";
@@ -43,6 +44,13 @@ export default function Footer() {
                 className="hover:text-[#FF6600] transition-colors bg-gray-800 p-2 rounded"
               >
                 <FontAwesomeIcon icon={faFacebook} size="1x" />
+              </Link>
+              <Link
+                href="https://www.pinterest.com/ulishastore"
+                target="_blank"
+                className="hover:text-[#FF6600] transition-colors bg-gray-800 p-2 rounded"
+              >
+                <FontAwesomeIcon icon={faPinterest} size="1x" />
               </Link>
               <Link
                 href="https://x.com/ulishastores"

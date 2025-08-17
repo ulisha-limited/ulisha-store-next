@@ -2,7 +2,7 @@
  * Copyright 2025 Ulisha Limited
  * Licensed under the Apache License, Version 2.0
  * See LICENSE file in the project root for full license information.
- */ 
+ */
 
 import Image from "next/image";
 import Link from "next/link";
@@ -10,25 +10,32 @@ import Link from "next/link";
 export default function NotFound() {
   return (
     <main>
-      <section className="flex min-h-screen">
-        <div className="flex flex-1 flex-col items-center justify-center text-center">
+      <section className="flex flex-col md:flex-row min-h-screen items-center justify-center bg-gray-100 px-6 py-10">
+
+        <div className="flex-shrink-0">
           <Image
-            src="/favicon.png"
-            alt="Logo"
-            width={100}
-            height={100}
-            className="rounded-full mb-6"
+            src="/images/not-found.png"
+            alt="Not Found"
+            width={500}
+            height={500}
+            className="mx-auto md:mx-0"
           />
-          <h1 className="text-orange-500 text-4xl font-bold mb-4">
-            Page Not Found
-          </h1>
-          <p className="text-black mb-6">
-            Sorry, the page you&apos;re looking for does not exist.
+        </div>
+
+        <div className="mt-8 md:mt-0 md:ml-10 text-center md:text-left text-gray-800">
+          <h1 className="text-9xl font-bold text-blue-600">404</h1>
+          <p className="mt-4 text-lg text-gray-600">
+            We&apos;re sorry, but the page you&apos;re looking for isn&apos;t
+            available.
           </p>
-          <Link href="/">
-            <button className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
-              Go back home
-            </button>
+          <p className="mt-4 text-sm text-gray-500">
+            If you believe this is an error, please contact our support team.
+          </p>
+          <Link
+            href="/"
+            className="mt-6 inline-block bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition-colors"
+          >
+            Go Back Home
           </Link>
         </div>
       </section>
