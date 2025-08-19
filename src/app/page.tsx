@@ -221,23 +221,23 @@ export default function HomePage() {
                 ))}
             </div>
 
-            <h2 className="mt-3 text-lg font-semibold text-gray-900">
-              Trending Products
-            </h2>
-            <div className="mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-              {[...products, ...newProducts]
-                .filter((product) => product.discount_percentage > 30)
-                .slice(0, 15)
-                .map((product) => (
-                  <div
-                    key={product.id}
-                    className="min-w-[220px] max-w-xs flex-shrink-1"
-                  >
-                    {product.discount_percentage}
-                    <ProductCard product={product} />
-                  </div>
-                ))}
-            </div>
+<h2 className="mt-3 text-lg font-semibold text-gray-900">
+Trending Products
+</h2>
+<div className="mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+{[...products, ...newProducts]
+.filter((product) => product.discount_percentage > 30)
+.slice(0, 15)
+.map((product) => (
+<div
+key={product.id}
+className="w-full"
+>
+<ProductCard product={product} />
+</div>
+))}
+</div>
+
 
             <h2 className="mt-3 text-lg font-semibold text-gray-900">
               Discover Products
