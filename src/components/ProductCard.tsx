@@ -147,6 +147,7 @@ export function ProductCard({ product }: { product: Product }) {
         {/* Share button */}
         <button
           onClick={() => setShowShareOptions(!showShareOptions)}
+          aria-label="Share"
           className="absolute bottom-2 right-2 bg-white bg-opacity-80 p-2 rounded-full hover:bg-opacity-100 transition-all z-10"
         >
           <FontAwesomeIcon
