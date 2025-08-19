@@ -18,7 +18,7 @@ Disallow: /wishlist
 User-agent: facebookexternalhit
 User-agent: Twitterbot
 Allow: /search
-Allow: ?
+Allow: /?
 
 Sitemap: https://www.ulishastore.com/sitemap.xml
 

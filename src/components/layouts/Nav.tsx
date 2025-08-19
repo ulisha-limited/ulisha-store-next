@@ -128,6 +128,7 @@ function Nav() {
           href="/message"
           prefetch={false}
           className="text-white hover:text-[#FF6600] transition-colors mr-3"
+          aria-label="Message"
         >
           <FontAwesomeIcon icon={faRobot} size="lg" />
         </Link>
@@ -140,6 +141,7 @@ function Nav() {
             type="text"
             placeholder="Sunglasses Men"
             value={searchQuery}
+            aria-label="Searchbar"
             onChange={(e) => setSearchQuery(e.target.value)}
             className="flex-grow bg-transparent outline-none border-none text-sm px-3 pr-10 text-gray-700" // Input text color
           />
