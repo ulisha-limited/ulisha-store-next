@@ -75,6 +75,18 @@ export default function Footer() {
                 <FontAwesomeIcon icon={faTiktok} size="1x" />
               </Link>
             </div>
+            <Link
+              href="https://www.producthunt.com/products/ulisha-store?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-ulisha&#0045;store"
+              target="_blank"
+              className="mt-4 inline-block"
+            >
+              <Image
+                src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1006745&theme=light&t=1755566166058"
+                alt="Ulisha&#0032;Store - Shop&#0032;with&#0032;ease&#0044;&#0032;quality&#0032;products&#0044;&#0032;effortless&#0032;shopping&#0046; | Product Hunt"
+                width="250"
+                height="54"
+              />
+            </Link>
           </div>
 
           {/* Links */}
