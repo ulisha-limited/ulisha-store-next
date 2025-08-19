@@ -369,7 +369,7 @@ export default function ProductDetailPage() {
       />
 
       {/*-- Navbar for easy navigation --*/}
-      <div className="flex justify-between md:hidden fixed top-23 left-0 right-0 bg-white border-t shadow-md p-3 z-100">
+      <div className="flex justify-between md:hidden  top-23 left-0 right-0  border-t  p-3 z-100">
         <button
           className="text-gray-600 hover:text-orange-500"
           onClick={() => router.back()}
@@ -377,28 +377,20 @@ export default function ProductDetailPage() {
           <FontAwesomeIcon icon={faChevronLeft} size="1x" className="me-2" />
           Back
         </button>
-        <div>
-          <button>
-            <FontAwesomeIcon
-              icon={faHeart}
-              size="lg"
-              className="text-gray-600 hover:text-orange-500"
-            />
-          </button>
-        </div>
+        
       </div>
 
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen  py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-3 hidden md:block">
-            <button
-              onClick={() => router.back()}
-              className="inline-flex items-center text-gray-600 hover:text-orange-500"
-            >
-              <FontAwesomeIcon icon={faChevronLeft} className="w-5 h-5 mr-1" />
-              <span>Back to products</span>
-            </button>
-          </div>
+  <button
+    onClick={() => router.back()}
+    className="inline-flex  items-center text-gray-600 hover:text-orange-500"
+  >
+    <FontAwesomeIcon icon={faChevronLeft} className="w-5 h-5 mr-1" />
+    <span>Back</span>
+  </button>
+</div>
           <div className="bg-white rounded-lg shadow-md overflow-hidden mt-8 md:mt-0">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6">
               <div>
