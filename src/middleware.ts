@@ -4,23 +4,75 @@
  * See LICENSE file in the project root for full license information.
  */
 
+import { createServerClient } from "@supabase/ssr";
 import { NextRequest, NextResponse } from "next/server";
 
-const MAINTENANCE = process.env.MAINTENANCE_MODE === 'true';
+const MAINTENANCE = process.env.MAINTENANCE_MODE === "true";
+const PROTECTED_ROUTE_REGEX = [
+  /^\/orders/,
+  /^\/settings/,
+  /^\/admin/,
+  /^\/wishlist/,
+  /^\/cart/,
+  /^\/notifications/,
+  /^\/my-account/,
+  /^\/logout/,
+];
 
 export async function middleware(request: NextRequest) {
-  if (/hello-world$/.test(request.nextUrl.pathname)) return new NextResponse('Hello World', { status: 200 });
-  if (!MAINTENANCE && /maintenance$/.test(request.nextUrl.pathname)) return NextResponse.rewrite(new URL("/not-found", request.url));
+  if (/hello-world$/.test(request.nextUrl.pathname))
+    return new NextResponse("Hello World", { status: 200 });
+  if (!MAINTENANCE && /maintenance$/.test(request.nextUrl.pathname))
+    return NextResponse.rewrite(new URL("/not-found", request.url));
   /*
    * controls the maintenance state
    */
   if (MAINTENANCE) {
     if (/images/.test(request.nextUrl.pathname)) return NextResponse.next();
     const maintenanceUrl = request.nextUrl.clone();
-    maintenanceUrl.pathname = '/maintenance';
+    maintenanceUrl.pathname = "/maintenance";
     return NextResponse.rewrite(maintenanceUrl);
   }
 
+  /*
+   * Create a Supabase client to check the session
+   * and redirect to login if the user is not authenticated.
+   */
+  const res = NextResponse.next();
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) =>
+            res.cookies.set(name, value, options)
+          );
+        },
+      },
+    }
+  );
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (
+    !session &&
+    PROTECTED_ROUTE_REGEX.some((r) => r.test(request.nextUrl.pathname))
+  ) {
+    const url = new URL("/login", request.url);
+    url.searchParams.set("next", request.nextUrl.pathname);
+    return NextResponse.redirect(url);
+  }
+
+  /*
+   * Check if the request is from a bot and handle prerendering
+   * This is useful for SEO and performance optimization.
+   */
   const userAgent = request.headers.get("user-agent");
 
   const bots = [
@@ -169,7 +221,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|robots.txt).*)",
-  ],
-}
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|robots.txt).*)"],
+};
