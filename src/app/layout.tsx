@@ -63,9 +63,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         ></script>
       </head>
-      <body
-        className={`${latoSans.variable} antialiased`}
-      >
+      <body className={`${latoSans.variable} antialiased`}>
         <MainLayout>{children}</MainLayout>
         <Session />
       </body>

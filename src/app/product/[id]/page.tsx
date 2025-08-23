@@ -9,7 +9,6 @@
 import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faShoppingCart,
@@ -142,7 +141,7 @@ export default function ProductDetailPage() {
     }
     try {
       const selectedVariant = initialVariants.find(
-        (v) => v.color === selectedColor && v.size === selectedSize
+        (v) => v.color === selectedColor && v.size === selectedSize,
       );
 
       if (selectedVariant && selectedVariant.stock <= 0) {
@@ -191,7 +190,7 @@ export default function ProductDetailPage() {
 
     try {
       const selectedVariant = initialVariants.find(
-        (v) => v.color === selectedColor && v.size === selectedSize
+        (v) => v.color === selectedColor && v.size === selectedSize,
       );
 
       if (selectedVariant && selectedVariant.stock <= 0) {
@@ -279,17 +278,17 @@ export default function ProductDetailPage() {
     switch (platform) {
       case "facebook":
         shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-          link
+          link,
         )}`;
         break;
       case "twitter":
         shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-          text
+          text,
         )}&url=${encodeURIComponent(link)}`;
         break;
       case "whatsapp":
         shareUrl = `https://wa.me/?text=${encodeURIComponent(
-          `${text} ${link}`
+          `${text} ${link}`,
         )}`;
         break;
     }
@@ -368,6 +367,16 @@ export default function ProductDetailPage() {
         }}
       />
 
+      <title>{initialProduct.id} | Ulisha Store</title>
+      <meta name="description" content={initialProduct.description} />
+      <meta property="og:title" content={initialProduct.name} />
+      <meta property="og:description" content={initialProduct.description} />
+      <meta property="og:image" content={initialImages[0]} />
+      <meta
+        property="og:url"
+        content={`https://www.ulishastore.com/products/${initialProduct.id}`}
+      />
+
       {/*-- Navbar for easy navigation --*/}
       <div className="flex justify-between md:hidden  top-23 left-0 right-0  border-t  p-3 z-100">
         <button
@@ -377,20 +386,19 @@ export default function ProductDetailPage() {
           <FontAwesomeIcon icon={faChevronLeft} size="1x" className="me-2" />
           Back
         </button>
-        
       </div>
 
       <div className="min-h-screen  py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-3 hidden md:block">
-  <button
-    onClick={() => router.back()}
-    className="inline-flex  items-center text-gray-600 hover:text-orange-500"
-  >
-    <FontAwesomeIcon icon={faChevronLeft} className="w-5 h-5 mr-1" />
-    <span>Back</span>
-  </button>
-</div>
+            <button
+              onClick={() => router.back()}
+              className="inline-flex  items-center text-gray-600 hover:text-orange-500"
+            >
+              <FontAwesomeIcon icon={faChevronLeft} className="w-5 h-5 mr-1" />
+              <span>Back</span>
+            </button>
+          </div>
           <div className="bg-white rounded-lg shadow-md overflow-hidden mt-8 md:mt-0">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6">
               <div>
@@ -631,7 +639,7 @@ export default function ProductDetailPage() {
                     <div className="flex flex-wrap gap-2">
                       {availableSizes.map((size) => {
                         const variant = initialVariants.find(
-                          (v) => v.color === selectedColor && v.size === size
+                          (v) => v.color === selectedColor && v.size === size,
                         );
                         const isOutOfStock = variant?.stock === 0;
 
@@ -646,8 +654,8 @@ export default function ProductDetailPage() {
     selectedSize === size
       ? "bg-gray-900 text-white"
       : isOutOfStock
-      ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-      : "bg-gray-100 text-gray-900 hover:bg-gray-200"
+        ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+        : "bg-gray-100 text-gray-900 hover:bg-gray-200"
   }
   transition-colors
  `}

@@ -53,62 +53,66 @@ export const metadata: Metadata = {
 export default function About() {
   const leaders = [
     {
-      name: "Elisha Okai",
-      role: "CEO",
-      description:
-        "Elisha is the visionary behind Ulisha Store, dedicated to transforming online shopping in Nigeria.",
-      image: "https://avatars.githubusercontent.com/elitexv",
+      name: "Elisha Paul Okai",
+      role: "President & CEO",
+      image: "/images/elitexv.png",
       url: "https://elishasfolio.vercel.app",
     },
     {
       name: "Melvin Jones Repol",
-      role: "CTO",
-      description:
-        "Melvin leads the technology team, ensuring a seamless and secure shopping experience for all customers.",
-      image: "https://avatars.githubusercontent.com/mrepol742",
+      role: "Chief Technology Officer",
+      image: "/images/mrepol742.png",
       url: "https://www.melvinjonesrepol.com",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Hero Section */}
-        <div className="text-center mb-12 relative">
+        <div className="h-screen flex flex-col justify-center items-center text-center relative">
+          <Image
+            src="/ulisha-store-icon-192.png"
+            width="100"
+            height="100"
+            alt="Ulisha Store Icon"
+            className="mb-8"
+          />
+          <h1 className="text-6xl text-blue-500 font-extrabold mb-6">
+            Ulisha Store
+          </h1>
           <div className="absolute inset-0 flex justify-center items-center pointer-events-none">
             <span className="w-40 h-40 bg-orange-100 rounded-full blur-2xl opacity-60 animate-pulse"></span>
           </div>
-          <h1 className="text-4xl font-extrabold text-orange-500 mb-4">
+          <h2 className="text-4xl text-gray-800 mb-4">
             Shop with ease, Quality Products, Effortless Shopping.
-          </h1>
-          <p className="text-lg text-gray-700 w-100 mx-auto">
+          </h2>
+          <p className="text-lg text-gray-700 max-w-2xl mx-auto mb-5">
             We are committed to providing you with a seamless online shopping
             experience.
           </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div>
+              <h2 className="text-3xl font-bold text-orange-500 mb-1">120+</h2>
+              <span className="text-gray-700 font-medium">Products</span>
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold text-orange-500 mb-1">20+</h2>
+              <span className="text-gray-700 font-medium">Happy Customers</span>
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold text-orange-500 mb-1">5+</h2>
+              <span className="text-gray-700 font-medium">Product Sales</span>
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold text-orange-500 mb-1">10+</h2>
+              <span className="text-gray-700 font-medium">Brands</span>
+            </div>
+          </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-          <div className="flex flex-col items-center">
-            <h2 className="text-3xl font-bold text-orange-500 mb-1">120+</h2>
-            <span className="text-gray-700 font-medium">Products</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <h2 className="text-3xl font-bold text-orange-500 mb-1">20+</h2>
-            <span className="text-gray-700 font-medium">Happy Customers</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <h2 className="text-3xl font-bold text-orange-500 mb-1">5+</h2>
-            <span className="text-gray-700 font-medium">Product Sales</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <h2 className="text-3xl font-bold text-orange-500 mb-1">10+</h2>
-            <span className="text-gray-700 font-medium">Brands</span>
-          </div>
-        </div>
-
-        {/* Mission & Vision */}
-        <div className="bg-gradient-to-r from-orange-50 to-white rounded-xl shadow-lg p-10 mb-12 grid md:grid-cols-2 gap-10 items-center">
-          <div className="flex flex-col items-center text-center md:items-start md:text-left group">
+        <div className="bg-gradient-to-r from-orange-50 to-white rounded-xl shadow-lg p-10 grid md:grid-cols-2 gap-10 items-center">
+          <div className="flex flex-col items-center text-center md:items-start md:text-left">
             <h2 className="text-2xl font-extrabold text-orange-500">
               Our Mission
             </h2>
@@ -119,60 +123,67 @@ export default function About() {
               payment options and excellent customer service.
             </p>
           </div>
-          <div className="flex flex-col items-center text-center md:items-start md:text-left group">
+          <div className="flex flex-col items-center text-center md:items-start md:text-left">
             <h2 className="text-2xl font-extrabold text-orange-500">
               Our Vision
             </h2>
             <p className="text-gray-700 text-lg leading-relaxed">
-              To become Nigeria&apos;s most trusted e-commerce platform, known
-              for our quality products, reliable service, and innovative payment
+              To become Nigeria's most trusted e-commerce platform, known for
+              our quality products, reliable service, and innovative payment
               solutions. We aim to revolutionize the online shopping experience
               in Africa.
             </p>
           </div>
-          <p className="text-sm text-gray-500">
-            Ulisha Store is a brand owned and operated by{" "}
-            <Link href="">
-              <strong>Ulisha Limited</strong>
-            </Link>
-            .
-          </p>
+          <span className="text-gray-500">
+            {" "}
+            Ulisha Store is a brand owned and operated by Ulisha Limited.
+          </span>
         </div>
 
-        <div className="text-center">
+        <div className="h-screen flex flex-col justify-center ">
           <h2 className="text-3xl font-extrabold text-orange-500">
             Our Leadership
           </h2>
-          <p className="text-gray-700 text-lg w-100 mx-auto mb-6">
+          <p className="text-gray-700 text-lg max-w-2xl mb-6">
             Meet the team behind Ulisha Store, dedicated to bringing you the
             best online shopping experience.
           </p>
-
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {leaders.map((leader, index) => (
               <Link
                 href={leader.url}
                 key={index}
+                prefetch={false}
                 target="_blank"
                 className="bg-gradient-to-r from-orange-50 to-white rounded-xl flex flex-col items-center p-4 shadow-md hover:shadow-lg transition-shadow duration-300"
               >
                 <Image
                   src={leader.image}
                   alt={leader.name}
-                  className="w-24 h-24 rounded-full mb-2"
+                  className="w-50 h-50 rounded mb-2"
                   width="96"
                   height="96"
                 />
-                <h3 className="text-xl font-semibold text-orange-500">
+                <h3 className="text-2xl font-semibold text-orange-500">
                   {leader.name}
                 </h3>
                 <p className="text-gray-700">{leader.role}</p>
-                <p className="text-gray-600 text-sm mt-2">
-                  {leader.description}
-                </p>
               </Link>
             ))}
           </div>
+        </div>
+
+        <div className="mb-16">
+          <h2 className="text-3xl font-extrabold text-orange-500 mb-6">
+            Public Records
+          </h2>
+          <h3 className="text-gray-800 text-xl">Governance</h3>
+          <Link
+            href="/files/certificates/CERTIFICATE - ULISHA LIMITED.pdf"
+            className="text-gray-700"
+          >
+            Certified Articles of Incorporation
+          </Link>
         </div>
       </div>
     </div>
