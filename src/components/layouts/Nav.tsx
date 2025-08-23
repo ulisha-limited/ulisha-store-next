@@ -7,7 +7,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCamera,
@@ -36,7 +36,7 @@ const placeholders = [
   "Graphic Novel",
 ];
 
-export default function Nav() {
+export function Nav() {
   const location = { pathname: usePathname() };
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
@@ -99,7 +99,7 @@ export default function Nav() {
 
   const cartItemCount = cartItems.reduce(
     (total, item) => total + item.quantity,
-    0
+    0,
   );
 
   return (
@@ -252,5 +252,13 @@ export default function Nav() {
         ))}
       </div>
     </nav>
+  );
+}
+
+export default function NavComponent() {
+  return (
+    <Suspense>
+      <Nav />
+    </Suspense>
   );
 }

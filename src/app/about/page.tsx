@@ -128,8 +128,8 @@ export default function About() {
               Our Vision
             </h2>
             <p className="text-gray-700 text-lg leading-relaxed">
-              To become Nigeria's most trusted e-commerce platform, known for
-              our quality products, reliable service, and innovative payment
+              To become Nigeria&apos;s most trusted e-commerce platform, known
+              for our quality products, reliable service, and innovative payment
               solutions. We aim to revolutionize the online shopping experience
               in Africa.
             </p>
