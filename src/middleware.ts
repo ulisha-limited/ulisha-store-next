@@ -38,35 +38,39 @@ export async function middleware(request: NextRequest) {
    * Create a Supabase client to check the session
    * and redirect to login if the user is not authenticated.
    */
-  const res = NextResponse.next();
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            res.cookies.set(name, value, options)
-          );
+  try {
+    const res = NextResponse.next();
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return request.cookies.getAll();
+          },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              res.cookies.set(name, value, options),
+            );
+          },
         },
       },
+    );
+
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (
+      !session &&
+      PROTECTED_ROUTE_REGEX.some((r) => r.test(request.nextUrl.pathname))
+    ) {
+      const url = new URL("/login", request.url);
+      url.searchParams.set("next", request.nextUrl.pathname);
+      return NextResponse.redirect(url);
     }
-  );
-
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (
-    !session &&
-    PROTECTED_ROUTE_REGEX.some((r) => r.test(request.nextUrl.pathname))
-  ) {
-    const url = new URL("/login", request.url);
-    url.searchParams.set("next", request.nextUrl.pathname);
-    return NextResponse.redirect(url);
+  } catch (error) {
+    console.error(error);
   }
 
   /*
@@ -188,7 +192,7 @@ export async function middleware(request: NextRequest) {
           new Request(newURL, {
             headers: newHeaders,
             redirect: "manual",
-          })
+          }),
         );
 
         const responseHeaders = new Headers(res.headers);
