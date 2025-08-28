@@ -51,10 +51,6 @@ const App = () => {
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800 p-4 sm:p-6 lg:p-8 flex items-center justify-center">
 
-      {/* Load Lucide React for icons and Tailwind CSS */}
-      <script src="https://unpkg.com/lucide-react@0.263.1"></script>
-      <script src="https://cdn.tailwindcss.com"></script>
-
       <main className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
         {/* Left Column: Benefits Section, now with the orange gradient */}
         <div className="relative p-8 sm:p-12 bg-gradient-to-br from-orange-400 to-orange-600 text-white flex flex-col justify-center">
@@ -64,7 +60,7 @@ const App = () => {
               Partner with Ulisha & Earn Rewards
             </h2>
             <p className="text-sm sm:text-base mb-8 opacity-90">
-              Join our growing community of content creators and influencers. It's simple to get started and a great way to monetize your platform.
+              Join our growing community of content creators and influencers. It&apos;s simple to get started and a great way to monetize your platform.
             </p>
             <ul className="space-y-4">
               {benefits.map((benefit, index) => (
@@ -180,7 +176,7 @@ const App = () => {
               </button>
               {submissionStatus === 'success' && (
                 <p className="mt-4 text-center text-green-600 font-medium">
-                  Thank you for your application! We'll get back to you soon.
+                  Thank you for your application! We&apos;ll get back to you soon.
                 </p>
               )}
               {submissionStatus === 'error' && (
