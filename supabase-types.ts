@@ -805,7 +805,7 @@ export type Database = {
           name: string | null
           phone_no: number | null
           user_addresses: string | null
-          user_id: number
+          user_id: string
         }
         Insert: {
           address_landmark?: string | null
@@ -818,7 +818,7 @@ export type Database = {
           name?: string | null
           phone_no?: number | null
           user_addresses?: string | null
-          user_id?: number
+          user_id?: string
         }
         Update: {
           address_landmark?: string | null
@@ -831,7 +831,7 @@ export type Database = {
           name?: string | null
           phone_no?: number | null
           user_addresses?: string | null
-          user_id?: number
+          user_id?: string
         }
         Relationships: []
       }
