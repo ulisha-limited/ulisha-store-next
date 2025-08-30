@@ -41,4 +41,4 @@ next-env.d.ts
 .env.sentry-build-plugin
 
 # Paystack Config File
-.env.local
+.env
