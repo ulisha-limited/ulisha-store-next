@@ -4,10 +4,10 @@
  * See LICENSE file in the project root for full license information.
  */
 
- import { createBrowserClient } from "@supabase/ssr";
+ import { createClient } from "@supabase/supabase-js";
  import { Database } from "@/supabase-types";
 
- export const supabase = createBrowserClient<Database>(
+ export const supabaseAdmin = createClient<Database>(
    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+   process.env.SUPABASE_SERVICE_ROLE_KEY!
  );
