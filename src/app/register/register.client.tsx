@@ -20,7 +20,6 @@ import { useAuthStore } from "@/store/authStore";
 import { PasswordStrengthMeter } from "@/components/PasswordStrengthMeter";
 import { supabase } from "@/lib/supabase";
 import axios from "axios";
-import Recaptcha from "@/components/Recaptcha";
 import { useReCaptcha } from "next-recaptcha-v3";
 
 export default function Register() {
@@ -40,6 +39,7 @@ export default function Register() {
     setError("");
     if (!executeRecaptcha) return setError("Recaptcha not yet available!");
 
+    setLoading(true);
     try {
       const token = await executeRecaptcha("register_form");
 
@@ -55,14 +55,15 @@ export default function Register() {
     } catch (err: any) {
       if (err.response) {
         setError(
-          err.response.data.error ||
-            "An error occurred during sign in. Please try again.",
+          err.response.data.error || "An error occurred. Please try again.",
         );
       } else if (err.request) {
         setError("No response from server. Please try again.");
       } else {
         setError(err.message);
       }
+    } finally {
+      setLoading(false);
     }
   };
 

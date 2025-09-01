@@ -48,5 +48,9 @@ export const metadata: Metadata = {
 };
 
 export default function RegisterPage() {
-  return  <Recaptcha><Register /></Recaptcha>;
+  return (
+    <Recaptcha>
+      <Register />
+    </Recaptcha>
+  );
 }

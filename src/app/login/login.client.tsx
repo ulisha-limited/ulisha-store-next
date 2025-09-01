@@ -18,30 +18,46 @@ import {
 import { useAuthStore } from "@/store/authStore";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
+import axios from "axios";
+import { useReCaptcha } from "next-recaptcha-v3";
 
 export default function Login() {
+  const { executeRecaptcha } = useReCaptcha();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const navigate = router.push;
-  const signIn = useAuthStore((state) => state.signIn);
+  const setUser = useAuthStore((state) => state.setUser);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    setLoading(true);
+    if (!executeRecaptcha) return setError("Recaptcha not yet available!");
 
+    setLoading(true);
     try {
-      await signIn(email, password);
+      const token = await executeRecaptcha("login_form");
+
+      const res = await axios.post("/api/auth/login", {
+        email,
+        password,
+        recaptchaToken: token,
+      });
+
+      setUser(res.data);
       navigate("/");
-    } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "An error occurred during sign in. Please try again."
-      );
+    } catch (err: any) {
+      if (err.response) {
+        setError(
+          err.response.data.error || "An error occurred. Please try again.",
+        );
+      } else if (err.request) {
+        setError("No response from server. Please try again.");
+      } else {
+        setError(err.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -57,7 +73,10 @@ export default function Login() {
   return (
     <div className="flex flex-col lg:flex-row justify-center m-5">
       <div className="sm:mx-auto sm:w-full sm:max-w-md flex flex-col justify-center min-h-[220px]">
-        <Link href="/" className="flex flex-col items-center text-center mb-6 justify-center flex-1">
+        <Link
+          href="/"
+          className="flex flex-col items-center text-center mb-6 justify-center flex-1"
+        >
           <div className="flex justify-center">
             <FontAwesomeIcon
               icon={faBagShopping}
