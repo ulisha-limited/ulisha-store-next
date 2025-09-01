@@ -2,12 +2,11 @@
  * Copyright 2025 Ulisha Limited
  * Licensed under the Apache License, Version 2.0
  * See LICENSE file in the project root for full license information.
- */ 
+ */
 
 const secret = process.env.RECAPTCHA_SECRET_KEY || "";
-const action = process.env.RECAPTCHA_ACTION || "";
 
-async function recaptcha(token: string) {
+async function recaptcha(token: string, action: string) {
   if (!token) return false;
 
   const verifyUrl = "https://www.google.com/recaptcha/api/siteverify";

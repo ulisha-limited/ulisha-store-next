@@ -13,7 +13,6 @@ interface AuthState {
   session: unknown;
   authLoaded: boolean;
   setAuthLoaded: (loaded: boolean) => void;
-  signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   setUser: (user: User | null) => void;
   setSession: (session: unknown) => void;
@@ -27,36 +26,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   setSession: (session) => set({ session }),
   authLoaded: false,
   setAuthLoaded: (loaded: boolean) => set({ authLoaded: loaded }),
-
-  signIn: async (email: string, password: string) => {
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) {
-        if (error instanceof AuthError) {
-          if (error.status === 0) {
-            throw new Error(
-              "Unable to connect to authentication service. Please check your internet connection and try again.",
-            );
-          }
-          throw new Error(error.message);
-        }
-        throw error;
-      }
-
-      if (data.user) {
-        set({ user: data.user, session: data.session });
-      } else {
-        throw new Error("Login failed. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error signing in:", error);
-      throw error;
-    }
-  },
 
   signOut: async () => {
     try {
