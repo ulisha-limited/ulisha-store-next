@@ -5,29 +5,11 @@
  */
 
 import { create } from 'zustand';
-import { supabase } from '../lib/supabase';
+import { supabase } from '@/lib/supabase';
+import { Database } from "@/supabase-types";
 
-export interface Product {
-  id: string;
-  name: string;
-  price: number;
-  original_price?: number;
-  discount_price?: number;
-  discount_active?: boolean;
-  discount_percentage: number;
-  category: string;
-  image: string;
-  description: string;
-  created_at?: string;
-  store_id?: string;
-  seller_id?: string;
-  seller_phone?: string;
-  rating: number;
-  shipping_location: string;
-  selectedColor?: string;
-  selectedSize?: string;
-  variantId?: string;
-}
+type Product = Database["public"]["Tables"]["products"]["Row"];
+type CartItem = Database["public"]["Tables"]["cart_items"]["Row"];
 
 interface DeliveryDetails {
   name: string;
@@ -59,19 +41,6 @@ interface CartSession {
   id: string;
   user_id: string;
   status: string;
-}
-
-interface CartItem {
-  id: string;
-  session_id: string;
-  product_id: string;
-  quantity: number;
-  price_snapshot: number;
-  is_saved_for_later: boolean;
-  product: Product;
-  variant_id?: string;
-  selected_color?: string;
-  selected_size?: string;
 }
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -106,11 +75,11 @@ export const useCartStore = create<CartState>((set, get) => ({
   initializeSession: async () => {
     try {
       set({ loading: true, error: null });
-      
-      const { data: { session: authSession } } = await retryWithBackoff(() => 
+
+      const { data: { session: authSession } } = await retryWithBackoff(() =>
         supabase.auth.getSession()
       );
-      
+
       if (!authSession?.user) {
         set({ session: null, items: [], savedItems: [] });
         return;
@@ -144,9 +113,9 @@ export const useCartStore = create<CartState>((set, get) => ({
       const { data: newSession, error: insertError } = await retryWithBackoff(async () =>
         await supabase
           .from('shopping_sessions')
-          .insert([{ 
-            user_id: authSession.user.id, 
-            status: 'active' 
+          .insert([{
+            user_id: authSession.user.id,
+            status: 'active'
           }])
           .select()
           .single()
@@ -185,11 +154,11 @@ export const useCartStore = create<CartState>((set, get) => ({
   fetchCart: async () => {
     try {
       set({ loading: true, error: null });
-      
+
       const { data: { session: authSession } } = await retryWithBackoff(() =>
         supabase.auth.getSession()
       );
-      
+
       if (!authSession?.user) {
         set({ items: [], savedItems: [], session: null });
         return;
@@ -243,7 +212,7 @@ export const useCartStore = create<CartState>((set, get) => ({
   addToCart: async (product: Product, quantity = 1) => {
     try {
       set({ loading: true, error: null });
-      
+
       if (!get().session) {
         await get().initializeSession();
       }
@@ -260,9 +229,9 @@ export const useCartStore = create<CartState>((set, get) => ({
           .select('*')
           .eq('session_id', currentSession.id)
           .eq('product_id', product.id)
-          .is('variant_id', product.variantId || null)
-          .is('selected_color', product.selectedColor || null)
-          .is('selected_size', product.selectedSize || null)
+          // .is('variant_id', product.variantId || null)
+          // .is('selected_color', product.selectedColor || null)
+          // .is('selected_size', product.selectedSize || null)
           .maybeSingle()
       );
 
@@ -271,7 +240,7 @@ export const useCartStore = create<CartState>((set, get) => ({
         await retryWithBackoff(async () =>
           await supabase
             .from('cart_items_new')
-            .update({ 
+            .update({
               quantity: existingItem.quantity + quantity,
               price_snapshot: product.price,
               is_saved_for_later: false
@@ -288,9 +257,9 @@ export const useCartStore = create<CartState>((set, get) => ({
               product_id: product.id,
               quantity,
               price_snapshot: product.price,
-              variant_id: product.variantId || null,
-              selected_color: product.selectedColor || null,
-              selected_size: product.selectedSize || null,
+              // variant_id: product.variantId || null,
+              // selected_color: product.selectedColor || null,
+              // selected_size: product.selectedSize || null,
               is_saved_for_later: false
             }])
         );
@@ -460,10 +429,10 @@ export const useCartStore = create<CartState>((set, get) => ({
         order_id: order.id,
         product_id: item.product_id,
         quantity: item.quantity,
-        price: item.price_snapshot,
-        variant_id: item.variant_id,
-        selected_color: item.selected_color,
-        selected_size: item.selected_size
+        // price: item.price_snapshot,
+        // variant_id: item.variant_id,
+        // selected_color: item.selected_color,
+        // selected_size: item.selected_size
       }));
 
       await retryWithBackoff(async () =>

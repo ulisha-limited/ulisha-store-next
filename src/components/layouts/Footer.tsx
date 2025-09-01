@@ -16,7 +16,12 @@ import {
   faPinterest,
 } from "@fortawesome/free-brands-svg-icons";
 import Image from "next/image";
-import { faClock, faEnvelope, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons";
+import {
+  faClock,
+  faEnvelope,
+  faLocationDot,
+  faPhone,
+} from "@fortawesome/free-solid-svg-icons";
 import TrustPilotWidget from "../TrustPilotWidget";
 
 export default function Footer() {
@@ -72,7 +77,6 @@ export default function Footer() {
                 target="_blank"
                 className="hover:text-[#FF6600] transition-colors bg-gray-800 p-2 rounded"
               >
-                {/* Use <Tiktok className="w-6 h-6" /> if available in your lucide-react version */}
                 <FontAwesomeIcon icon={faTiktok} size="1x" />
               </Link>
             </div>

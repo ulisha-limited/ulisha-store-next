@@ -2,11 +2,11 @@
  * Copyright 2025 Ulisha Limited
  * Licensed under the Apache License, Version 2.0
  * See LICENSE file in the project root for full license information.
- */ 
+ */
 
 import { useRouter } from "next/router";
-import { Loader } from "react-feather";
-import { ShoppingBag } from "react-feather";
+import { faSpinner, faCartShopping } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const CheckoutButton = () => {
   const router = useRouter();
@@ -32,9 +32,9 @@ const CheckoutButton = () => {
         }`}
     >
       {checkoutLoading ? (
-        <Loader className="animate-spin h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3" />
+        <FontAwesomeIcon icon={faSpinner} className="animate-spin h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3" />
       ) : (
-        <ShoppingBag className="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3" />
+        <FontAwesomeIcon icon={faCartShopping} className="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3" />
       )}
       {checkoutLoading ? "Processing Order..." : "Proceed to Checkout"}
     </button>

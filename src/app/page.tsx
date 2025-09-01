@@ -14,15 +14,19 @@ import { usePromoPopup } from "@/hooks/usePromoPopup";
 import { AdCarousel } from "@/components/AdCarousel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
-import type { Product } from "@/store/cartStore";
+import { Database } from "@/supabase-types";
 import Image from "next/image";
+import { useAuthStore } from "@/store/authStore";
+import Link from "next/link";
 
 const PAGE_SIZE = 10;
+type Product = Database["public"]["Tables"]["products"]["Row"];
 
 export default function HomePage() {
+  const user = useAuthStore((state) => state.user);
   const [products, setProducts] = useState<Product[]>([]);
   const [newProducts, setNewProducts] = useState<Product[]>([]);
-  const [page, setPage] = useState(1); // starts from 1 since we fetch first page separately
+  const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
@@ -76,9 +80,12 @@ export default function HomePage() {
   }, [page, fetchProducts]);
 
   useEffect(() => {
-    if (!hasMore || isFetchingMore) return;
+    const maxPages = user ? 14 : 6;
+
+    if (!hasMore || isFetchingMore || page >= maxPages) return;
 
     if (observer.current) observer.current.disconnect();
+
     observer.current = new window.IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
         fetchNextPage();
@@ -90,7 +97,7 @@ export default function HomePage() {
     }
 
     return () => observer.current?.disconnect();
-  }, [fetchNextPage, hasMore, isFetchingMore, page]);
+  }, [fetchNextPage, hasMore, isFetchingMore, page, user]);
 
   return (
     <>
@@ -221,23 +228,24 @@ export default function HomePage() {
                 ))}
             </div>
 
-<h2 className="mt-3 text-lg font-semibold text-gray-900">
-Trending Products
-</h2>
-<div className="mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-{[...products, ...newProducts]
-.filter((product) => product.discount_percentage > 30)
-.slice(0, 15)
-.map((product) => (
-<div
-key={product.id}
-className="w-full"
->
-<ProductCard product={product} />
-</div>
-))}
-</div>
-
+            <h2 className="mt-3 text-lg font-semibold text-gray-900">
+              Trending Products
+            </h2>
+            <div className="mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+              {[...products, ...newProducts]
+                .filter(
+                  (product) =>
+                    (product.discount_percentage
+                      ? product.discount_percentage
+                      : 0) > 30,
+                )
+                .slice(0, 15)
+                .map((product) => (
+                  <div key={product.id} className="w-full">
+                    <ProductCard product={product} />
+                  </div>
+                ))}
+            </div>
 
             <h2 className="mt-3 text-lg font-semibold text-gray-900">
               Discover Products
@@ -248,15 +256,37 @@ className="w-full"
               ))}
             </div>
 
-            <div ref={sentinelRef} style={{ height: 1 }} />
-            {isFetchingMore && (
-              <div className="flex items-center justify-center py-4">
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary-orange"></div>
-              </div>
-            )}
-            {!hasMore && (
+            {((!user && page < 6) || (user && page < 14)) ? (
+              <>
+                <div ref={sentinelRef} style={{ height: 1 }} />
+                {isFetchingMore && (
+                  <div className="flex items-center justify-center py-4">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-500"></div>
+                  </div>
+                )}
+                {!hasMore && (
+                  <div className="text-center py-4 text-gray-500">
+                    No more products to load.
+                  </div>
+                )}
+              </>
+            ) : (
               <div className="text-center py-4 text-gray-500">
-                No more products to load.
+                {!user ? (
+                  <>
+                  <Link href="/login" className="bg-orange-500 text-white shadow hover:bg-orange-600 hover:shadow-lg transition px-3 py-1 mr-3 rounded font-medium">
+                    Login
+                  </Link>
+                   to view more
+                  </>
+                ) : (
+                  <button
+                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                    className="bg-orange-500 text-white shadow hover:bg-orange-600 hover:shadow-lg transition px-3 py-1 rounded font-medium"
+                  >
+                    Go up
+                  </button>
+                )}
               </div>
             )}
           </div>

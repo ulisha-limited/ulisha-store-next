@@ -5,7 +5,7 @@
  */
 
 import React, { useState, useEffect } from "react";
-import type { Product } from "@/store/cartStore";
+import { Database } from "@/supabase-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faStar,
@@ -23,6 +23,8 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { toast } from "react-toastify";
 import Link from "next/link";
+
+type Product = Database["public"]["Tables"]["products"]["Row"];
 
 export function ProductCard({ product }: { product: Product }) {
   const [showShareOptions, setShowShareOptions] = useState(false);
@@ -93,17 +95,17 @@ export function ProductCard({ product }: { product: Product }) {
     switch (platform) {
       case "facebook":
         shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-          link
+          link,
         )}`;
         break;
       case "twitter":
         shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-          text
+          text,
         )}&url=${encodeURIComponent(link)}`;
         break;
       case "whatsapp":
         shareUrl = `https://wa.me/?text=${encodeURIComponent(
-          `${text} ${link}`
+          `${text} ${link}`,
         )}`;
         break;
     }

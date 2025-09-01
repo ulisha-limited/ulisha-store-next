@@ -55,7 +55,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       success: true,
       labels: detectedLabels,
-      products: products as Product[],
+      products: products,
     }, { status: 200 });
 
   } catch (error) {

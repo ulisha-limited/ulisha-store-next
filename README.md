@@ -1,6 +1,7 @@
 # Ulisha Store
 
 Your one-stop shop for all things trendy and affordable.
+[![CI Build](https://github.com/ulisha-limited/ulisha-store-next/actions/workflows/ci-build.yml/badge.svg)](https://github.com/ulisha-limited/ulisha-store-next/actions/workflows/ci-build.yml) [![Dependabot Updates](https://github.com/ulisha-limited/ulisha-store-next/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/ulisha-limited/ulisha-store-next/actions/workflows/dependabot/dependabot-updates)
 
 ### Installation
 

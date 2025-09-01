@@ -22,7 +22,6 @@ import {
 import { useAuthStore } from "@/store/authStore";
 import { useCartStore } from "@/store/cartStore";
 import { usePathname } from "next/navigation";
-import { Bell } from "react-feather";
 
 const getInitials = (name: string) => {
   return name ? name.charAt(0).toUpperCase() : "";
