@@ -13,7 +13,6 @@ interface AuthState {
   session: unknown;
   authLoaded: boolean;
   setAuthLoaded: (loaded: boolean) => void;
-  signUp: (email: string, password: string, fullName: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   setUser: (user: User | null) => void;
@@ -29,40 +28,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   authLoaded: false,
   setAuthLoaded: (loaded: boolean) => set({ authLoaded: loaded }),
 
-  signUp: async (email: string, password: string, fullName: string) => {
-    try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            full_name: fullName,
-          },
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
-        },
-      });
-
-      if (error) {
-        if (error instanceof AuthError) {
-          if (error.status === 0) {
-            throw new Error(
-              "Unable to connect to authentication service. Please check your internet connection and try again."
-            );
-          }
-          throw new Error(error.message);
-        }
-        throw error;
-      }
-
-      if (data.user) {
-        set({ user: data.user, session: data.session });
-      }
-    } catch (error) {
-      console.error("Error signing up:", error);
-      throw error;
-    }
-  },
-
   signIn: async (email: string, password: string) => {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -74,7 +39,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         if (error instanceof AuthError) {
           if (error.status === 0) {
             throw new Error(
-              "Unable to connect to authentication service. Please check your internet connection and try again."
+              "Unable to connect to authentication service. Please check your internet connection and try again.",
             );
           }
           throw new Error(error.message);

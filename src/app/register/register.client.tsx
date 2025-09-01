@@ -19,6 +19,7 @@ import {
 import { useAuthStore } from "@/store/authStore";
 import { PasswordStrengthMeter } from "@/components/PasswordStrengthMeter";
 import { supabase } from "@/lib/supabase";
+import axios from "axios";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -30,37 +31,30 @@ export default function Register() {
   const [passwordStrength, setPasswordStrength] = useState(0);
   const router = useRouter();
   const navigate = router.push;
-  const signUp = useAuthStore((state) => state.signUp);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
-    // Validate passwords match
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
-    // Check password strength
-    if (passwordStrength < 3) {
-      setError("Please choose a stronger password");
-      return;
-    }
-
-    setLoading(true);
-
     try {
-      await signUp(email, password, name);
-      navigate("/");
-    } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "An error occurred during sign in. Please try again."
-      );
-    } finally {
-      setLoading(false);
+      const res = await axios.post("/api/auth/register", {
+        email,
+        password,
+        confirmPassword,
+        name,
+      });
+
+      navigate("/login");
+    } catch (err: any) {
+      if (err.response) {
+        setError(
+          err.response.data.error ||
+            "An error occurred during sign in. Please try again.",
+        );
+      } else if (err.request) {
+        setError("No response from server. Please try again.");
+      } else {
+        setError(err.message);
+      }
     }
   };
 
@@ -74,7 +68,10 @@ export default function Register() {
   return (
     <div className="flex flex-col lg:flex-row justify-center m-5">
       <div className="sm:mx-auto sm:w-full sm:max-w-md flex flex-col justify-center min-h-[220px]">
-        <Link href="/" className="flex flex-col items-center text-center mb-6 justify-center flex-1">
+        <Link
+          href="/"
+          className="flex flex-col items-center text-center mb-6 justify-center flex-1"
+        >
           <div className="flex justify-center">
             <FontAwesomeIcon
               icon={faBagShopping}
