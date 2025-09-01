@@ -20,8 +20,11 @@ import { useAuthStore } from "@/store/authStore";
 import { PasswordStrengthMeter } from "@/components/PasswordStrengthMeter";
 import { supabase } from "@/lib/supabase";
 import axios from "axios";
+import Recaptcha from "@/components/Recaptcha";
+import { useReCaptcha } from "next-recaptcha-v3";
 
 export default function Register() {
+  const { executeRecaptcha } = useReCaptcha();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,12 +38,17 @@ export default function Register() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    if (!executeRecaptcha) return setError("Recaptcha not yet available!");
+
     try {
+      const token = await executeRecaptcha("register_form");
+
       const res = await axios.post("/api/auth/register", {
         email,
         password,
         confirmPassword,
         name,
+        recaptchaToken: token,
       });
 
       navigate("/login");
