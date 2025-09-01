@@ -23,16 +23,13 @@
     "@supabase/supabase-js": "^2.53.0",
     "axios": "^1.11.0",
     "browser-image-compression": "^2.0.2",
-    "disqus-react": "^1.1.7",
     "formidable": "^3.5.4",
     "js-cookie": "^3.0.5",
-    "lucide-react": "^0.532.0",
     "next": "15.5.2",
     "next-recaptcha-v3": "^1.5.2",
     "nextjs-toploader": "^3.8.16",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "react-feather": "^2.0.10",
     "react-toastify": "^11.0.5",
     "redis": "^5.8.2",
     "swiper": "^11.2.10",
@@ -52,5 +49,12 @@
     "eslint-config-next": "15.4.4",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "bootstrap-icons": "npm:@empty",
+    "feather-icons": "npm:@empty",
+    "react-feather": "npm:@empty",
+    "react-bootstrap-icons": "npm:@empty",
+    "lucide-react": "npm:@empty"
   }
 }

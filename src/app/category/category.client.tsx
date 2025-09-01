@@ -5,60 +5,59 @@
  */
 
 "use client";
+
 import { useCategoryStore } from "@/store/categoryStore";
 import Link from "next/link";
 import { useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Shirt,
-  Tag,
-  Watch,
-  CircuitBoard,
-  SprayCan,
-  Smartphone,
-  Handbag,
-  Gem,
-  Dumbbell,
-  ToyBrick,
-  WashingMachine,
-  ShoppingBag,
-  Laptop,
-  Bike,
-} from "lucide-react";
+  faShirt,
+  faTag,
+  faStopwatch,
+  faMicrochip,
+  faSprayCan,
+  faMobileScreenButton,
+  faBagShopping,
+  faGem,
+  faDumbbell,
+  faPuzzlePiece,
+  faBlender,
+  faLaptop,
+  faBicycle,
+} from "@fortawesome/free-solid-svg-icons";
 
-// Helper function to map category names to Lucide icons
 const getIconForCategory = (categoryName: string) => {
   switch (categoryName.toLowerCase()) {
     case "clothes":
-      return <Shirt />;
+      return <FontAwesomeIcon icon={faShirt} />;
     case "accessories":
-      return <Tag />;
-
+      return <FontAwesomeIcon icon={faTag} />;
     case "smart watches":
-      return <Watch />;
+      return <FontAwesomeIcon icon={faStopwatch} />;
     case "electronics":
-      return <CircuitBoard />;
+      return <FontAwesomeIcon icon={faMicrochip} />;
     case "perfumes & body spray":
-      return <SprayCan />;
+      return <FontAwesomeIcon icon={faSprayCan} />;
     case "phones":
-      return <Smartphone />;
+      return <FontAwesomeIcon icon={faMobileScreenButton} />;
     case "handbags":
-      return <Handbag />;
+      return <FontAwesomeIcon icon={faBagShopping} />;
     case "jewelries":
-      return <Gem />;
+      return <FontAwesomeIcon icon={faGem} />;
     case "gym wear":
-      return <Dumbbell />;
+      return <FontAwesomeIcon icon={faDumbbell} />;
     case "kids toy":
-      return <ToyBrick />;
+      return <FontAwesomeIcon icon={faPuzzlePiece} />;
     case "home appliances":
-      return <WashingMachine />;
+      return <FontAwesomeIcon icon={faBlender} />;
     case "female clothings":
-      return <ShoppingBag />;
+      return <FontAwesomeIcon icon={faBagShopping} />;
     case "computer & gaming":
-      return <Laptop />;
+      return <FontAwesomeIcon icon={faLaptop} />;
     case "e-bikes":
-      return <Bike />;
+      return <FontAwesomeIcon icon={faBicycle} />;
     default:
-      return <ShoppingBag />; // Default icon for unmapped categories
+      return <FontAwesomeIcon icon={faBagShopping} />;
   }
 };
 

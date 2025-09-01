@@ -16,8 +16,6 @@ import {
 import { supabase } from "@/lib/supabase";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { ChevronLeft } from "react-feather";
-import DisqusComments from "@/components/DisqusComments";
 import { Database } from "@/supabase-types";
 
 const MAX_RETRIES = 3;
@@ -158,15 +156,6 @@ export default function ProductList() {
                     <p className="text-gray-500">
                       No products found in this category.
                     </p>
-                  </div>
-                )}
-
-                {products.length !== 0 && (
-                  <div className="mt-8">
-                    <DisqusComments
-                      slug={category}
-                      title={`Category ${category}`}
-                    />
                   </div>
                 )}
               </>

@@ -4,7 +4,6 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import DisqusComments from "@/components/DisqusComments";
 import { faQuestion } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Metadata } from "next";
@@ -197,7 +196,6 @@ export default function FAQPage() {
           ))}
         </div>
 
-        <DisqusComments slug="faq" title="Frequently Asked Questions" />
       </div>
     </div>
   );
