@@ -2,17 +2,17 @@
  * Copyright 2025 Ulisha Limited
  * Licensed under the Apache License, Version 2.0
  * See LICENSE file in the project root for full license information.
- */ 
+ */
 
 "use client";
 
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "../../../../lib/supabase";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSpinner,
-  faXmark,          // or faTimes
+  faXmark, // or faTimes
   faPlus,
   faUsers,
   faEye,
@@ -20,9 +20,8 @@ import {
   faDollarSign,
   faShoppingCart,
   faCalendar,
-  faCircleChevronLeft  
-} from '@fortawesome/free-solid-svg-icons';
-
+  faCircleChevronLeft,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
@@ -86,7 +85,7 @@ export default function Dashboard() {
           "date",
           new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
             .toISOString()
-            .split("T")[0]
+            .split("T")[0],
         )
         .order("date", { ascending: true });
 
@@ -100,7 +99,8 @@ export default function Dashboard() {
         todayNewUsers: todayStats?.new_users || 0,
         todayOrders: todayStats?.orders_count || 0,
         todayRevenue: todayStats?.revenue || 0,
-        weeklyStats: weeklyStats || [],
+        // weeklyStats: weeklyStats || [],
+        weeklyStats: [],
       });
     } catch (error) {
       console.error("Error fetching analytics:", error);
@@ -177,7 +177,10 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <FontAwesomeIcon icon={faSpinner} className="w-8 h-8 animate-spin text-primary-orange" />
+        <FontAwesomeIcon
+          icon={faSpinner}
+          className="w-8 h-8 animate-spin text-primary-orange"
+        />
       </div>
     );
   }
@@ -192,7 +195,10 @@ export default function Dashboard() {
               className="p-2 mr-4 rounded-full hover:bg-gray-200 transition-colors"
               aria-label="Go back to admin panel"
             >
-              <FontAwesomeIcon icon={faCircleChevronLeft} className="w-6 h-6 text-gray-700" />
+              <FontAwesomeIcon
+                icon={faCircleChevronLeft}
+                className="w-6 h-6 text-gray-700"
+              />
             </Link>
 
             <h1 className="text-2xl font-extrabold text-gray-900">Dashboard</h1>
@@ -210,7 +216,10 @@ export default function Dashboard() {
 
         {analyticsLoading ? (
           <div className="bg-white rounded-lg shadow-md p-6 flex items-center justify-center">
-            <FontAwesomeIcon icon={faSpinner} className="w-6 h-6 animate-spin text-primary-orange mr-2" />
+            <FontAwesomeIcon
+              icon={faSpinner}
+              className="w-6 h-6 animate-spin text-primary-orange mr-2"
+            />
             <span>Loading analytics...</span>
           </div>
         ) : (
@@ -220,7 +229,10 @@ export default function Dashboard() {
               <div className="bg-white rounded-lg shadow-md p-6">
                 <div className="flex items-center">
                   <div className="p-2 bg-blue-100 rounded-lg">
-                    <FontAwesomeIcon icon={faUsers} className="h-6 w-6 text-blue-600" />
+                    <FontAwesomeIcon
+                      icon={faUsers}
+                      className="h-6 w-6 text-blue-600"
+                    />
                   </div>
                   <div className="ml-4">
                     <p className="text-sm font-medium text-gray-600">
@@ -235,7 +247,10 @@ export default function Dashboard() {
               <div className="bg-white rounded-lg shadow-md p-6">
                 <div className="flex items-center">
                   <div className="p-2 bg-green-100 rounded-lg">
-                    <FontAwesomeIcon icon={faEye} className="h-6 w-6 text-green-600" />
+                    <FontAwesomeIcon
+                      icon={faEye}
+                      className="h-6 w-6 text-green-600"
+                    />
                   </div>
                   <div className="ml-4">
                     <p className="text-sm font-medium text-gray-600">
@@ -251,7 +266,10 @@ export default function Dashboard() {
               <div className="bg-white rounded-lg shadow-md p-6">
                 <div className="flex items-center">
                   <div className="p-2 bg-purple-100 rounded-lg">
-                    <FontAwesomeIcon icon={faChartLine} className="h-6 w-6 text-purple-600" />
+                    <FontAwesomeIcon
+                      icon={faChartLine}
+                      className="h-6 w-6 text-purple-600"
+                    />
                   </div>
                   <div className="ml-4">
                     <p className="text-sm font-medium text-gray-600">
@@ -267,7 +285,10 @@ export default function Dashboard() {
               <div className="bg-white rounded-lg shadow-md p-6">
                 <div className="flex items-center">
                   <div className="p-2 bg-orange-100 rounded-lg">
-                    <FontAwesomeIcon icon={faShoppingCart} className="h-6 w-6 text-orange-600" />
+                    <FontAwesomeIcon
+                      icon={faShoppingCart}
+                      className="h-6 w-6 text-orange-600"
+                    />
                   </div>
                   <div className="ml-4">
                     <p className="text-sm font-medium text-gray-600">
@@ -286,7 +307,10 @@ export default function Dashboard() {
               <div className="bg-white rounded-lg shadow-md p-6">
                 <div className="flex items-center">
                   <div className="p-2 bg-indigo-100 rounded-lg">
-                    <FontAwesomeIcon icon={faUsers} className="h-6 w-6 text-indigo-600" />
+                    <FontAwesomeIcon
+                      icon={faUsers}
+                      className="h-6 w-6 text-indigo-600"
+                    />
                   </div>
                   <div className="ml-4">
                     <p className="text-sm font-medium text-gray-600">
@@ -302,7 +326,10 @@ export default function Dashboard() {
               <div className="bg-white rounded-lg shadow-md p-6">
                 <div className="flex items-center">
                   <div className="p-2 bg-green-100 rounded-lg">
-                    <FontAwesomeIcon icon={faDollarSign} className="h-6 w-6 text-green-600" />
+                    <FontAwesomeIcon
+                      icon={faDollarSign}
+                      className="h-6 w-6 text-green-600"
+                    />
                   </div>
                   <div className="ml-4">
                     <p className="text-sm font-medium text-gray-600">
@@ -324,7 +351,10 @@ export default function Dashboard() {
               <div className="bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="p-6">
                   <h3 className="text-lg font-medium text-gray-900 mb-4 flex items-center">
-                    <FontAwesomeIcon icon={faCalendar} className="h-5 w-5 mr-2" />
+                    <FontAwesomeIcon
+                      icon={faCalendar}
+                      className="h-5 w-5 mr-2"
+                    />
                     Last 7 Days Performance
                   </h3>
                   <div className="overflow-x-auto">
@@ -515,7 +545,10 @@ export default function Dashboard() {
               >
                 {formLoading ? (
                   <>
-                    <FontAwesomeIcon icon={faSpinner} className="h-5 w-5 animate-spin" />
+                    <FontAwesomeIcon
+                      icon={faSpinner}
+                      className="h-5 w-5 animate-spin"
+                    />
                     <span>Adding...</span>
                   </>
                 ) : (

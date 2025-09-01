@@ -32,12 +32,14 @@ import { faTwitter, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { useCartStore } from "@/store/cartStore";
 import { useAuthStore } from "@/store/authStore";
 import { useCurrencyStore } from "@/store/currencyStore";
-import type { Product } from "@/store/cartStore";
 import { ProductCard } from "@/components/ProductCard";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { Database } from "@/supabase-types";
+
+type Product = Database["public"]["Tables"]["products"]["Row"];
 
 export default function ProductDetailPage() {
   const { id: productId } = useParams<{ id: string }>();
@@ -562,7 +564,7 @@ export default function ProductDetailPage() {
                         <FontAwesomeIcon
                           icon={faStar}
                           className={`w-5 h-5 ${
-                            initialProduct.rating > i
+                            (initialProduct.rating || 0) > i
                               ? "fill-current"
                               : "text-gray-300"
                           }`}

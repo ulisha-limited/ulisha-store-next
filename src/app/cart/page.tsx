@@ -22,7 +22,7 @@ import {
   faCircleXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import type { Product } from "@/store/cartStore";
+import { Database } from "@/supabase-types";
 import { useCartStore } from "../../store/cartStore";
 import { useAuthStore } from "../../store/authStore";
 import { useCurrencyStore } from "../../store/currencyStore";
@@ -30,17 +30,8 @@ import { toast } from "react-toastify";
 import { supabase } from "../../lib/supabase"; // Ensure this path is correct
 import Image from "next/image";
 
-// Define a type for your address structure from 'user_addresses' table
-interface UserAddress {
-  id: string;
-  user_id: string;
-  full_name: string;
-  phone_number: string;
-  street_address: string;
-  city: string;
-  state_province: string;
-  // Add any other address fields you have, e.g., 'zip_code', 'country'
-}
+type Product = Database["public"]["Tables"]["products"]["Row"];
+type UserAddress = Database["public"]["Tables"]["user_addresses"]["Row"];
 
 export default function Cart() {
   const {
@@ -94,9 +85,9 @@ export default function Cart() {
   }, [notification]);
 
   const subtotal = items.reduce((sum, item) => {
-    if (item.product) {
-      return sum + item.product.price * item.quantity;
-    }
+    // if (item.product) {
+    //   return sum + item.product.price * item.quantity;
+    // }
     return 0;
   }, 0);
 
@@ -175,9 +166,9 @@ export default function Cart() {
       // TEST ONLY
 
       const totalPrice = items.reduce((sum, item) => {
-        if (item.product) {
-          return sum + item.product.price * item.quantity;
-        }
+        // if (item.product) {
+        //   return sum + item.product.price * item.quantity;
+        // }
         return sum;
       }, 0);
 
@@ -307,7 +298,7 @@ export default function Cart() {
             {/* Cart Items List */}
             <div className="lg:col-span-2">
               <div className="divide-y divide-gray-100 space-y-4 sm:space-y-6">
-                {items.map((item) => {
+                {/*{items.map((item) => {
                   if (!item.product) return null;
 
                   return (
@@ -403,7 +394,7 @@ export default function Cart() {
                       </div>
                     </div>
                   );
-                })}
+                })}*/}
               </div>
             </div>
 

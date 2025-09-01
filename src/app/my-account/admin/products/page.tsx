@@ -21,12 +21,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { v4 as uuidv4 } from "uuid";
-import type { Product } from "@/store/cartStore";
+import { Database } from "@/supabase-types";
 import imageCompression from "browser-image-compression";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "react-toastify";
 
+type Product = Database["public"]["Tables"]["products"]["Row"];
 interface AnalyticsData {
   totalUsers: number;
   todayVisitors: number;
@@ -140,7 +141,7 @@ export default function Products() {
           discount_price: number | null;
           discount_active: boolean;
           shipping_location: string;
-          image?: File | string;
+          image?: string;
         } = { ...productToSave };
 
         if (productData.image) {
@@ -149,7 +150,7 @@ export default function Products() {
             productData.image,
             options
           );
-          updates.image = compressedImage;
+
           const { error: uploadError } = await supabase.storage
             .from("product-images")
             .upload(imageName, compressedImage, {

@@ -423,7 +423,7 @@ export type Database = {
             columns: ["order_id"]
             isOneToOne: false
             referencedRelation: "orders"
-            referencedColumns: ["id"]
+            referencedColimageumns: ["id"]
           },
           {
             foreignKeyName: "order_items_variant_id_fkey"
@@ -436,37 +436,37 @@ export type Database = {
       }
       orders: {
         Row: {
-          created_at: string | null
-          delivery_address: string | null
-          delivery_name: string | null
-          delivery_phone: string | null
+          created_at: string
+          delivery_address: string
+          delivery_name: string
+          delivery_phone: string
           id: string
-          payment_method: string | null
-          payment_ref: string | null
+          payment_method: string
+          payment_ref: string
           status: string
           total: number
           user_id: string
         }
         Insert: {
-          created_at?: string | null
-          delivery_address?: string | null
-          delivery_name?: string | null
-          delivery_phone?: string | null
+          created_at?: string
+          delivery_address: string
+          delivery_name: string
+          delivery_phone: string
           id?: string
-          payment_method?: string | null
-          payment_ref?: string | null
+          payment_method: string
+          payment_ref: string
           status?: string
           total?: number
           user_id: string
         }
         Update: {
-          created_at?: string | null
-          delivery_address?: string | null
-          delivery_name?: string | null
-          delivery_phone?: string | null
+          created_at?: string
+          delivery_address?: string
+          delivery_name?: string
+          delivery_phone?: string
           id?: string
-          payment_method?: string | null
-          payment_ref?: string | null
+          payment_method?: string
+          payment_ref?: string
           status?: string
           total?: number
           user_id?: string
@@ -795,43 +795,49 @@ export type Database = {
       }
       user_addresses: {
         Row: {
-          address_landmark: string | null
-          address_region: string | null
-          address_state: string | null
-          address_zip: number | null
-          category: boolean[] | null
-          country: string | null
+          address_landmark: string
+          address_region: string
+          address_state: string
+          address_street: string
+          address_zip: number
+          category: boolean[]
+          country: string
           created_at: string
-          name: string | null
-          phone_no: number | null
-          user_addresses: string | null
-          user_id: string
+          id: number
+          is_primary: boolean
+          name: string
+          phone_no: string
+          user_id: number
         }
         Insert: {
-          address_landmark?: string | null
-          address_region?: string | null
-          address_state?: string | null
-          address_zip?: number | null
-          category?: boolean[] | null
-          country?: string | null
+          address_landmark: string
+          address_region: string
+          address_state: string
+          address_street: string
+          address_zip: number
+          category: boolean[]
+          country: string
           created_at?: string
-          name?: string | null
-          phone_no?: number | null
-          user_addresses?: string | null
-          user_id?: string
+          id?: number
+          is_primary: boolean
+          name?: string
+          phone_no: string
+          user_id?: number
         }
         Update: {
-          address_landmark?: string | null
-          address_region?: string | null
-          address_state?: string | null
-          address_zip?: number | null
-          category?: boolean[] | null
-          country?: string | null
+          address_landmark?: string
+          address_region?: string
+          address_state?: string
+          address_street?: string
+          address_zip?: number
+          category?: boolean[]
+          country?: string
           created_at?: string
-          name?: string | null
-          phone_no?: number | null
-          user_addresses?: string | null
-          user_id?: string
+          id?: number
+          is_primary?: boolean
+          name?: string
+          phone_no?: string
+          user_id?: number
         }
         Relationships: []
       }

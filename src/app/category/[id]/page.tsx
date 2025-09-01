@@ -14,14 +14,17 @@ import {
   faCircleChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "@/lib/supabase";
-import type { Product } from "@/store/cartStore";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft } from "react-feather";
 import DisqusComments from "@/components/DisqusComments";
+import { Database } from "@/supabase-types";
 
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000; // 1 second
+
+
+type Product = Database["public"]["Tables"]["products"]["Row"];
 
 export default function ProductList() {
   const { id: category } = useParams<{ id: string }>();
@@ -60,14 +63,14 @@ export default function ProductList() {
           ) {
             if (retryCount < MAX_RETRIES) {
               console.log(
-                `Retrying fetch attempt ${retryCount + 1} of ${MAX_RETRIES}...`
+                `Retrying fetch attempt ${retryCount + 1} of ${MAX_RETRIES}...`,
               );
               await delay(RETRY_DELAY * (retryCount + 1));
               return fetchProductsWithRetry(retryCount + 1);
             }
             console.error("Max retries reached, using fallback data");
             setError(
-              "Unable to connect to the server. Showing offline product data."
+              "Unable to connect to the server. Showing offline product data.",
             );
             return;
           }
@@ -88,13 +91,13 @@ export default function ProductList() {
       } catch (error) {
         console.error("Error fetching products:", error);
         setError(
-          "Unable to load products. Please check your connection and try again."
+          "Unable to load products. Please check your connection and try again.",
         );
       } finally {
         setLoading(false);
       }
     },
-    [category]
+    [category],
   );
 
   useEffect(() => {

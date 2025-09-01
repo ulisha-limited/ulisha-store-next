@@ -14,10 +14,11 @@ import { usePromoPopup } from "@/hooks/usePromoPopup";
 import { AdCarousel } from "@/components/AdCarousel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
-import type { Product } from "@/store/cartStore";
+import { Database } from "@/supabase-types";
 import Image from "next/image";
 
 const PAGE_SIZE = 10;
+type Product = Database["public"]["Tables"]["products"]["Row"];
 
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -221,23 +222,24 @@ export default function HomePage() {
                 ))}
             </div>
 
-<h2 className="mt-3 text-lg font-semibold text-gray-900">
-Trending Products
-</h2>
-<div className="mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-{[...products, ...newProducts]
-.filter((product) => product.discount_percentage > 30)
-.slice(0, 15)
-.map((product) => (
-<div
-key={product.id}
-className="w-full"
->
-<ProductCard product={product} />
-</div>
-))}
-</div>
-
+            <h2 className="mt-3 text-lg font-semibold text-gray-900">
+              Trending Products
+            </h2>
+            <div className="mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+              {[...products, ...newProducts]
+                .filter(
+                  (product) =>
+                    (product.discount_percentage
+                      ? product.discount_percentage
+                      : 0) > 30,
+                )
+                .slice(0, 15)
+                .map((product) => (
+                  <div key={product.id} className="w-full">
+                    <ProductCard product={product} />
+                  </div>
+                ))}
+            </div>
 
             <h2 className="mt-3 text-lg font-semibold text-gray-900">
               Discover Products

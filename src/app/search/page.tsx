@@ -2,7 +2,7 @@
  * Copyright 2025 Ulisha Limited
  * Licensed under the Apache License, Version 2.0
  * See LICENSE file in the project root for full license information.
- */ 
+ */
 
 "use client";
 
@@ -10,12 +10,13 @@ import Link from "next/link";
 import { useState, useEffect, useRef, Suspense } from "react";
 import { ProductCard } from "@/components/ProductCard";
 import { supabase } from "@/lib/supabase";
-import { Product } from "@/store/cartStore";
+import { Database } from "@/supabase-types";
 import { usePathname, useSearchParams } from "next/navigation";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const PAGE_SIZE = 10;
+type Product = Database["public"]["Tables"]["products"]["Row"];
 
 function Search() {
   const [searchQuery, setSearchQuery] = useState("");

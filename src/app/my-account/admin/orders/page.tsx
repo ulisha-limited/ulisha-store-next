@@ -33,29 +33,10 @@ import { OrderReceipt } from "@/components/OrderReceipt";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useSearchParams } from "next/navigation";
+import { Database } from "@/supabase-types";
 
-interface OrderItem {
-  id: string;
-  product: {
-    name: string;
-    image: string;
-  };
-  quantity: number;
-  price: number;
-}
-
-interface Order {
-  id: string;
-  created_at: string;
-  total: number;
-  status: string;
-  delivery_name: string;
-  delivery_phone: string;
-  delivery_address: string;
-  payment_ref?: string;
-  payment_method?: string;
-  items: OrderItem[];
-}
+type OrderItem = Database["public"]["Tables"]["cart_items"]["Row"];
+type Order = Database["public"]["Tables"]["orders"]["Row"];
 
 function Orders() {
   const [loading, setLoading] = useState(true);
@@ -241,10 +222,10 @@ function Orders() {
           order.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
           order.delivery_name
             .toLowerCase()
-            .includes(searchQuery.toLowerCase()) ||
-          order.items.some((item) =>
-            item.product.name.toLowerCase().includes(searchQuery.toLowerCase())
-          )
+            .includes(searchQuery.toLowerCase())
+          // order.items.some((item) =>
+          //   item.product.name.toLowerCase().includes(searchQuery.toLowerCase())
+          // )
       );
     }
 
@@ -606,7 +587,7 @@ function Orders() {
                           }).format(order.total)}
                         </div>
                         <div className="text-sm text-gray-500">
-                          {order.items.length} items
+                          {/*{order.items.length} items*/}
                         </div>
                       </div>
 
@@ -701,7 +682,7 @@ function Orders() {
                       <FontAwesomeIcon icon={faBox} className="w-4 h-4 mr-2 text-primary-orange" />
                       Order Items
                     </h4>
-                    {order.items.map((item, index) => (
+                    {/*{order.items.map((item, index) => (
                       <div
                         key={item.id}
                         className="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg"
@@ -734,7 +715,7 @@ function Orders() {
                           </div>
                         </div>
                       </div>
-                    ))}
+                    ))}*/}
                   </div>
 
                   {/* Actions */}
@@ -770,10 +751,10 @@ function Orders() {
                 </button>
               </div>
               <div className="p-6">
-                <OrderReceipt
+                {/*<OrderReceipt
                   order={selectedOrder}
                   transactionRef={transactionRef}
-                />
+                />*/}
               </div>
             </div>
           </div>
