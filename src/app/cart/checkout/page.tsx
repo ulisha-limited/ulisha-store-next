@@ -85,7 +85,7 @@ export default function Checkout() {
         const { data: userAddresses, error: addressError } = await supabase
           .from("user_addresses")
           .select("*")
-          .eq("user_id", parseInt(user.id))
+          .eq("user_id", user.id)
           .order("is_primary", { ascending: false }); // Fetch primary first
 
         if (addressError) {
@@ -126,6 +126,7 @@ export default function Checkout() {
   }, [user, fetchCart, router, showAppNotification]);
 
   const handlePlaceOrder = async () => {
+    if (!user) return;
     if (!selectedAddress) {
       setError("Please select a delivery address.");
       showAppNotification("Please select a delivery address.", "error");
@@ -149,7 +150,7 @@ export default function Checkout() {
     setError(null); // Clear previous errors
 
     try {
-      const deliveryAddressString = `${selectedAddress.address_landmark}, ${selectedAddress.address_street}, ${selectedAddress.address_state}, ${selectedAddress.address_region} ${selectedAddress.address_zip ? `, ${selectedAddress.address_zip}` : ""}${selectedAddress.country ? `, ${selectedAddress.country}` : ""}`;
+      const deliveryAddressString = `${selectedAddress.street}, ${selectedAddress.city}, ${selectedAddress.state} ${selectedAddress.zip ? `, ${selectedAddress.zip}` : ""} : ""}`;
 
       const cartItemsForRpc = items.map((item) => ({
         product_id: item.product_id,
@@ -163,7 +164,7 @@ export default function Checkout() {
       const { data: newOrderId, error: orderError } = await supabase.rpc(
         "create_order_with_items",
         {
-          p_user_id: selectedAddress.user_id.toString(), // user.id should be available here due to earlier check
+          p_user_id: user.id, // user.id should be available here due to earlier check
           p_total: total,
           p_delivery_fee: deliveryFee,
           p_delivery_fee_paid: deliveryFee === 0, // Or based on actual payment logic
@@ -427,14 +428,11 @@ export default function Checkout() {
                       </p>
 
                       <p className="text-gray-700">
-                        {address.address_landmark
-                          ? `, ${address.address_landmark}`
-                          : ""}
-                        {address.address_street},{address.address_state},
-                        {address.address_region}
-                        {address.address_zip ? `, ${address.address_zip}` : ""}
-                        {address.country ? `, ${address.country}` : ""}
+                        {address.street},{address.city},{address.state}
+                        {address.zip ? `, ${address.zip}` : ""}
                       </p>
+
+                      <p>{address.notes ? `, ${address.notes}` : ""}</p>
                     </div>
                   </label>
                 ))}

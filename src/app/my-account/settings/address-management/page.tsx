@@ -16,35 +16,30 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import { Database } from "@/supabase-types";
 
-export interface Address {
-  id: string;
-  user_id: string;
-  street: string;
-  city: string;
-  state: string;
-  zip: string;
-  country: string;
-  is_default: boolean;
-}
+type Address = Database["public"]["Tables"]["user_addresses"]["Row"];
+type AddressUpdate = Database["public"]["Tables"]["user_addresses"]["Update"];
 
 export default function AddressManagementPage() {
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [showAddEditAddress, setShowAddEditAddress] = useState(false);
   const [currentAddress, setCurrentAddress] = useState<Address | null>(null);
-  const [addressFormData, setAddressFormData] = useState({
-    street: "",
-    city: "",
-    state: "",
-    zip: "",
-    country: "",
-    is_default: false,
-  });
   const [addressLoading, setAddressLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-
   const user = useAuthStore((state) => state.user);
+  const [addressFormData, setAddressFormData] = useState({
+    country: "",
+    state: "",
+    city: "",
+    street: "",
+    zip: 0,
+    notes: "",
+    name: "",
+    phone_no: "",
+    is_primary: false,
+  });
 
   const loadUserAddresses = useCallback(async () => {
     if (!user) return;
@@ -54,7 +49,7 @@ export default function AddressManagementPage() {
         .from("user_addresses")
         .select("*")
         .eq("user_id", user.id)
-        .order("is_default", { ascending: false });
+        .order("created_at", { ascending: true });
 
       if (error) throw error;
       setAddresses(data);
@@ -71,7 +66,7 @@ export default function AddressManagementPage() {
   }, [loadUserAddresses]);
 
   const handleAddressInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
@@ -108,12 +103,15 @@ export default function AddressManagementPage() {
       setShowAddEditAddress(false);
       setCurrentAddress(null);
       setAddressFormData({
-        street: "",
-        city: "",
-        state: "",
-        zip: "",
         country: "",
-        is_default: false,
+        state: "",
+        city: "",
+        street: "",
+        zip: 0,
+        notes: "",
+        name: "",
+        phone_no: "",
+        is_primary: false,
       });
       loadUserAddresses();
     } catch (error) {
@@ -121,14 +119,14 @@ export default function AddressManagementPage() {
       toast.error(
         error instanceof Error
           ? error.message
-          : "Failed to save address. Please try again."
+          : "Failed to save address. Please try again.",
       );
     } finally {
       setAddressLoading(false);
     }
   };
 
-  const handleDeleteAddress = async (addressId: string) => {
+  const handleDeleteAddress = async (addressId: number) => {
     if (!user) {
       return toast.error("Please log in to delete addresses.");
     }
@@ -149,27 +147,20 @@ export default function AddressManagementPage() {
     } catch (error) {
       console.error("Error deleting address:", error);
       toast.error(
-        error instanceof Error ? error.message : "Failed to delete address."
+        error instanceof Error ? error.message : "Failed to delete address.",
       );
     } finally {
       setAddressLoading(false);
     }
   };
 
-  const handleEditAddressClick = (address: Address) => {
+  const handleEditAddressClick = (address: any) => {
     setCurrentAddress(address);
-    setAddressFormData({
-      street: address.street,
-      city: address.city,
-      state: address.state,
-      zip: address.zip,
-      country: address.country,
-      is_default: address.is_default,
-    });
+    setAddressFormData(address);
     setShowAddEditAddress(true);
   };
 
-  const handleSetDefaultAddress = async (addressId: string) => {
+  const handleSetDefaultAddress = async (addressId: number) => {
     if (!user) {
       return toast.error("Please log in to set default address.");
     }
@@ -178,14 +169,14 @@ export default function AddressManagementPage() {
       // First, unset all other default addresses for this user
       await supabase
         .from("user_addresses")
-        .update({ is_default: false })
+        .update({ is_primary: false })
         .eq("user_id", user.id)
         .neq("id", addressId); // Exclude the one we're about to set as default
 
       // Then, set the chosen address as default
       const { error } = await supabase
         .from("user_addresses")
-        .update({ is_default: true })
+        .update({ is_primary: true })
         .eq("id", addressId)
         .eq("user_id", user.id);
 
@@ -197,7 +188,7 @@ export default function AddressManagementPage() {
       toast.error(
         error instanceof Error
           ? error.message
-          : "Failed to set default address. Please try again."
+          : "Failed to set default address. Please try again.",
       );
     } finally {
       setAddressLoading(false);
@@ -213,7 +204,10 @@ export default function AddressManagementPage() {
             className="p-2 mr-4 rounded-full hover:bg-gray-200 transition-colors"
             aria-label="Go back to settings"
           >
-            <FontAwesomeIcon icon={faCircleChevronLeft} className="w-6 h-6 text-gray-700" />
+            <FontAwesomeIcon
+              icon={faCircleChevronLeft}
+              className="w-6 h-6 text-gray-700"
+            />
           </Link>
 
           <h1 className="text-2xl font-extrabold text-gray-900">
@@ -241,12 +235,15 @@ export default function AddressManagementPage() {
                 setShowAddEditAddress(true);
                 setCurrentAddress(null);
                 setAddressFormData({
-                  street: "",
-                  city: "",
-                  state: "",
-                  zip: "",
                   country: "",
-                  is_default: false,
+                  state: "",
+                  city: "",
+                  street: "",
+                  zip: 0,
+                  notes: "",
+                  name: "",
+                  phone_no: "",
+                  is_primary: false,
                 });
               }}
               className="px-3 py-1.5 bg-orange-500 text-white rounded-md hover:bg-orange-500/90 flex items-center space-x-1.5 text-xs sm:text-sm"
@@ -273,19 +270,19 @@ export default function AddressManagementPage() {
                     key={address.id}
                     className="border border-gray-200 rounded-lg p-4 relative bg-gray-50 flex flex-col"
                   >
-                    {address.is_default && (
+                    {address.is_primary && (
                       <span className="absolute top-2 right-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
-                        Default
+                        Primary
                       </span>
                     )}
                     <p className="font-semibold text-gray-800 break-words">
                       {address.street}
                     </p>
                     <p className="text-sm text-gray-600">
-                      {address.city}, {address.state}
+                      {address.state}, {address.city}
                     </p>
                     <p className="text-sm text-gray-600">
-                      {address.zip}, {address.country}
+                      {address.country}, {address.zip}
                     </p>
                     <div className="mt-4 flex flex-wrap gap-2 text-sm justify-end">
                       <button
@@ -300,7 +297,7 @@ export default function AddressManagementPage() {
                       >
                         Delete
                       </button>
-                      {!address.is_default && (
+                      {!address.is_primary && (
                         <button
                           onClick={() => handleSetDefaultAddress(address.id)}
                           className="text-blue-600 hover:text-blue-700 font-medium"
@@ -314,7 +311,7 @@ export default function AddressManagementPage() {
               </div>
             )}
 
-            {showAddEditAddress && (
+            {showAddEditAddress && addressFormData && (
               <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 overflow-y-auto">
                 <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6 relative my-8">
                   <h3 className="text-lg font-bold text-gray-900 mb-4">
@@ -334,7 +331,7 @@ export default function AddressManagementPage() {
                         id="street"
                         value={addressFormData.street}
                         onChange={handleAddressInputChange}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-orange focus:ring-primary-orange sm:text-sm"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-orange focus:ring-primary-orange sm:text-sm p-2"
                         required
                       />
                     </div>
@@ -352,7 +349,7 @@ export default function AddressManagementPage() {
                           id="city"
                           value={addressFormData.city}
                           onChange={handleAddressInputChange}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-orange focus:ring-primary-orange sm:text-sm"
+                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-orange focus:ring-primary-orange sm:text-sm p-2"
                           required
                         />
                       </div>
@@ -369,7 +366,7 @@ export default function AddressManagementPage() {
                           id="state"
                           value={addressFormData.state}
                           onChange={handleAddressInputChange}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-orange focus:ring-primary-orange sm:text-sm"
+                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-orange focus:ring-primary-orange sm:text-sm p-2"
                           required
                         />
                       </div>
@@ -388,39 +385,75 @@ export default function AddressManagementPage() {
                           id="zip"
                           value={addressFormData.zip}
                           onChange={handleAddressInputChange}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-orange focus:ring-primary-orange sm:text-sm"
+                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-orange focus:ring-primary-orange sm:text-sm p-2"
                           required
                         />
                       </div>
                       <div>
                         <label
-                          htmlFor="country"
+                          htmlFor="notes"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          Country
+                          Notes
                         </label>
                         <input
                           type="text"
-                          name="country"
-                          id="country"
-                          value={addressFormData.country}
+                          name="notes"
+                          id="notes"
+                          value={addressFormData.notes || ""}
                           onChange={handleAddressInputChange}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-orange focus:ring-primary-orange sm:text-sm"
+                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-orange focus:ring-primary-orange sm:text-sm p-2"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label
+                          htmlFor="name"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          Name
+                        </label>
+                        <input
+                          type="text"
+                          name="name"
+                          id="name"
+                          value={addressFormData.name}
+                          onChange={handleAddressInputChange}
+                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-orange focus:ring-primary-orange sm:text-sm p-2"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="phone_no"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          Phone No.
+                        </label>
+                        <input
+                          type="text"
+                          name="phone_no"
+                          id="phone_no"
+                          value={addressFormData.phone_no}
+                          onChange={handleAddressInputChange}
+                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-orange focus:ring-primary-orange sm:text-sm p-2"
                           required
                         />
                       </div>
                     </div>
                     <div className="flex items-center">
                       <input
-                        id="is_default"
-                        name="is_default"
+                        id="is_primary"
+                        name="is_primary"
                         type="checkbox"
-                        checked={addressFormData.is_default}
+                        checked={addressFormData.is_primary}
                         onChange={handleAddressInputChange}
                         className="h-4 w-4 text-primary-orange focus:ring-primary-orange border-gray-300 rounded"
                       />
                       <label
-                        htmlFor="is_default"
+                        htmlFor="is_primary"
                         className="ml-2 block text-sm text-gray-900"
                       >
                         Set as default address
@@ -442,8 +475,8 @@ export default function AddressManagementPage() {
                         {addressLoading
                           ? "Saving..."
                           : currentAddress
-                          ? "Save Changes"
-                          : "Add Address"}
+                            ? "Save Changes"
+                            : "Add Address"}
                       </button>
                     </div>
                   </form>
