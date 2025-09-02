@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
       { status: 200 },
     );
   } catch (err) {
-    console.error("Register error:", err);
+    console.error("Login error:", err);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
