@@ -5,8 +5,10 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { recaptcha } from "@/lib/recaptcha";
+import { cookies } from "next/headers";
 
 export async function POST(req: NextRequest) {
   try {
@@ -25,6 +27,7 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
 
+    const supabase = createRouteHandlerClient({ cookies: async () => await cookies() });
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -33,9 +36,14 @@ export async function POST(req: NextRequest) {
     if (error)
       return NextResponse.json({ error: error.message }, { status: 400 });
 
+      console.log("User", data.user)
+      console.log("Session", data.session)
+
     return NextResponse.json(
       { user: data.user, session: data.session },
-      { status: 200 },
+      {
+        status: 200,
+      },
     );
   } catch (err) {
     console.error("Login error:", err);
