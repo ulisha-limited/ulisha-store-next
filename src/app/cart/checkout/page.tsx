@@ -53,9 +53,9 @@ export default function Checkout() {
   } | null>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false); // Calculate subtotal and total
 
-  const subtotal = items.reduce((sum, item) => {
-    // return sum + (item.product?.price || 0) * item.quantity;
-    return sum + 0 * item.quantity;
+  const subtotal = items.reduce((sum: number, item: any) => {
+     return sum + (item.product?.price || 0) * item.quantity;
+    // return sum + 0 * item.quantity;
   }, 0);
   const deliveryFee = 0; // Placeholder for delivery fee
   const total = subtotal + deliveryFee;
@@ -152,7 +152,7 @@ export default function Checkout() {
     try {
       const deliveryAddressString = `${selectedAddress.street}, ${selectedAddress.city}, ${selectedAddress.state} ${selectedAddress.zip ? `, ${selectedAddress.zip}` : ""} : ""}`;
 
-      const cartItemsForRpc = items.map((item) => ({
+      const cartItemsForRpc = items.map((item: any) => ({
         product_id: item.product_id,
         quantity: item.quantity,
         // price: item.product.price,

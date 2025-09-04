@@ -2,7 +2,7 @@
  * Copyright 2025 Ulisha Limited
  * Licensed under the Apache License, Version 2.0
  * See LICENSE file in the project root for full license information.
- */ 
+ */
 
 "use client";
 
@@ -68,11 +68,11 @@ export default function CountryRegionPage() {
           if (userPrefError && userPrefError.code !== "PGRST116")
             throw userPrefError;
 
-          if (userPref && userPref.country) {
-            setSelectedCountry(userPref.country);
-          } else if (sortedCountries.length > 0) {
-            setSelectedCountry("NG"); // Default to Nigeria if available
-          }
+          // if (userPref && userPref.country) {
+          //   setSelectedCountry(userPref.country);
+          // } else if (sortedCountries.length > 0) {
+          //   setSelectedCountry("NG"); // Default to Nigeria if available
+          // }
         } else if (sortedCountries.length > 0) {
           setSelectedCountry("NG"); // Default for guests
         }

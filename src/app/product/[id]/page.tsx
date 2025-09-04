@@ -74,6 +74,8 @@ export default function ProductDetailPage() {
         .eq("id", productId)
         .single();
 
+      if (!product) return;
+
       const { data: imagesData } = await supabase
         .from("product_images")
         .select("image_url")

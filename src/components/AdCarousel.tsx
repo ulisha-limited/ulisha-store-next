@@ -15,19 +15,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "@/lib/supabase";
 import { NavigationOptions } from "swiper/types";
+import { Database } from "@/supabase-types";
+
+type Advertisement = Database["public"]["Tables"]["advertisements"]["Row"];
 
 interface AdCarouselProps {
   className?: string;
-}
-
-interface Advertisement {
-  id: string;
-  title: string;
-  description: string;
-  image_url: string;
-  button_text: string;
-  button_link: string;
-  active: boolean;
 }
 
 const MAX_RETRIES = 3;
@@ -74,7 +67,7 @@ export function AdCarousel({ className = "" }: AdCarouselProps) {
         throw supabaseError;
       }
 
-      setAds(data || []);
+      setAds(data);
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching ads:", error);

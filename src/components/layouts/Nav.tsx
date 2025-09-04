@@ -98,7 +98,7 @@ export function Nav() {
   };
 
   const cartItemCount = cartItems.reduce(
-    (total, item) => total + item.quantity,
+    (total: number, item: any) => total + item.quantity,
     0,
   );
 

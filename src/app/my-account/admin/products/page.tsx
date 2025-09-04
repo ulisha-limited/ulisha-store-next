@@ -124,7 +124,7 @@ export default function Products() {
         name: productData.name,
         category: productData.category,
         description: productData.description,
-        original_price: parseFloat(productData.original_price),
+        price: parseFloat(productData.original_price),
         discount_price: productData.discount_active
           ? parseFloat(productData.discount_price)
           : null,
@@ -137,7 +137,7 @@ export default function Products() {
           name: string;
           category: string;
           description: string;
-          original_price: number;
+          price: number;
           discount_price: number | null;
           discount_active: boolean;
           shipping_location: string;
