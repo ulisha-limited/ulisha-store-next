@@ -62,7 +62,8 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
         .eq("discount_active", true)
         .not("discount_percentage", "is", null)
         .gte("discount_percentage", 10)
-        .limit(20);
+        .limit(20)
+        .order("created_at", { ascending: false }); // Prioritize newer products
 
       if (error) throw error;
 
@@ -75,7 +76,8 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
         const { data: allProducts } = await supabase
           .from("products")
           .select("*")
-          .limit(10);
+          .limit(10)
+          .order("created_at", { ascending: false }); // Prioritize newer products
         if (allProducts && allProducts.length > 0) {
           const randomIndex = Math.floor(Math.random() * allProducts.length);
           setFeaturedProduct(allProducts[randomIndex]);
