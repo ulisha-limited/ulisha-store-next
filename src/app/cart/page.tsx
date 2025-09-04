@@ -84,10 +84,10 @@ export default function Cart() {
     }
   }, [notification]);
 
-  const subtotal = items.reduce((sum, item) => {
-    // if (item.product) {
-    //   return sum + item.product.price * item.quantity;
-    // }
+  const subtotal = items.reduce((sum: number, item:any) => {
+    if (item.product) {
+      return sum + item.product.price * item.quantity;
+    }
     return 0;
   }, 0);
 
@@ -165,10 +165,10 @@ export default function Cart() {
     try {
       // TEST ONLY
 
-      const totalPrice = items.reduce((sum, item) => {
-        // if (item.product) {
-        //   return sum + item.product.price * item.quantity;
-        // }
+      const totalPrice = items.reduce((sum: number, item:any) => {
+        if (item.product) {
+          return sum + item.product.price * item.quantity;
+        }
         return sum;
       }, 0);
 

@@ -2,7 +2,7 @@
  * Copyright 2025 Ulisha Limited
  * Licensed under the Apache License, Version 2.0
  * See LICENSE file in the project root for full license information.
- */ 
+ */
 
 "use client";
 
@@ -43,13 +43,13 @@ export default function NotificationPreferencesPage() {
 
       if (error && error.code !== "PGRST116") throw error;
 
-      if (data) {
-        setNotifications({
-          orderUpdates: data.order_updates ?? true,
-          promotions: data.promotions ?? true,
-          security: data.security_alerts ?? true,
-        });
-      }
+      // if (data) {
+      //   setNotifications({
+      //     orderUpdates: data.order_updates ?? true,
+      //     promotions: data.promotions ?? true,
+      //     security: data.security_alerts ?? true,
+      //   });
+      // }
     } catch (error) {
       console.error("Error loading notification preferences:", error);
       toast.error(

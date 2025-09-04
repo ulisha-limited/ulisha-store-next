@@ -30,34 +30,59 @@ export default function Login() {
   const router = useRouter();
   const navigate = router.push;
   const setUser = useAuthStore((state) => state.setUser);
+  const setSession = useAuthStore((state) => state.setSession);
+  const refreshSession = useAuthStore((state) => state.refreshSession);
+  const session = useAuthStore((state) => state.session);
+  const signIn = useAuthStore((state) => state.signIn);
 
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setError("");
+  //   if (!executeRecaptcha) return setError("Recaptcha not yet available!");
+
+  //   setLoading(true);
+  //   try {
+  //     const token = await executeRecaptcha("login_form");
+
+  //     const res = await axios.post("/api/auth/login", {
+  //       email,
+  //       password,
+  //       recaptchaToken: token,
+  //     });
+
+  //     setUser(res.data.user);
+  //     setSession(res.data.session);
+
+  //     window.location.href = "/"
+  //   } catch (err: any) {
+  //     if (err.response) {
+  //       setError(
+  //         err.response.data.error || "An error occurred. Please try again.",
+  //       );
+  //     } else if (err.request) {
+  //       setError("No response from server. Please try again.");
+  //     } else {
+  //       setError(err.message);
+  //     }
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  //
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (!executeRecaptcha) return setError("Recaptcha not yet available!");
-
     setLoading(true);
+
     try {
-      const token = await executeRecaptcha("login_form");
-
-      const res = await axios.post("/api/auth/login", {
-        email,
-        password,
-        recaptchaToken: token,
-      });
-
-      setUser(res.data);
-      navigate("/");
-    } catch (err: any) {
-      if (err.response) {
-        setError(
-          err.response.data.error || "An error occurred. Please try again.",
-        );
-      } else if (err.request) {
-        setError("No response from server. Please try again.");
-      } else {
-        setError(err.message);
-      }
+      await signIn(email, password);
+      window.location.href = "/"
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "An error occurred during sign in. Please try again.",
+      );
     } finally {
       setLoading(false);
     }

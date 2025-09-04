@@ -40,7 +40,7 @@ export default function BottomNav() {
    */
 
   const cartItemCount = cartItems.reduce(
-    (total, item) => total + item.quantity,
+    (total: number, item: any) => total + item.quantity,
     0
   );
 

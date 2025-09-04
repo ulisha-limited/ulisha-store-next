@@ -12,14 +12,7 @@
 import * as Sentry from "@sentry/nextjs";
 
 Sentry.init({
-  dsn:
-    process.env.NODE_ENV === "development"
-      ? undefined
-      : "https://0fc5e7883a07a6957736acb39fbe9db2@o4508073369862144.ingest.de.sentry.io/4509754546192464",
-
-  // Enable logs to be sent to Sentry
-  enableLogs: true,
-
+  dsn: process.env.SENTRY_DSN || "",
   // Setting this option to true will print useful information to the console while you're setting up Sentry.
   debug: false,
 

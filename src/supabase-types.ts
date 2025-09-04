@@ -423,7 +423,7 @@ export type Database = {
             columns: ["order_id"]
             isOneToOne: false
             referencedRelation: "orders"
-            referencedColimageumns: ["id"]
+            referencedColumns: ["id"]
           },
           {
             foreignKeyName: "order_items_variant_id_fkey"
@@ -732,24 +732,24 @@ export type Database = {
       }
       shopping_sessions: {
         Row: {
-          created_at: string | null
+          created_at: string
           id: string
-          status: string | null
-          updated_at: string | null
+          status: string
+          updated_at: string
           user_id: string
         }
         Insert: {
-          created_at?: string | null
+          created_at?: string
           id?: string
-          status?: string | null
-          updated_at?: string | null
+          status?: string
+          updated_at?: string
           user_id: string
         }
         Update: {
-          created_at?: string | null
+          created_at?: string
           id?: string
-          status?: string | null
-          updated_at?: string | null
+          status?: string
+          updated_at?: string
           user_id?: string
         }
         Relationships: []
@@ -795,49 +795,46 @@ export type Database = {
       }
       user_addresses: {
         Row: {
-          address_landmark: string
-          address_region: string
-          address_state: string
-          address_street: string
-          address_zip: number
-          category: boolean[]
-          country: string
+          city: string
+          country: string | null
           created_at: string
           id: number
           is_primary: boolean
           name: string
+          notes: string | null
           phone_no: string
-          user_id: number
+          state: string
+          street: string
+          user_id: string | null
+          zip: number
         }
         Insert: {
-          address_landmark: string
-          address_region: string
-          address_state: string
-          address_street: string
-          address_zip: number
-          category: boolean[]
-          country: string
+          city: string
+          country?: string | null
           created_at?: string
           id?: number
-          is_primary: boolean
-          name?: string
+          is_primary?: boolean
+          name: string
+          notes?: string | null
           phone_no: string
-          user_id?: number
+          state: string
+          street: string
+          user_id?: string | null
+          zip: number
         }
         Update: {
-          address_landmark?: string
-          address_region?: string
-          address_state?: string
-          address_street?: string
-          address_zip?: number
-          category?: boolean[]
-          country?: string
+          city?: string
+          country?: string | null
           created_at?: string
           id?: number
           is_primary?: boolean
           name?: string
+          notes?: string | null
           phone_no?: string
-          user_id?: number
+          state?: string
+          street?: string
+          user_id?: string | null
+          zip?: number
         }
         Relationships: []
       }
