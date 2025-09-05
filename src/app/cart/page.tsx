@@ -298,7 +298,7 @@ export default function Cart() {
             {/* Cart Items List */}
             <div className="lg:col-span-2">
               <div className="divide-y divide-gray-100 space-y-4 sm:space-y-6">
-                {/*{items.map((item) => {
+                {items.map((item: any) => {
                   if (!item.product) return null;
 
                   return (
@@ -394,7 +394,7 @@ export default function Cart() {
                       </div>
                     </div>
                   );
-                })}*/}
+                })}
               </div>
             </div>
 
@@ -403,7 +403,7 @@ export default function Cart() {
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-5 border-b pb-3 border-gray-200">
                 Order Summary
               </h3>
-
+ 
               {/* Minimum item checkout warning */}
               {!canCheckout && (
                 <div className="mb-5 p-3 bg-blue-100 border border-blue-300 text-blue-800 rounded-lg flex items-start animate-fade-in">
