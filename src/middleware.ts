@@ -6,6 +6,8 @@
 
 import { createServerClient } from "@supabase/ssr";
 import { NextRequest, NextResponse } from "next/server";
+import { checkRateLimit } from "./lib/rateLimit";
+import { Jersey_10 } from "next/font/google";
 
 const MAINTENANCE = process.env.MAINTENANCE_MODE === "true";
 const PROTECTED_ROUTE_REGEX = [
@@ -20,6 +22,19 @@ const PROTECTED_ROUTE_REGEX = [
 ];
 
 export async function middleware(request: NextRequest) {
+  /*
+   * Rate Limit
+   */
+  const forwardedFor = request.headers.get("x-forwarded-for");
+  const ip = forwardedFor?.split(",")[0] || "unknown";
+
+  const maxRequest = /api\/auth\/register/.test(request.nextUrl.pathname) ? 3 : 5;
+  const window = 60 * 100;
+  const isAllowed = checkRateLimit(ip, maxRequest, window);
+  if (!isAllowed)
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+
+
   if (/hello-world$/.test(request.nextUrl.pathname))
     return new NextResponse("Hello World", { status: 200 });
   if (!MAINTENANCE && /maintenance$/.test(request.nextUrl.pathname))
