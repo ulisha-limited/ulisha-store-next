@@ -4,7 +4,7 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, MouseEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faXmark,
@@ -63,7 +63,7 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
         .not("discount_percentage", "is", null)
         .gte("discount_percentage", 10)
         .limit(20)
-        .order("created_at", { ascending: false }); // Prioritize newer products
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
 
@@ -77,7 +77,7 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
           .from("products")
           .select("*")
           .limit(10)
-          .order("created_at", { ascending: false }); // Prioritize newer products
+          .order("created_at", { ascending: false });
         if (allProducts && allProducts.length > 0) {
           const randomIndex = Math.floor(Math.random() * allProducts.length);
           setFeaturedProduct(allProducts[randomIndex]);
@@ -102,15 +102,24 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
     onClose();
   };
 
+  const handleInnerClick = (e: MouseEvent) => {
+    e.stopPropagation();
+  };
+
   if (!isVisible) return null;
 
-  // Custom blue color
   const blue = "#007bff";
 
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+    <div
+      className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+      onClick={onClose}
+    >
       {/* Mobile */}
-      <div className="md:hidden bg-white rounded-2xl w-[90%] max-h-[90vh] overflow-y-auto shadow-2xl animate-fade-in">
+      <div
+        className="md:hidden bg-white rounded-2xl w-[90%] max-h-[90vh] overflow-y-auto shadow-2xl animate-fade-in"
+        onClick={handleInnerClick}
+      >
         <div
           className={`${
             isSecondShow
@@ -275,7 +284,10 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
         </div>
       </div>
       {/* Desktop */}
-      <div className="hidden md:flex w-[85%] max-w-3xl bg-white rounded-2xl overflow-hidden shadow-2xl animate-fade-in">
+      <div
+        className="hidden md:flex w-[85%] max-w-3xl bg-white rounded-2xl overflow-hidden shadow-2xl animate-fade-in"
+        onClick={handleInnerClick}
+      >
         <div className="flex w-full">
           <div className="w-1/2 relative p-4">
             {featuredProduct && (
