@@ -6,7 +6,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
-import { isDisposableEmail } from "@/lib/emailChecker";
+import { isDisposableEmail, validateEmail } from "@/lib/emailChecker";
 import { recaptcha } from "@/lib/recaptcha";
 
 export async function POST(req: NextRequest) {
@@ -26,15 +26,21 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
 
-    if (await isDisposableEmail(email))
-      return NextResponse.json(
-        { error: "Disposable emails are not allowed" },
-        { status: 400 },
-      );
-
     if (password === email || password === name)
       return NextResponse.json(
         { error: "Password must not include your email or name!" },
+        { status: 400 },
+      );
+
+    if (!validateEmail(email))
+      return NextResponse.json(
+        { error: "Invalid email format." },
+        { status: 400 },
+      );
+
+    if (await isDisposableEmail(email))
+      return NextResponse.json(
+        { error: "Disposable emails are not allowed" },
         { status: 400 },
       );
 
