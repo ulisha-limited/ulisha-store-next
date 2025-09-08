@@ -32,3 +32,15 @@ export async function isDisposableEmail(email: string): Promise<boolean> {
 
   return cachedDomains.has(domain);
 }
+
+export function validateEmail(email: string) {
+  if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)) return false;
+
+  const lower = email.toLowerCase();
+
+  if (/^(example|test|fake|dummy|admin|user)[0-9]*@/.test(lower)) return false;
+  if (/@(example\.com|test\.com|localhost|invalid|fake\.\w+)$/.test(lower))
+    return false;
+
+  return true;
+}
