@@ -28,12 +28,13 @@ export async function middleware(request: NextRequest) {
   const forwardedFor = request.headers.get("x-forwarded-for");
   const ip = forwardedFor?.split(",")[0] || "unknown";
 
-  const maxRequest = /api\/auth\/register/.test(request.nextUrl.pathname) ? 3 : 5;
-  const window = 60 * 100;
-  const isAllowed = checkRateLimit(ip, maxRequest, window);
-  if (!isAllowed)
-    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
-
+  if (/api\//.test(request.nextUrl.pathname)) {
+    const maxRequest = /api\/auth\//.test(request.nextUrl.pathname) ? 5 : 20;
+    const window = 60 * 60 * 100;
+    const isAllowed = checkRateLimit(ip, maxRequest, window);
+    if (!isAllowed)
+      return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
 
   if (/hello-world$/.test(request.nextUrl.pathname))
     return new NextResponse("Hello World", { status: 200 });
@@ -235,7 +236,7 @@ export async function middleware(request: NextRequest) {
   //     console.log("Not a bot, proceeding normally");
   //   }
 
-    return NextResponse.next();
+  return NextResponse.next();
   // }
 }
 
