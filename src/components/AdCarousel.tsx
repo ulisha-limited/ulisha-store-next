@@ -6,16 +6,21 @@
 
 import { useRef, useEffect, useState, useCallback } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { EffectFade, Navigation, Pagination, Autoplay } from "swiper/modules";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCircleChevronLeft,
-  faChevronRight,
   faChevronLeft,
+  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "@/lib/supabase";
 import { NavigationOptions } from "swiper/types";
 import { Database } from "@/supabase-types";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/effect-fade";
 
 type Advertisement = Database["public"]["Tables"]["advertisements"]["Row"];
 
@@ -27,8 +32,8 @@ const MAX_RETRIES = 3;
 const INITIAL_RETRY_DELAY = 1000; // 1 second
 
 export function AdCarousel({ className = "" }: AdCarouselProps) {
-  const prevRef = useRef<HTMLDivElement>(null);
-  const nextRef = useRef<HTMLDivElement>(null);
+  const prevRef = useRef<HTMLButtonElement>(null);
+  const nextRef = useRef<HTMLButtonElement>(null);
   const [ads, setAds] = useState<Advertisement[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -42,7 +47,6 @@ export function AdCarousel({ className = "" }: AdCarouselProps) {
 
   const fetchAds = useCallback(async (retryCount = 0): Promise<void> => {
     try {
-      // Check network connectivity first
       if (!checkNetworkConnectivity()) {
         throw new Error("No internet connection");
       }
@@ -50,7 +54,6 @@ export function AdCarousel({ className = "" }: AdCarouselProps) {
       setIsLoading(true);
       setError(null);
 
-      // Optionally, you can check if supabase is defined or handle errors from the client itself
       if (!supabase) {
         throw new Error("Supabase client is not configured");
       }
@@ -62,7 +65,6 @@ export function AdCarousel({ className = "" }: AdCarouselProps) {
         .order("created_at", { ascending: false });
 
       if (supabaseError) {
-        // Log the specific Supabase error for debugging
         console.error("Supabase error:", supabaseError);
         throw supabaseError;
       }
@@ -73,13 +75,11 @@ export function AdCarousel({ className = "" }: AdCarouselProps) {
       console.error("Error fetching ads:", error);
 
       if (retryCount < MAX_RETRIES) {
-        // Exponential backoff
         const retryDelay = INITIAL_RETRY_DELAY * Math.pow(2, retryCount);
         await delay(retryDelay);
         return fetchAds(retryCount + 1);
       }
 
-      // Provide more specific error messages
       let errorMessage = "Unable to load advertisements. ";
       if (!checkNetworkConnectivity()) {
         errorMessage += "Please check your internet connection.";
@@ -99,7 +99,6 @@ export function AdCarousel({ className = "" }: AdCarouselProps) {
   useEffect(() => {
     fetchAds();
 
-    // Subscribe to changes
     const subscription = supabase
       .channel("advertisements")
       .on(
@@ -109,10 +108,9 @@ export function AdCarousel({ className = "" }: AdCarouselProps) {
       )
       .subscribe();
 
-    // Add online/offline event listeners
     const handleOnline = () => {
       if (error) {
-        fetchAds(); // Retry when connection is restored
+        fetchAds();
       }
     };
 
@@ -131,9 +129,29 @@ export function AdCarousel({ className = "" }: AdCarouselProps) {
   if (isLoading) {
     return (
       <div
-        className={`h-[200px] sm:h-[250px] flex items-center justify-center bg-gray-100 ${className}`}
+        className={`relative h-[250px] sm:h-[350px] md:h-[400px] flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-200 rounded-lg overflow-hidden shadow-lg ${className} max-w-7xl mx-auto`}
       >
-        <div className="animate-pulse text-gray-500">
+        <div className="animate-pulse flex items-center gap-2 text-gray-600 text-lg font-medium">
+          <svg
+            className="animate-spin h-5 w-5 text-gray-500"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
           Loading advertisements...
         </div>
       </div>
@@ -143,9 +161,13 @@ export function AdCarousel({ className = "" }: AdCarouselProps) {
   if (error) {
     return (
       <div
-        className={`h-[200px] sm:h-[250px] flex items-center justify-center bg-gray-100 ${className}`}
+        className={`relative h-[250px] sm:h-[350px] md:h-[400px] flex items-center justify-center bg-gradient-to-br from-red-50 to-red-200 rounded-lg overflow-hidden shadow-lg ${className} max-w-7xl mx-auto`}
       >
-        <div className="text-gray-500">{error}</div>
+        <div className="text-red-700 text-center p-4">
+          <p className="font-bold text-xl mb-2">Error!</p>
+          <p>{error}</p>
+          <p className="text-sm mt-2">Please try again later.</p>
+        </div>
       </div>
     );
   }
@@ -155,22 +177,29 @@ export function AdCarousel({ className = "" }: AdCarouselProps) {
   }
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative group max-w-7xl mx-auto ${className}`}>
       <Swiper
-        modules={[Navigation, Pagination, Autoplay]}
+        modules={[Navigation, Pagination, Autoplay, EffectFade]}
         spaceBetween={0}
         slidesPerView={1}
+        effect="fade"
+        fadeEffect={{ crossFade: true }}
         navigation={{
           prevEl: prevRef.current,
           nextEl: nextRef.current,
         }}
-        pagination={{ clickable: true }}
+        pagination={{
+          clickable: true,
+          dynamicBullets: true,
+        }}
         autoplay={{
-          delay: 5000,
+          delay: 6000,
           disableOnInteraction: false,
+          pauseOnMouseEnter: true,
         }}
         loop={true}
-        className="h-[200px] sm:h-[350px]"
+        // Reduced width by 20px on left and right using negative margin
+        className="h-[250px] sm:h-[350px] md:h-[400px] rounded-xl overflow-hidden shadow-2xl -mx-5 sm:-mx-10"
         onInit={(swiper) => {
           const navigation = swiper.params.navigation as NavigationOptions;
           navigation.prevEl = prevRef.current;
@@ -182,20 +211,22 @@ export function AdCarousel({ className = "" }: AdCarouselProps) {
         {ads.map((ad) => (
           <SwiperSlide key={ad.id}>
             <div
-              className="relative w-full h-full bg-cover bg-center flex items-center"
+              className="relative w-full h-full bg-cover bg-center flex items-center justify-center p-4 sm:p-6 md:p-8"
               style={{ backgroundImage: `url(${ad.image_url})` }}
             >
-              <div className="absolute inset-0 bg-black/40 "></div>
-              <div className="relative z-10 text-white text-center w-full px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-3">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+              
+              <div className="relative z-10 text-white text-center max-w-2xl mx-auto">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3 sm:mb-4 leading-tight drop-shadow-lg">
                   {ad.title}
                 </h2>
-                <p className="text-sm sm:text-base mb-3 sm:mb-4">
+                <p className="text-base sm:text-lg mb-5 sm:mb-6 opacity-90 drop-shadow-md">
                   {ad.description}
                 </p>
                 <a
                   href={ad.button_link}
-                  className="inline-block bg-orange-500 hover:bg-orange-500/90 text-white font-medium py-2 px-6 rounded-full transition-colors text-sm sm:text-base"
+                  // Changed button color to blue with white text
+                  className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg uppercase tracking-wide"
                 >
                   {ad.button_text}
                 </a>
@@ -205,19 +236,20 @@ export function AdCarousel({ className = "" }: AdCarouselProps) {
         ))}
       </Swiper>
 
-      {/* Custom navigation buttons */}
-      <div
+      <button
         ref={prevRef}
-        className="absolute top-1/2 left-4 z-10 -translate-y-1/2 bg-white/20 hover:bg-white/70 rounded-full p-2 cursor-pointer transition-all"
+        className="absolute top-1/2 left-4 z-20 -translate-y-1/2 flex items-center justify-center w-10 h-10 bg-white/30 hover:bg-white/60 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-75 backdrop-blur-sm"
+        aria-label="Previous advertisement"
       >
-        <FontAwesomeIcon icon={faChevronLeft} className="text-white" />
-      </div>
-      <div
+        <FontAwesomeIcon icon={faChevronLeft} className="text-xl" />
+      </button>
+      <button
         ref={nextRef}
-        className="absolute top-1/2 right-4 z-10 -translate-y-1/2 bg-white/20 hover:bg-white/70 rounded-full p-2 cursor-pointer transition-all"
+        className="absolute top-1/2 right-4 z-20 -translate-y-1/2 flex items-center justify-center w-10 h-10 bg-white/30 hover:bg-white/60 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-75 backdrop-blur-sm"
+        aria-label="Next advertisement"
       >
-        <FontAwesomeIcon icon={faChevronRight} className="text-white" />
-      </div>
+        <FontAwesomeIcon icon={faChevronRight} className="text-xl" />
+      </button>
     </div>
   );
 }

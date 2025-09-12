@@ -180,19 +180,8 @@ export default function HomePage() {
           </div>
 
           {/* Main Content */}
-          <div className="bg-orange-500 text-white py-2">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex items-center justify-center sm:justify-end space-x-4 text-sm">
-                <a
-                  href="tel:+2347060438205"
-                  className="flex items-center hover:text-white/90 transition-colors"
-                >
-                  <FontAwesomeIcon icon={faPhone} className="h-4 w-4 mr-2" />
-                  <span>Call to place order: +234 913 478 1219</span>
-                </a>
-              </div>
-            </div>
-          </div>
+         
+         
 
           <AdCarousel />
 
