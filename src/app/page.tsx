@@ -151,37 +151,6 @@ export default function HomePage() {
 
       <div className="min-h-screen bg-gray-100 flex flex-col">
         <div className="flex-grow relative">
-          {/* Left Banner */}
-          <div className="hidden 2xl:flex absolute top-180 -translate-y-1/2 left-0">
-            <div className="ml-4">
-              <Image
-                src="/images/ad-banner.png"
-                alt="Left Ad Banner"
-                className="w-full h-auto"
-                loading="lazy"
-                width={160}
-                height={500}
-              />
-            </div>
-          </div>
-
-          {/* Right Banner */}
-          <div className="hidden 2xl:flex absolute top-180 -translate-y-1/2 right-0">
-            <div className="mr-4">
-              <Image
-                src="/images/ad-banner.png"
-                alt="Right Ad Banner"
-                className="w-full h-auto"
-                loading="lazy"
-                width={160}
-                height={500}
-              />
-            </div>
-          </div>
-
-          {/* Main Content */}
-         
-         
 
           <AdCarousel />
 
