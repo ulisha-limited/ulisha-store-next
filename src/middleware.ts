@@ -29,8 +29,10 @@ export async function middleware(request: NextRequest) {
   const ip = forwardedFor?.split(",")[0] || "unknown";
 
   if (/api\//.test(request.nextUrl.pathname)) {
-    const maxRequest = /api\/auth\//.test(request.nextUrl.pathname) ? 5 : 20;
-    const window = 60 * 60 * 100;
+    const maxRequest = /api\/auth\//.test(request.nextUrl.pathname) ? 5 : 10;
+    const window = /api\/auth\//.test(request.nextUrl.pathname)
+      ? 60 * 60 * 100
+      : 5 * 60 * 100;
     const isAllowed = checkRateLimit(ip, maxRequest, window);
     if (!isAllowed)
       return NextResponse.json({ error: "Too many requests" }, { status: 429 });
@@ -40,6 +42,7 @@ export async function middleware(request: NextRequest) {
     return new NextResponse("Hello World", { status: 200 });
   if (!MAINTENANCE && /maintenance$/.test(request.nextUrl.pathname))
     return NextResponse.rewrite(new URL("/not-found", request.url));
+
   /*
    * controls the maintenance state
    */
@@ -241,5 +244,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|robots.txt).*)"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|favicon.png|robots.txt|images|videos).*)",
+  ],
 };

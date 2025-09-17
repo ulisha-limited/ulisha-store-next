@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.mrepol742.ulishastore",
+    "sha256_cert_fingerprints": [
+      "9E:26:3B:52:52:06:61:4E:E3:A0:59:BF:9F:C9:B1:A5:15:2C:F4:BA:CC:5F:48:E2:E4:77:95:C5:64:B1:50:FA"
+    ]
+  }
+}]
