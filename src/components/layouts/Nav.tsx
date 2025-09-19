@@ -119,7 +119,7 @@ export function Nav() {
             animation: "gradient-x 3s ease-in-out infinite",
           }}
         >
-          ULISHA
+         <b>Ulisha</b> 
         </Link>
         <Link
           href="/message"
