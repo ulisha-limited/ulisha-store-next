@@ -19,13 +19,17 @@ export default function MainLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
-  const authPages = [
+
+  const hiddenPaths = [
     "/login",
     "/register",
     "/forgot-password",
     "/reset-password",
     "/logout",
+    "/my-account",
+    "/settings",
   ];
+
   const hideFooter = [
     "/my-account",
     "/message",
@@ -35,21 +39,22 @@ export default function MainLayout({
     "/cart",
     "/notifications",
   ];
-  const isAuthPage = authPages.some((page) => pathname.startsWith(page));
+
+  const hideNav = hiddenPaths.some((path) => pathname.startsWith(path));
   const isFooterHidden = hideFooter.some((page) => pathname.startsWith(page));
+
+  const contentPaddingClass = hideNav ? "" : "pt-[90px]";
 
   return (
     <div className="bg-white min-h-screen flex flex-col">
-      {!isAuthPage && <NavComponent />}
+      {!hideNav && <NavComponent />}
       <NextTopLoader showSpinner={false} color="#FF6600" />
-      <div className="flex-1 pt-[90px] mb-[90px] md:mb-0">{children}</div>
-      {!isFooterHidden && !isAuthPage && <Footer />}
-      {!isAuthPage && (
-        <>
-          <ToastContainer />
-          <BottomNav />
-        </>
-      )}
+      <div className={`flex-1 ${contentPaddingClass} pb-[90px] md:pb-0`}>
+        {children}
+      </div>
+      {!isFooterHidden && !hideNav && <Footer />}
+      <BottomNav /> {/* ✅ Always visible on all pages */}
+      {!hideNav && <ToastContainer />}
     </div>
   );
 }

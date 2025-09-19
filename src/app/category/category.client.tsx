@@ -52,7 +52,7 @@ const getIconForCategory = (categoryName: string) => {
       return <FontAwesomeIcon icon={faBlender} />;
     case "female clothings":
       return <FontAwesomeIcon icon={faBagShopping} />;
-    case "computer & gaming":
+    case "computer and gaming":
       return <FontAwesomeIcon icon={faLaptop} />;
     case "e-bikes":
       return <FontAwesomeIcon icon={faBicycle} />;
@@ -83,8 +83,8 @@ export default function Category() {
     { name: "Kids toy" },
     { name: "Home Appliances" },
     { name: "Female clothings" },
-    { name: "Computer & gaming" },
-    { name: "E-bikes" },
+    { name: "Computer and gaming" },
+    { name: "E bikes" },
   ];
 
   return (

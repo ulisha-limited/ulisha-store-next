@@ -1,13 +1,8 @@
-/**
- * Copyright 2024 Ulisha Limited
- * Licensed under the Apache License, Version 2.0
- * See LICENSE file in the project root for full license information.
- */
-
 "use client";
 
 import { useAuthStore } from "@/store/authStore";
 import {
+  faArrowLeft,
   faArrowRightFromBracket,
   faBox,
   faChartLine,
@@ -85,48 +80,16 @@ export default function MyAccount() {
   ];
 
   const adminLinks = [
-    {
-      href: "/my-account/admin/dashboard",
-      icon: faChartLine,
-      label: "Dashboard",
-    },
+    { href: "/my-account/admin/dashboard", icon: faChartLine, label: "Dashboard" },
     { href: "/my-account/admin/orders", icon: faBox, label: "Orders" },
-    {
-      href: "/my-account/admin/products",
-      icon: faTruckFast,
-      label: "Products",
-    },
+    { href: "/my-account/admin/products", icon: faTruckFast, label: "Products" },
     { href: "/my-account/admin/users", icon: faUsers, label: "Users" },
-    {
-      href: "/my-account/admin/short-links",
-      icon: faShieldHalved,
-      label: "Short Links",
-    },
-    {
-      href: "/my-account/admin/reviews",
-      icon: faCommentDots,
-      label: "Reviews",
-    },
-    {
-      href: "/my-account/admin/affiliate/join",
-      icon: faChartLine,
-      label: "Affiliate Dashboard",
-    },
-    {
-      href: "/my-account/admin/affiliates/referrals",
-      icon: faUsers,
-      label: "My Referrals",
-    },
-    {
-      href: "/my-account/admin/affiliates/earnings",
-      icon: faCreditCard,
-      label: "My Earnings",
-    },
-    {
-      href: "/my-account/admin/affiliates/payouts",
-      icon: faBox,
-      label: "Payouts",
-    },
+    { href: "/my-account/admin/short-links", icon: faShieldHalved, label: "Short Links" },
+    { href: "/my-account/admin/reviews", icon: faCommentDots, label: "Reviews" },
+    { href: "/my-account/admin/affiliate/join", icon: faChartLine, label: "Affiliate Dashboard" },
+    { href: "/my-account/admin/affiliates/referrals", icon: faUsers, label: "My Referrals" },
+    { href: "/my-account/admin/affiliates/earnings", icon: faCreditCard, label: "My Earnings" },
+    { href: "/my-account/admin/affiliates/payouts", icon: faBox, label: "Payouts" },
   ];
 
   const moreLinks = [
@@ -138,27 +101,27 @@ export default function MyAccount() {
 
   if (!isAdmin) {
     moreLinks.push(
-      {
-        href: "/my-account/affiliate/join",
-        icon: faChartLine,
-        label: "Join Affiliate",
-      },
-      {
-        href: "/my-account/affiliate/referrals",
-        icon: faUsers,
-        label: "My Referrals",
-      },
-      {
-        href: "/my-account/affiliate/earnings",
-        icon: faCreditCard,
-        label: "Reward History",
-      }
+      { href: "/my-account/affiliate/join", icon: faChartLine, label: "Join Affiliate" },
+      { href: "/my-account/affiliate/referrals", icon: faUsers, label: "My Referrals" },
+      { href: "/my-account/affiliate/earnings", icon: faCreditCard, label: "Reward History" }
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-800">
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-800 flex flex-col">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 flex-grow">
+        {/* ✅ Back button */}
+        <div className="mb-6">
+          <Link
+            href="/"
+            className="inline-flex items-center space-x-2 text-sm font-medium text-slate-600 hover:text-orange-500 transition-colors"
+          >
+            <FontAwesomeIcon icon={faArrowLeft} className="h-4 w-4" />
+            <span>Back to Home</span>
+          </Link>
+        </div>
+
+        {/* Account Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-10">
           <div className="flex items-center space-x-4">
             <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-2xl font-bold shadow-md">
@@ -179,6 +142,8 @@ export default function MyAccount() {
             <span>Logout</span>
           </Link>
         </div>
+
+        {/* Rest of content... */}
         <div className="grid grid-cols-1 gap-8">
           {isAdmin && (
             <Card>
@@ -205,6 +170,8 @@ export default function MyAccount() {
               </div>
             </Card>
           )}
+
+          {/* Orders */}
           <Card>
             <CardHeader
               title="My Orders"
@@ -233,6 +200,8 @@ export default function MyAccount() {
               </div>
             </div>
           </Card>
+
+          {/* More Links */}
           <Card>
             <CardHeader title="Account & More" />
             <div className="p-3">
