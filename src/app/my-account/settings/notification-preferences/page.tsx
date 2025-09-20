@@ -102,21 +102,21 @@ export default function NotificationPreferencesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        <div className="flex items-center mb-8">
-          <Link
-            href="/my-account/settings"
-            className="p-2 mr-4 rounded-full hover:bg-gray-200 transition-colors"
-            aria-label="Go back to settings"
-          >
-            <FontAwesomeIcon icon={faCircleChevronLeft} className="w-6 h-6 text-gray-700" />
-          </Link>
-          {/* Reduced font size for the heading */}
-          <h1 className="text-2xl font-extrabold text-gray-900">
-            Notification Settings
-          </h1>
-        </div>
+  <div className="min-h-screen bg-gray-50 font-sans">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+    <div className="flex items-center mb-8">
+      <Link
+        href="/my-account/settings"
+        className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+        aria-label="Go back to settings"
+      >
+        <FontAwesomeIcon icon={faCircleChevronLeft} className="w-6 h-6 text-gray-700" />
+      </Link>
+      <h1 className="ml-4 text-2xl font-extrabold text-gray-900">
+        Notification Settings
+      </h1>
+    </div>
+
 
         {(success || error) && (
           <div

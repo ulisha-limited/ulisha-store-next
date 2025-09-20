@@ -22,7 +22,7 @@ import Link from "next/link";
 import { ReactNode } from "react";
 
 const Card = ({ children }: { children: ReactNode }) => (
-  <div className="bg-white shadow-sm border border-slate-200/60 rounded-xl">
+  <div className="bg-white shadow-sm border border-slate-200/60 rounded-2xl overflow-hidden">
     {children}
   </div>
 );
@@ -36,7 +36,7 @@ const CardHeader = ({
   actionLink?: string;
   actionText?: string;
 }) => (
-  <div className="flex items-center justify-between p-5 border-b border-slate-200/60">
+  <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200/60">
     <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
     {actionLink && actionText && (
       <Link
@@ -109,9 +109,10 @@ export default function MyAccount() {
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800 flex flex-col">
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 flex-grow">
-        {/* ✅ Back button */}
-        <div className="mb-6">
+      <main className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-10 flex-grow space-y-10">
+        
+        {/* Back link - visible only on large screens */}
+        <div className="hidden lg:block">
           <Link
             href="/"
             className="inline-flex items-center space-x-2 text-sm font-medium text-slate-600 hover:text-orange-500 transition-colors"
@@ -121,41 +122,41 @@ export default function MyAccount() {
           </Link>
         </div>
 
-        {/* Account Header */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-10">
-          <div className="flex items-center space-x-4">
-            <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-2xl font-bold shadow-md">
+        {/* Header Section */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+          <div className="flex items-center gap-5">
+            <div className="flex-shrink-0 w-20 h-20 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-3xl font-bold shadow-lg">
               {getInitials(user?.user_metadata?.full_name)}
             </div>
             <div>
               <p className="text-sm text-slate-500">Welcome back,</p>
-              <h1 className="text-3xl font-bold text-slate-900">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
                 {user?.user_metadata?.full_name}
               </h1>
             </div>
           </div>
           <Link
             href="/logout"
-            className="mt-4 sm:mt-0 flex items-center space-x-2 text-sm font-semibold text-slate-600 hover:text-red-500 bg-white border border-slate-300/70 rounded-lg px-4 py-2 transition-all duration-300 hover:border-red-400/80 hover:shadow-sm"
+            className="flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-red-500 bg-white border border-slate-300/70 rounded-lg px-5 py-2.5 transition-all duration-300 hover:border-red-400/80 hover:shadow-sm"
           >
             <FontAwesomeIcon icon={faArrowRightFromBracket} />
             <span>Logout</span>
           </Link>
         </div>
 
-        {/* Rest of content... */}
-        <div className="grid grid-cols-1 gap-8">
+        {/* Content */}
+        <div className="grid grid-cols-1 gap-10">
           {isAdmin && (
             <Card>
               <CardHeader title="Admin Panel" />
-              <div className="p-5">
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              <div className="p-6">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
                   {adminLinks.map((link) => (
                     <Link
                       key={link.href}
                       href={link.href}
                       prefetch={false}
-                      className="group flex flex-col items-center justify-center p-4 bg-slate-50 hover:bg-orange-500 rounded-lg transition-all duration-300"
+                      className="group flex flex-col items-center justify-center p-5 bg-slate-50 hover:bg-orange-500 rounded-lg transition-all duration-300"
                     >
                       <FontAwesomeIcon
                         icon={link.icon}
@@ -178,20 +179,20 @@ export default function MyAccount() {
               actionLink="/my-account/orders"
               actionText="View all orders"
             />
-            <div className="p-5">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="p-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
                 {orderLinks.map((link) => (
                   <Link
                     key={link.href}
                     prefetch={false}
                     href={`/my-account/orders${link.href}`}
-                    className="group text-center bg-slate-100/80 rounded-lg p-4 transition-all duration-300 hover:bg-white hover:shadow-lg hover:-translate-y-1"
+                    className="group text-center bg-slate-100/80 rounded-lg p-5 transition-all duration-300 hover:bg-white hover:shadow-lg hover:-translate-y-1"
                   >
                     <FontAwesomeIcon
                       icon={link.icon}
                       className="h-8 w-8 text-slate-500 group-hover:text-orange-500 transition-colors"
                     />
-                    <p className="mt-2 font-semibold text-slate-700">
+                    <p className="mt-3 font-semibold text-slate-700">
                       {link.label}
                     </p>
                     <p className="text-xs text-slate-400">0 Items</p>
@@ -205,15 +206,15 @@ export default function MyAccount() {
           <Card>
             <CardHeader title="Account & More" />
             <div className="p-3">
-              <div className="flex flex-col space-y-1">
+              <div className="flex flex-col divide-y divide-slate-100">
                 {moreLinks.map((link) => (
                   <Link
                     key={link.href}
                     prefetch={false}
                     href={link.href}
-                    className="flex items-center justify-between p-3 rounded-lg hover:bg-slate-100 transition-colors group"
+                    className="flex items-center justify-between p-4 rounded-lg hover:bg-slate-50 transition-colors group"
                   >
-                    <div className="flex items-center space-x-3">
+                    <div className="flex items-center gap-3">
                       <FontAwesomeIcon
                         icon={link.icon}
                         className="w-5 h-5 text-slate-400 group-hover:text-orange-500 transition-colors"

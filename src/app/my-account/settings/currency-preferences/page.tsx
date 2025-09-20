@@ -8,37 +8,27 @@
 
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleChevronLeft,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { useAuthStore } from "@/store/authStore";
-import { supabase } from "@/lib/supabase"; // Assuming you still need supabase for updates
 import Link from "next/link";
 import { toast } from "react-toastify";
 
 export default function CurrencyPreferencesPage() {
-  const {
-    currency,
-    setCurrency,
-    loading: currencyStoreLoading,
-  } = useCurrencyStore();
+  const { currency, setCurrency, loading: currencyStoreLoading } = useCurrencyStore();
   const user = useAuthStore((state) => state.user);
-  const [loading, setLoading] = useState(false); // Local loading for this page
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const handleCurrencyChange = async (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleCurrencyChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newCurrency = event.target.value as "NGN" | "USD";
     if (!user) {
       return toast.error("Please log in to change currency preference.");
     }
     try {
       setLoading(true);
-      // Assuming setCurrency in your store also updates Supabase
-      await setCurrency(newCurrency);
+      await setCurrency(newCurrency); // Assumes your store updates Supabase as well
       toast.success("Currency preference updated successfully!");
     } catch (err) {
       console.error("Error updating currency:", err);
@@ -50,17 +40,16 @@ export default function CurrencyPreferencesPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        <div className="flex items-center mb-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
+        {/* Header */}
+        <div className="flex items-center space-x-3 mb-6 sm:mb-8">
           <Link
             href="/my-account/settings"
-            className="p-2 mr-4 rounded-full hover:bg-gray-200 transition-colors"
-            aria-label="Go back to settings"
+            className="inline-flex items-center text-gray-600 hover:text-orange-500 transition-colors"
           >
-            <FontAwesomeIcon icon={faCircleChevronLeft} className="w-6 h-6 text-gray-700" />
+            <FontAwesomeIcon icon={faArrowLeft} className="w-5 h-5" />
           </Link>
-
-          <h1 className="text-2xl font-extrabold text-gray-900">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900">
             Currency Preferences
           </h1>
         </div>
@@ -68,19 +57,18 @@ export default function CurrencyPreferencesPage() {
         {(success || error) && (
           <div
             className={`p-4 rounded-md mb-4 ${
-              success
-                ? "bg-green-100 text-green-800"
-                : "bg-red-100 text-red-800"
+              success ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
             }`}
           >
             <p className="text-sm font-medium">{success || error}</p>
           </div>
         )}
 
-        <section className="bg-white rounded-lg shadow-md overflow-hidden">
-          <div className="p-6">
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <div className="mb-4">
+        <section className="bg-white rounded-xl shadow-sm overflow-hidden">
+          <div className="p-4 sm:p-6">
+            <div className="bg-gray-50 p-4 rounded-lg space-y-4">
+              {/* Currency Selector */}
+              <div>
                 <label
                   htmlFor="currency-select"
                   className="block text-sm font-medium text-gray-700 mb-2"
@@ -94,19 +82,11 @@ export default function CurrencyPreferencesPage() {
                     value={currency}
                     onChange={handleCurrencyChange}
                     disabled={loading || currencyStoreLoading}
-                    className={`
-                      text-black
-                      block w-full
-                      px-3 py-2 pr-10
-                      text-base sm:text-sm
-                      border-gray-300 rounded-md
-                      shadow-sm
-                      ${
-                        loading || currencyStoreLoading
-                          ? "opacity-50 cursor-not-allowed bg-gray-100"
-                          : "bg-white"
-                      }
-                    `}
+                    className={`block w-full text-black px-3 py-2 pr-10 text-base sm:text-sm border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring-orange-500 ${
+                      loading || currencyStoreLoading
+                        ? "opacity-50 cursor-not-allowed bg-gray-100"
+                        : "bg-white"
+                    }`}
                   >
                     <option value="NGN">Nigerian Naira (NGN) ₦</option>
                     <option value="USD">US Dollar (USD) $</option>
@@ -129,27 +109,24 @@ export default function CurrencyPreferencesPage() {
                 </div>
               </div>
 
+              {/* Info Section */}
               <div className="text-sm text-gray-600 space-y-2">
                 <p className="flex items-center justify-between">
                   <span>Current selection:</span>
                   <span className="font-medium text-gray-900">
-                    {currency === "NGN"
-                      ? "Nigerian Naira (₦)"
-                      : "US Dollar ($)"}
+                    {currency === "NGN" ? "Nigerian Naira (₦)" : "US Dollar ($)"}
                   </span>
                 </p>
                 <p className="flex items-center justify-between">
                   <span>Exchange rate:</span>
-                  <span className="font-medium text-gray-900">
-                    1 USD = ₦1,630
-                  </span>
+                  <span className="font-medium text-gray-900">1 USD = ₦1,630</span>
                 </p>
                 {currency === "USD" && (
                   <div className="mt-3 p-3 bg-blue-50 rounded-md">
                     <p className="text-blue-800 text-sm">
-                      <strong>Note:</strong> Prices are converted from Nigerian
-                      Naira for display purposes. All payments are processed in
-                      NGN through our local payment gateway.
+                      <strong>Note:</strong> Prices are converted from Nigerian Naira
+                      for display purposes. All payments are processed in NGN through
+                      our local payment gateway.
                     </p>
                   </div>
                 )}
