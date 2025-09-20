@@ -10,10 +10,7 @@ import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
 import { useAuthStore } from "@/store/authStore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faMapMarkerAlt,
-  faCircleChevronLeft,
-} from "@fortawesome/free-solid-svg-icons";
+import { faMapMarkerAlt, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { Database } from "@/supabase-types";
@@ -66,7 +63,7 @@ export default function AddressManagementPage() {
   }, [loadUserAddresses]);
 
   const handleAddressInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
@@ -119,7 +116,7 @@ export default function AddressManagementPage() {
       toast.error(
         error instanceof Error
           ? error.message
-          : "Failed to save address. Please try again.",
+          : "Failed to save address. Please try again."
       );
     } finally {
       setAddressLoading(false);
@@ -130,8 +127,7 @@ export default function AddressManagementPage() {
     if (!user) {
       return toast.error("Please log in to delete addresses.");
     }
-    if (!window.confirm("Are you sure you want to delete this address?"))
-      return;
+    if (!window.confirm("Are you sure you want to delete this address?")) return;
 
     setAddressLoading(true);
     try {
@@ -147,7 +143,7 @@ export default function AddressManagementPage() {
     } catch (error) {
       console.error("Error deleting address:", error);
       toast.error(
-        error instanceof Error ? error.message : "Failed to delete address.",
+        error instanceof Error ? error.message : "Failed to delete address."
       );
     } finally {
       setAddressLoading(false);
@@ -166,14 +162,12 @@ export default function AddressManagementPage() {
     }
     setAddressLoading(true);
     try {
-      // First, unset all other default addresses for this user
       await supabase
         .from("user_addresses")
         .update({ is_primary: false })
         .eq("user_id", user.id)
-        .neq("id", addressId); // Exclude the one we're about to set as default
+        .neq("id", addressId);
 
-      // Then, set the chosen address as default
       const { error } = await supabase
         .from("user_addresses")
         .update({ is_primary: true })
@@ -182,13 +176,13 @@ export default function AddressManagementPage() {
 
       if (error) throw error;
       toast.success("Default address set successfully!");
-      loadUserAddresses(); // Reload addresses to reflect changes
+      loadUserAddresses();
     } catch (error) {
       console.error("Error setting default address:", error);
       toast.error(
         error instanceof Error
           ? error.message
-          : "Failed to set default address. Please try again.",
+          : "Failed to set default address. Please try again."
       );
     } finally {
       setAddressLoading(false);
@@ -197,20 +191,16 @@ export default function AddressManagementPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        <div className="flex items-center mb-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
+        {/* Header with Back Icon + Title */}
+        <div className="flex items-center space-x-3 mb-6 sm:mb-8">
           <Link
             href="/my-account/settings"
-            className="p-2 mr-4 rounded-full hover:bg-gray-200 transition-colors"
-            aria-label="Go back to settings"
+            className="inline-flex items-center text-gray-600 hover:text-orange-500 transition-colors"
           >
-            <FontAwesomeIcon
-              icon={faCircleChevronLeft}
-              className="w-6 h-6 text-gray-700"
-            />
+            <FontAwesomeIcon icon={faArrowLeft} className="w-5 h-5" />
           </Link>
-
-          <h1 className="text-2xl font-extrabold text-gray-900">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900">
             Address Management
           </h1>
         </div>
@@ -218,18 +208,19 @@ export default function AddressManagementPage() {
         {(success || error) && (
           <div
             className={`p-4 rounded-md mb-4 ${
-              success
-                ? "bg-green-100 text-green-800"
-                : "bg-red-100 text-red-800"
+              success ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
             }`}
           >
             <p className="text-sm font-medium">{success || error}</p>
           </div>
         )}
 
-        <section className="bg-white rounded-lg shadow-md overflow-hidden">
-          <div className="p-6 border-b border-gray-200 flex justify-between items-center flex-wrap gap-2">
-            <h2 className="text-xl font-bold text-gray-900">Your Addresses</h2>
+        <section className="bg-white rounded-xl shadow-sm overflow-hidden">
+          {/* Section Header */}
+          <div className="p-4 sm:p-6 border-b border-gray-200 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+            <h2 className="text-lg sm:text-xl font-bold text-gray-900">
+              Your Addresses
+            </h2>
             <button
               onClick={() => {
                 setShowAddEditAddress(true);
@@ -246,20 +237,22 @@ export default function AddressManagementPage() {
                   is_primary: false,
                 });
               }}
-              className="px-3 py-1.5 bg-orange-500 text-white rounded-md hover:bg-orange-500/90 flex items-center space-x-1.5 text-xs sm:text-sm"
+              className="w-full sm:w-auto px-3 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-500/90 flex items-center justify-center space-x-2 text-sm shadow-sm"
             >
               <FontAwesomeIcon icon={faMapMarkerAlt} className="w-4 h-4" />
-              <span>Add New Address</span>
+              <span>Add New</span>
             </button>
           </div>
-          <div className="p-6">
+
+          {/* Addresses List */}
+          <div className="p-4 sm:p-6">
             {addressLoading && (
-              <div className="text-center text-gray-500 py-4">
+              <div className="text-center text-gray-500 py-6 text-sm">
                 Loading addresses...
               </div>
             )}
             {!addressLoading && addresses.length === 0 && (
-              <div className="text-center text-gray-500 py-4">
+              <div className="text-center text-gray-500 py-6 text-sm">
                 No addresses found. Add your first address!
               </div>
             )}
@@ -268,10 +261,10 @@ export default function AddressManagementPage() {
                 {addresses.map((address) => (
                   <div
                     key={address.id}
-                    className="border border-gray-200 rounded-lg p-4 relative bg-gray-50 flex flex-col"
+                    className="border border-gray-200 rounded-lg p-4 bg-gray-50 flex flex-col"
                   >
                     {address.is_primary && (
-                      <span className="absolute top-2 right-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
+                      <span className="self-end mb-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
                         Primary
                       </span>
                     )}
@@ -284,10 +277,10 @@ export default function AddressManagementPage() {
                     <p className="text-sm text-gray-600">
                       {address.country}, {address.zip}
                     </p>
-                    <div className="mt-4 flex flex-wrap gap-2 text-sm justify-end">
+                    <div className="mt-4 flex flex-wrap gap-3 text-sm justify-end">
                       <button
                         onClick={() => handleEditAddressClick(address)}
-                        className="text-primary-orange hover:text-primary-orange/80 font-medium"
+                        className="text-orange-600 hover:text-orange-700 font-medium"
                       >
                         Edit
                       </button>
@@ -310,181 +303,188 @@ export default function AddressManagementPage() {
                 ))}
               </div>
             )}
-
-            {showAddEditAddress && addressFormData && (
-              <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 overflow-y-auto">
-                <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6 relative my-8">
-                  <h3 className="text-lg font-bold text-gray-900 mb-4">
-                    {currentAddress ? "Edit Address" : "Add New Address"}
-                  </h3>
-                  <form onSubmit={handleAddEditAddress} className="space-y-4">
-                    <div>
-                      <label
-                        htmlFor="street"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Street Address
-                      </label>
-                      <input
-                        type="text"
-                        name="street"
-                        id="street"
-                        value={addressFormData.street}
-                        onChange={handleAddressInputChange}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-orange focus:ring-primary-orange sm:text-sm p-2"
-                        required
-                      />
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label
-                          htmlFor="city"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          City
-                        </label>
-                        <input
-                          type="text"
-                          name="city"
-                          id="city"
-                          value={addressFormData.city}
-                          onChange={handleAddressInputChange}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-orange focus:ring-primary-orange sm:text-sm p-2"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="state"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          State/Province
-                        </label>
-                        <input
-                          type="text"
-                          name="state"
-                          id="state"
-                          value={addressFormData.state}
-                          onChange={handleAddressInputChange}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-orange focus:ring-primary-orange sm:text-sm p-2"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label
-                          htmlFor="zip"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Zip/Postal Code
-                        </label>
-                        <input
-                          type="text"
-                          name="zip"
-                          id="zip"
-                          value={addressFormData.zip}
-                          onChange={handleAddressInputChange}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-orange focus:ring-primary-orange sm:text-sm p-2"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="notes"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Notes
-                        </label>
-                        <input
-                          type="text"
-                          name="notes"
-                          id="notes"
-                          value={addressFormData.notes || ""}
-                          onChange={handleAddressInputChange}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-orange focus:ring-primary-orange sm:text-sm p-2"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label
-                          htmlFor="name"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Name
-                        </label>
-                        <input
-                          type="text"
-                          name="name"
-                          id="name"
-                          value={addressFormData.name}
-                          onChange={handleAddressInputChange}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-orange focus:ring-primary-orange sm:text-sm p-2"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="phone_no"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Phone No.
-                        </label>
-                        <input
-                          type="text"
-                          name="phone_no"
-                          id="phone_no"
-                          value={addressFormData.phone_no}
-                          onChange={handleAddressInputChange}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-orange focus:ring-primary-orange sm:text-sm p-2"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="flex items-center">
-                      <input
-                        id="is_primary"
-                        name="is_primary"
-                        type="checkbox"
-                        checked={addressFormData.is_primary}
-                        onChange={handleAddressInputChange}
-                        className="h-4 w-4 text-primary-orange focus:ring-primary-orange border-gray-300 rounded"
-                      />
-                      <label
-                        htmlFor="is_primary"
-                        className="ml-2 block text-sm text-gray-900"
-                      >
-                        Set as default address
-                      </label>
-                    </div>
-                    <div className="flex justify-end space-x-3 mt-6">
-                      <button
-                        type="button"
-                        onClick={() => setShowAddEditAddress(false)}
-                        className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 text-sm"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="submit"
-                        disabled={addressLoading}
-                        className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-500/90 disabled:opacity-50 text-sm"
-                      >
-                        {addressLoading
-                          ? "Saving..."
-                          : currentAddress
-                            ? "Save Changes"
-                            : "Add Address"}
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            )}
           </div>
         </section>
+
+        {/* Add/Edit Address Modal */}
+        {showAddEditAddress && addressFormData && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 overflow-y-auto">
+            <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative my-8">
+              <h3 className="text-lg font-bold text-gray-900 mb-4">
+                {currentAddress ? "Edit Address" : "Add New Address"}
+              </h3>
+              <form onSubmit={handleAddEditAddress} className="space-y-4">
+                {/* Street */}
+                <div>
+                  <label
+                    htmlFor="street"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Street Address
+                  </label>
+                  <input
+                    type="text"
+                    name="street"
+                    id="street"
+                    value={addressFormData.street}
+                    onChange={handleAddressInputChange}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm p-2"
+                    required
+                  />
+                </div>
+                {/* City + State */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="city"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      City
+                    </label>
+                    <input
+                      type="text"
+                      name="city"
+                      id="city"
+                      value={addressFormData.city}
+                      onChange={handleAddressInputChange}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm p-2"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="state"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      State/Province
+                    </label>
+                    <input
+                      type="text"
+                      name="state"
+                      id="state"
+                      value={addressFormData.state}
+                      onChange={handleAddressInputChange}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm p-2"
+                      required
+                    />
+                  </div>
+                </div>
+                {/* Zip + Notes */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="zip"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Zip/Postal Code
+                    </label>
+                    <input
+                      type="text"
+                      name="zip"
+                      id="zip"
+                      value={addressFormData.zip}
+                      onChange={handleAddressInputChange}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm p-2"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="notes"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Notes
+                    </label>
+                    <input
+                      type="text"
+                      name="notes"
+                      id="notes"
+                      value={addressFormData.notes || ""}
+                      onChange={handleAddressInputChange}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm p-2"
+                      required
+                    />
+                  </div>
+                </div>
+                {/* Name + Phone */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="name"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      id="name"
+                      value={addressFormData.name}
+                      onChange={handleAddressInputChange}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm p-2"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="phone_no"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Phone No.
+                    </label>
+                    <input
+                      type="text"
+                      name="phone_no"
+                      id="phone_no"
+                      value={addressFormData.phone_no}
+                      onChange={handleAddressInputChange}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm p-2"
+                      required
+                    />
+                  </div>
+                </div>
+                {/* Checkbox */}
+                <div className="flex items-center">
+                  <input
+                    id="is_primary"
+                    name="is_primary"
+                    type="checkbox"
+                    checked={addressFormData.is_primary}
+                    onChange={handleAddressInputChange}
+                    className="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 rounded"
+                  />
+                  <label
+                    htmlFor="is_primary"
+                    className="ml-2 block text-sm text-gray-900"
+                  >
+                    Set as default address
+                  </label>
+                </div>
+                {/* Actions */}
+                <div className="flex justify-end space-x-3 mt-6">
+                  <button
+                    type="button"
+                    onClick={() => setShowAddEditAddress(false)}
+                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 text-sm"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={addressLoading}
+                    className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-500/90 disabled:opacity-50 text-sm"
+                  >
+                    {addressLoading
+                      ? "Saving..."
+                      : currentAddress
+                      ? "Save Changes"
+                      : "Add Address"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
