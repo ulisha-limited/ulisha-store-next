@@ -16,6 +16,8 @@ import {
   faShieldHalved,
   faTruckFast,
   faUsers,
+  faUser,
+  faHouse,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
@@ -50,6 +52,65 @@ const CardHeader = ({
   </div>
 );
 
+const Navbar = () => {
+  return (
+    <nav className="hidden lg:block sticky top-0 z-50 border-b border-slate-200/60 shadow-sm bg-[repeating-linear-gradient(135deg,#f8fafc,#f8fafc_14px,#ffffff_14px,#ffffff_28px)]">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-4 flex items-center justify-between">
+        <Link
+          href="/"
+          className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-orange-50 transition-colors"
+        >
+          <FontAwesomeIcon icon={faArrowLeft} className="w-5 h-5 text-slate-700" />
+        </Link>
+        <div className="flex space-x-10">
+          <Link
+            href="/"
+            className="text-sm font-medium text-slate-700 hover:text-orange-500 transition-colors"
+          >
+            Home
+          </Link>
+          <Link
+            href="/my-account"
+            className="text-sm font-medium text-slate-700 hover:text-orange-500 transition-colors"
+          >
+            My Account
+          </Link>
+          <Link
+            href="/my-account/settings"
+            className="text-sm font-medium text-slate-700 hover:text-orange-500 transition-colors"
+          >
+            Settings
+          </Link>
+        </div>
+        <Link
+          href="/my-account"
+          className="flex items-center space-x-2 text-slate-600 hover:text-orange-500 transition-colors"
+        >
+          <FontAwesomeIcon icon={faUser} className="w-5 h-5" />
+          <span className="text-sm font-medium">Account</span>
+        </Link>
+      </div>
+    </nav>
+  );
+};
+
+const Breadcrumb = ({ current }: { current: string }) => {
+  return (
+    <div className="hidden lg:block border-b border-slate-200/60 bg-white">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-3 text-sm">
+        <nav className="flex items-center space-x-2 text-slate-500">
+          <Link href="/" className="hover:text-orange-500 flex items-center gap-1">
+            <FontAwesomeIcon icon={faHouse} className="w-4 h-4" />
+            <span>Home</span>
+          </Link>
+          <span>/</span>
+          <span className="text-slate-700 font-medium">{current}</span>
+        </nav>
+      </div>
+    </div>
+  );
+};
+
 export default function MyAccount() {
   const user = useAuthStore((state) => state.user);
 
@@ -57,9 +118,7 @@ export default function MyAccount() {
     if (!name) return "?";
     const names = name.split(" ");
     if (names.length > 1) {
-      return `${names[0].charAt(0)}${names[names.length - 1].charAt(
-        0
-      )}`.toUpperCase();
+      return `${names[0].charAt(0)}${names[names.length - 1].charAt(0)}`.toUpperCase();
     }
     return name.charAt(0).toUpperCase();
   };
@@ -109,20 +168,9 @@ export default function MyAccount() {
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800 flex flex-col">
+      <Navbar />
+      <Breadcrumb current="My Account" />
       <main className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-10 flex-grow space-y-10">
-        
-        {/* Back link - visible only on large screens */}
-        <div className="hidden lg:block">
-          <Link
-            href="/"
-            className="inline-flex items-center space-x-2 text-sm font-medium text-slate-600 hover:text-orange-500 transition-colors"
-          >
-            <FontAwesomeIcon icon={faArrowLeft} className="h-4 w-4" />
-            <span>Back to Home</span>
-          </Link>
-        </div>
-
-        {/* Header Section */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div className="flex items-center gap-5">
             <div className="flex-shrink-0 w-20 h-20 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-3xl font-bold shadow-lg">
@@ -143,8 +191,6 @@ export default function MyAccount() {
             <span>Logout</span>
           </Link>
         </div>
-
-        {/* Content */}
         <div className="grid grid-cols-1 gap-10">
           {isAdmin && (
             <Card>
@@ -171,8 +217,6 @@ export default function MyAccount() {
               </div>
             </Card>
           )}
-
-          {/* Orders */}
           <Card>
             <CardHeader
               title="My Orders"
@@ -192,17 +236,13 @@ export default function MyAccount() {
                       icon={link.icon}
                       className="h-8 w-8 text-slate-500 group-hover:text-orange-500 transition-colors"
                     />
-                    <p className="mt-3 font-semibold text-slate-700">
-                      {link.label}
-                    </p>
+                    <p className="mt-3 font-semibold text-slate-700">{link.label}</p>
                     <p className="text-xs text-slate-400">0 Items</p>
                   </Link>
                 ))}
               </div>
             </div>
           </Card>
-
-          {/* More Links */}
           <Card>
             <CardHeader title="Account & More" />
             <div className="p-3">
@@ -219,9 +259,7 @@ export default function MyAccount() {
                         icon={link.icon}
                         className="w-5 h-5 text-slate-400 group-hover:text-orange-500 transition-colors"
                       />
-                      <span className="font-medium text-slate-700">
-                        {link.label}
-                      </span>
+                      <span className="font-medium text-slate-700">{link.label}</span>
                     </div>
                     <FontAwesomeIcon
                       icon={faChevronRight}
