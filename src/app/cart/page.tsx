@@ -1,8 +1,13 @@
 /**
- * Copyright 2025 Ulisha Limited
- * Licensed under the Apache License, Version 2.0
- * See LICENSE file in the project root for full license information.
+ * Copyright (c) 2025 Ulisha Limited
+ *
+ * This file is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+ * You may obtain a copy of the License at:
+ *
+ *     https://creativecommons.org/licenses/by-nc/4.0/
+ *
  */
+
 
 "use client"; // This directive makes the component a Client Component in Next.js 13+
 
@@ -403,7 +408,7 @@ export default function Cart() {
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-5 border-b pb-3 border-gray-200">
                 Order Summary
               </h3>
- 
+
               {/* Minimum item checkout warning */}
               {!canCheckout && (
                 <div className="mb-5 p-3 bg-blue-100 border border-blue-300 text-blue-800 rounded-lg flex items-start animate-fade-in">
