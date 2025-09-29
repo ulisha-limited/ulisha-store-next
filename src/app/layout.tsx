@@ -15,6 +15,7 @@ import Session from "@/components/auth/Session";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import CanonicalUrl from "@/components/Canonical";
 import MainLayout from "@/components/layouts/MainLayout";
+import RegisterSW from "./register-sw";
 
 config.autoAddCss = false;
 
@@ -64,6 +65,7 @@ export default function RootLayout({
         ></script>
       </head>
       <body className={`${latoSans.variable} antialiased`}>
+        <RegisterSW />
         <MainLayout>{children}</MainLayout>
         <Session />
       </body>

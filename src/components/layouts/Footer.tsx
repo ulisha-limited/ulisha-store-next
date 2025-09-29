@@ -14,17 +14,53 @@ import {
   faInstagram,
   faTiktok,
   faPinterest,
+  faAndroid,
+  faApple,
 } from "@fortawesome/free-brands-svg-icons";
 import Image from "next/image";
 import {
   faClock,
+  faDesktop,
   faEnvelope,
   faLocationDot,
   faPhone,
 } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
 import TrustPilotWidget from "../TrustPilotWidget";
 
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>;
+}
+
 export default function Footer() {
+  const [deferredPrompt, setDeferredPrompt] =
+    useState<BeforeInstallPromptEvent | null>(null);
+  const [showButton, setShowButton] = useState(false);
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e as BeforeInstallPromptEvent);
+      setShowButton(true);
+    };
+
+    window.addEventListener("beforeinstallprompt", handler);
+
+    return () => window.removeEventListener("beforeinstallprompt", handler);
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log(`User response: ${outcome}`);
+
+    setDeferredPrompt(null);
+    setShowButton(false);
+  };
+
   return (
     // Only visible on large screens and up; hidden on small/medium
     <footer className="hidden md:block bg-gray-900 text-white mt-12 mb-12 md:mb-0">
@@ -238,6 +274,45 @@ export default function Footer() {
                 </Link>
               </li>
             </ul>
+
+            <h3 className="text-lg font-semibold my-3">Download App</h3>
+            <div className="flex gap-3">
+              <Image
+                src="/images/android-qrcode.png"
+                alt="Ulisha Store Android Download QRCode"
+                width="125"
+                height="100"
+                className="rounded-lg"
+              />
+              <div className="flex flex-col gap-2">
+                <Link
+                  className="flex items-center gap-2 bg-white text-gray-800 py-2 px-3 rounded-lg shadow-sm
+                   hover:bg-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all text-sm font-medium"
+                  href="https://assets.ulishastore.com/android/ulishastore.apk"
+                >
+                  <FontAwesomeIcon
+                    icon={faAndroid}
+                    className="text-green-600"
+                  />
+                  Android
+                </Link>
+                <button
+                  className="flex items-center gap-2 bg-white text-gray-800 py-2 px-3 rounded-lg shadow-sm
+                   hover:bg-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all text-sm font-medium"
+                >
+                  <FontAwesomeIcon icon={faApple} className="text-gray-600" />
+                  Apple
+                </button>
+                <button
+                  className="flex items-center gap-2 bg-white text-gray-800 py-2 px-3 rounded-lg shadow-sm
+                   hover:bg-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all text-sm font-medium"
+                  onClick={handleInstallClick}
+                >
+                  <FontAwesomeIcon icon={faDesktop} className="text-blue-600" />
+                  Desktop
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
