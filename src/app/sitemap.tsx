@@ -1,8 +1,13 @@
 /**
- * Copyright 2025 Ulisha Limited
- * Licensed under the Apache License, Version 2.0
- * See LICENSE file in the project root for full license information.
+ * Copyright (c) 2025 Ulisha Limited
+ *
+ * This file is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+ * You may obtain a copy of the License at:
+ *
+ *     https://creativecommons.org/licenses/by-nc/4.0/
+ *
  */
+
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -241,7 +246,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "fe9c6fa0-f8ff-474e-af44-2e81e853a21d",
     "fedebecd-4854-4147-8cfd-b31d231f5e63",
   ];
-  
+
   const productUrls = productIds.map(id => ({
     url: `https://www.ulishastore.com/product/${id}`,
   }));
