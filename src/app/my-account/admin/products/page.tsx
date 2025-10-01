@@ -8,7 +8,6 @@
  *
  */
 
-
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -56,7 +55,7 @@ export default function Products() {
   const [showProductForm, setShowProductForm] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState<string | null>(
-    null
+    null,
   );
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -153,7 +152,7 @@ export default function Products() {
           const imageName = `${uuidv4()}-${productData.image.name}`;
           const compressedImage = await imageCompression(
             productData.image,
-            options
+            options,
           );
 
           const { error: uploadError } = await supabase.storage
@@ -186,7 +185,11 @@ export default function Products() {
               const fileName = `${uuidv4()}-${file.name}`;
               const { error: additionalUploadError } = await supabase.storage
                 .from("product-images")
-                .upload(fileName, file);
+                .upload(fileName, file, {
+                  contentType: "image/jpeg",
+                  cacheControl: "2592000", // TTL 30 days in seconds
+                  upsert: false,
+                });
 
               if (additionalUploadError) throw additionalUploadError;
 
@@ -200,11 +203,11 @@ export default function Products() {
                 product_id: editingProduct.id,
                 image_url: additionalImageUrl,
               };
-            }
+            },
           );
 
           const additionalImageData = await Promise.all(
-            additionalImagePromises
+            additionalImagePromises,
           );
 
           const { error: additionalImagesError } = await supabase
@@ -223,7 +226,11 @@ export default function Products() {
         const imageName = `${uuidv4()}-${productData.image.name}`;
         const { error: uploadError } = await supabase.storage
           .from("product-images")
-          .upload(imageName, productData.image);
+          .upload(imageName, productData.image, {
+            contentType: "image/jpeg",
+            cacheControl: "2592000", // TTL 30 days in seconds
+            upsert: false,
+          });
 
         if (uploadError) throw uploadError;
 
@@ -250,7 +257,11 @@ export default function Products() {
               const fileName = `${uuidv4()}-${file.name}`;
               const { error: additionalUploadError } = await supabase.storage
                 .from("product-images")
-                .upload(fileName, file);
+                .upload(fileName, file, {
+                  contentType: "image/jpeg",
+                  cacheControl: "2592000", // TTL 30 days in seconds
+                  upsert: false,
+                });
 
               if (additionalUploadError) throw additionalUploadError;
 
@@ -264,11 +275,11 @@ export default function Products() {
                 product_id: newProduct.id,
                 image_url: additionalImageUrl,
               };
-            }
+            },
           );
 
           const additionalImageData = await Promise.all(
-            additionalImagePromises
+            additionalImagePromises,
           );
 
           const { error: additionalImagesError } = await supabase
@@ -304,7 +315,7 @@ export default function Products() {
       toast.success(
         editingProduct
           ? "Product updated successfully!"
-          : "Product added successfully!"
+          : "Product added successfully!",
       );
     } catch (error) {
       console.error("Error saving product:", error);
@@ -351,7 +362,7 @@ export default function Products() {
   };
 
   const handleAdditionalImagesSelect = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     if (e.target.files && e.target.files.length > 0) {
       const newFiles = Array.from(e.target.files);
@@ -544,7 +555,9 @@ export default function Products() {
                     <option value="Kids toy">Kids toy</option>
                     <option value="Home Appliances">Home Appliances</option>
                     <option value="Female clothings">Female clothings</option>
-                    <option value="Computer and gaming">Computer and gaming</option>
+                    <option value="Computer and gaming">
+                      Computer and gaming
+                    </option>
                     <option value="E bikes">E-bikes</option>
                     <option value="Sports">Sports</option>
                   </select>
