@@ -8,7 +8,6 @@
  *
  */
 
-
 "use client";
 
 import Link from "next/link";
@@ -293,7 +292,8 @@ export default function Footer() {
                 <Link
                   className="flex items-center gap-2 bg-white text-gray-800 py-2 px-3 rounded-lg shadow-sm
                    hover:bg-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all text-sm font-medium"
-                  href="https://assets.ulishastore.com/android/ulishastore.apk"
+                  href="/web"
+                  prefetch={false}
                 >
                   <FontAwesomeIcon
                     icon={faAndroid}
@@ -301,21 +301,24 @@ export default function Footer() {
                   />
                   Android
                 </Link>
-                <button
+                <Link
                   className="flex items-center gap-2 bg-white text-gray-800 py-2 px-3 rounded-lg shadow-sm
                    hover:bg-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all text-sm font-medium"
+                  href="/web"
+                  prefetch={false}
                 >
                   <FontAwesomeIcon icon={faApple} className="text-gray-600" />
                   Apple
-                </button>
-                <button
+                </Link>
+                <Link
                   className="flex items-center gap-2 bg-white text-gray-800 py-2 px-3 rounded-lg shadow-sm
                    hover:bg-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all text-sm font-medium"
-                  onClick={handleInstallClick}
+                  href="/web"
+                  prefetch={false}
                 >
                   <FontAwesomeIcon icon={faDesktop} className="text-blue-600" />
                   Desktop
-                </button>
+                </Link>
               </div>
             </div>
           </div>

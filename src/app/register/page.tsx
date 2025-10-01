@@ -10,7 +10,7 @@
 
 
 import Recaptcha from "@/components/Recaptcha";
-import Register from "./register.client";
+import Register from "../../components/auth/Register";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

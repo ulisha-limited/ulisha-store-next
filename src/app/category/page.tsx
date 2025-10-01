@@ -9,7 +9,7 @@
  */
 
 
-import Category from "./category.client";
+import Category from "../../components/Category";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

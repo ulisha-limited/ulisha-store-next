@@ -247,7 +247,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "fedebecd-4854-4147-8cfd-b31d231f5e63",
   ];
 
-  const productUrls = productIds.map(id => ({
+  const productUrls = productIds.map((id) => ({
     url: `https://www.ulishastore.com/product/${id}`,
   }));
 
@@ -296,6 +296,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: "https://www.ulishastore.com/legal/return-policy",
+    },
+    {
+      url: "https://www.ulishastore.com/web",
     },
     ...productUrls,
   ];

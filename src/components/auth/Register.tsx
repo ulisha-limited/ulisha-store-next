@@ -8,7 +8,6 @@
  *
  */
 
-
 "use client";
 
 import { useState } from "react";
@@ -26,6 +25,7 @@ import { PasswordStrengthMeter } from "@/components/PasswordStrengthMeter";
 import { supabase } from "@/lib/supabase";
 import axios from "axios";
 import { useReCaptcha } from "next-recaptcha-v3";
+import Image from "next/image";
 
 export default function Register() {
   const { executeRecaptcha } = useReCaptcha();
@@ -80,37 +80,44 @@ export default function Register() {
   const handleMicrosoftSignUp = () => handleOAuthSignIn("azure");
 
   return (
-    <div className="flex flex-col lg:flex-row justify-center m-5">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md flex flex-col justify-center min-h-[220px]">
-        <Link
-          href="/"
-          className="flex flex-col items-center text-center mb-6 justify-center flex-1"
-        >
-          <div className="flex justify-center">
-            <FontAwesomeIcon
-              icon={faBagShopping}
-              className=" text-orange-500"
-              size="4x"
-            />
-          </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2">
-            Create your UlishaStore account
-          </h2>
-          <p className="text-gray-600">Join our community today</p>
+    <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen mx-auto">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md flex-col justify-center p-5 hidden lg:flex">
+        <Link href="https://ulishastore.com/web">
+          <Image
+            src="/images/android-qrcode.svg"
+            alt="Scan to download the Ulisha Store App"
+            width="250"
+            height="250"
+          />
+          <h1 className="text-1xl sm:text-3xl font-extrabold text-gray-900 mb-2">
+            Get the Ulisha Store App Today!
+          </h1>
           <p className="text-orange-500 font-medium mt-2">
-            Enjoy up to 20% discounts on all products!
+            Shop smarter, save more — unlock exclusive deals with up to{" "}
+            <span className="font-bold">20% off</span> on every purchase.
+          </p>
+          <p className="text-gray-600 mt-2 text-sm">
+            Quick, secure, and convenient shopping — all at your fingertips.
           </p>
         </Link>
       </div>
 
-      <div className="mt-8 sm:mx-auto w-full sm:max-w-md">
+      <div className="mt-8 sm:mx-auto w-full sm:max-w-md p-5">
         <div className="bg-white py-8 px-4 sm:px-10 shadow-xl rounded-lg border border-gray-200">
+          {" "}
+          <div className="mb-6">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2">
+              Create Your Account
+            </h2>
+            <p className="text-gray-600">
+              More deals are awaiting for you nextdoor.
+            </p>
+          </div>
           {error && (
             <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
               {error}
             </div>
           )}
-
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <label
@@ -265,7 +272,6 @@ export default function Register() {
               {loading ? "Creating account..." : "Create Account"}
             </button>
           </form>
-
           {/* --- New Social Sign-up Section --- */}
           <div className="mt-6">
             <div className="relative">
@@ -306,7 +312,7 @@ export default function Register() {
                       <path fill="none" d="M0 0h48v48H0z" />
                     </g>
                   </svg>
-                  <span>Sign up with Google</span>
+                  <span>Google</span>
                 </button>
               </div>
               <div>
@@ -320,13 +326,12 @@ export default function Register() {
                     <rect fill="#05A6F0" x="1" y="13" width="10" height="10" />
                     <rect fill="#FFBA08" x="13" y="13" width="10" height="10" />
                   </svg>
-                  <span>Sign up with Microsoft</span>
+                  <span>Microsoft</span>
                 </button>
               </div>
             </div>
           </div>
           {/* --- End Social Sign-up Section --- */}
-
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
