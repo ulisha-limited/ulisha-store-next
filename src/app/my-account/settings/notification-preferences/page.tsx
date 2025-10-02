@@ -1,8 +1,13 @@
 /**
- * Copyright 2025 Ulisha Limited
- * Licensed under the Apache License, Version 2.0
- * See LICENSE file in the project root for full license information.
+ * Copyright (c) 2025 Ulisha Limited
+ *
+ * This file is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+ * You may obtain a copy of the License at:
+ *
+ *     https://creativecommons.org/licenses/by-nc/4.0/
+ *
  */
+
 
 "use client";
 
@@ -105,7 +110,7 @@ export default function NotificationPreferencesPage() {
   <div className="min-h-screen bg-gray-50 font-sans">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
     <div className="flex items-center mb-8">
-   
+
       <h1 className="ml-4 text-2xl font-extrabold text-gray-900">
         Notification Settings
       </h1>

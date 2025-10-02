@@ -1,7 +1,11 @@
 /**
- * Copyright 2025 Ulisha Limited
- * Licensed under the Apache License, Version 2.0
- * See LICENSE file in the project root for full license information.
+ * Copyright (c) 2025 Ulisha Limited
+ *
+ * This file is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+ * You may obtain a copy of the License at:
+ *
+ *     https://creativecommons.org/licenses/by-nc/4.0/
+ *
  */
 
 "use client";
@@ -21,6 +25,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useCartStore } from "@/store/cartStore";
 import { useCategoryStore } from "@/store/categoryStore";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { AccountDropdown } from "../AccountDropdown";
 
 // Array of placeholder texts for the search bar
 const placeholders = [
@@ -46,6 +51,8 @@ export function Nav() {
   const searchParams = useSearchParams();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [currentPlaceholder, setCurrentPlaceholder] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetchCategories();
@@ -66,6 +73,21 @@ export function Nav() {
     }, 5000); // Change placeholder every 5 seconds
 
     return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -119,7 +141,7 @@ export function Nav() {
             animation: "gradient-x 3s ease-in-out infinite",
           }}
         >
-         <b>Ulisha</b> 
+          <b>Ulisha</b>
         </Link>
         <Link
           href="/message"
@@ -193,17 +215,22 @@ export function Nav() {
         </Link>
         {/* User profile */}
         {!!user ? (
-          <Link
-            href="/my-account"
-            className="items-center text-white hover:text-[#FF6600] transition-colors hidden md:flex mx-1"
-          >
-            <div
-              className="rounded-full bg-orange-500 flex items-center justify-center"
-              style={{ width: "30px", height: "30px", color: "white" }}
+          <div ref={dropdownRef} className="relative inline-block text-left">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="items-center text-white hover:text-[#FF6600] transition-colors hidden md:flex mx-1 outline-0"
             >
-              {getInitials(user?.user_metadata?.full_name)}
-            </div>
-          </Link>
+              <div
+                className="rounded-full bg-orange-500 flex items-center justify-center"
+                style={{ width: "30px", height: "30px", color: "white" }}
+              >
+                {getInitials(user?.user_metadata?.full_name)}
+              </div>
+            </button>
+
+            {/* Dropdown positioned below the button */}
+            <AccountDropdown isOpen={isOpen} />
+          </div>
         ) : (
           <Link
             href="/login"

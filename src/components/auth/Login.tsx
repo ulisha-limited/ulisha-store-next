@@ -1,7 +1,11 @@
 /**
- * Copyright 2025 Ulisha Limited
- * Licensed under the Apache License, Version 2.0
- * See LICENSE file in the project root for full license information.
+ * Copyright (c) 2025 Ulisha Limited
+ *
+ * This file is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+ * You may obtain a copy of the License at:
+ *
+ *     https://creativecommons.org/licenses/by-nc/4.0/
+ *
  */
 
 "use client";
@@ -20,6 +24,7 @@ import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import axios from "axios";
 import { useReCaptcha } from "next-recaptcha-v3";
+import Image from "next/image";
 
 export default function Login() {
   const { executeRecaptcha } = useReCaptcha();
@@ -76,7 +81,7 @@ export default function Login() {
 
     try {
       await signIn(email, password);
-      window.location.href = "/"
+      window.location.href = "/";
     } catch (err) {
       setError(
         err instanceof Error
@@ -96,31 +101,37 @@ export default function Login() {
   const handleMicrosoftSignIn = () => handleOAuthSignIn("azure");
 
   return (
-    <div className="flex flex-col lg:flex-row justify-center m-5">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md flex flex-col justify-center min-h-[220px]">
-        <Link
-          href="/"
-          className="flex flex-col items-center text-center mb-6 justify-center flex-1"
-        >
-          <div className="flex justify-center">
-            <FontAwesomeIcon
-              icon={faBagShopping}
-              className=" text-orange-500"
-              size="4x"
-            />
-          </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2">
-            Hello, welcome back to UlishaStore
-          </h2>
-          <p className="text-gray-600">Sign in to your account</p>
+    <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen mx-auto">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md flex-col justify-center p-5 hidden lg:flex">
+        <Link href="https://ulishastore.com/web">
+          <Image
+            src="/images/android-qrcode.svg"
+            alt="Scan to download the Ulisha Store App"
+            width="250"
+            height="250"
+          />
+          <h1 className="text-1xl sm:text-3xl font-extrabold text-gray-900 mb-2">
+            Get the Ulisha Store App Today!
+          </h1>
           <p className="text-orange-500 font-medium mt-2">
-            Enjoy up to 20% discounts on all products!
+            Shop smarter, save more — unlock exclusive deals with up to{" "}
+            <span className="font-bold">20% off</span> on every purchase.
+          </p>
+          <p className="text-gray-600 mt-2 text-sm">
+            Quick, secure, and convenient shopping — all at your fingertips.
           </p>
         </Link>
       </div>
 
-      <div className="mt-8 sm:mx-auto w-full sm:max-w-md">
+      <div className="mt-8 sm:mx-auto w-full sm:max-w-md p-5">
         <div className="bg-white py-8 px-4 sm:px-10 shadow-xl rounded-lg border border-gray-200">
+          <div className="mb-6">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2">
+              Hello, welcome back!
+            </h2>
+            <p className="text-gray-600">Sign in to your account</p>
+          </div>
+
           {error && (
             <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
               {error}
@@ -249,7 +260,7 @@ export default function Login() {
                       <path fill="none" d="M0 0h48v48H0z" />
                     </g>
                   </svg>
-                  <span>Sign in with Google</span>
+                  <span>Google</span>
                 </button>
               </div>
               <div>
@@ -264,7 +275,7 @@ export default function Login() {
                     <rect fill="#05A6F0" x="1" y="13" width="10" height="10" />
                     <rect fill="#FFBA08" x="13" y="13" width="10" height="10" />
                   </svg>
-                  <span>Sign in with Microsoft</span>
+                  <span>Microsoft</span>
                 </button>
               </div>
             </div>
@@ -288,6 +299,26 @@ export default function Login() {
               </div>
             </div>
           </div>
+
+          <p className="text-xs text-gray-500 mt-5">
+            This site is protected by reCAPTCHA and the Google{" "}
+            <a
+              href="https://policies.google.com/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Privacy Policy
+            </a>{" "}
+            and{" "}
+            <a
+              href="https://policies.google.com/terms"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Terms of Service
+            </a>{" "}
+            apply.
+          </p>
         </div>
       </div>
     </div>

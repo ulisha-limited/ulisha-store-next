@@ -1,7 +1,11 @@
 /**
- * Copyright 2025 Ulisha Limited
- * Licensed under the Apache License, Version 2.0
- * See LICENSE file in the project root for full license information.
+ * Copyright (c) 2025 Ulisha Limited
+ *
+ * This file is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+ * You may obtain a copy of the License at:
+ *
+ *     https://creativecommons.org/licenses/by-nc/4.0/
+ *
  */
 
 "use client";
@@ -12,6 +16,7 @@ import { ToastContainer } from "react-toastify";
 import Footer from "./Footer";
 import BottomNav from "./BottomNav";
 import { usePathname } from "next/navigation";
+import { SecondaryNav } from "./SecondaryNav";
 
 export default function MainLayout({
   children,
@@ -40,14 +45,24 @@ export default function MainLayout({
     "/notifications",
   ];
 
+  const secondaryNav = [
+    "/about",
+    "/faq",
+    "/legal/privacy-policy",
+    "/legal/return-policy",
+    "/legal/terms",
+    "/web",
+  ];
+
   const hideNav = hiddenPaths.some((path) => pathname.startsWith(path));
   const isFooterHidden = hideFooter.some((page) => pathname.startsWith(page));
-
-  const contentPaddingClass = hideNav ? "" : "pt-[90px]";
+  const isSecondaryNav = secondaryNav.some((page) => pathname.startsWith(page));
+  const contentPaddingClass = hideNav || isSecondaryNav ? "" : "pt-[90px]";
 
   return (
     <div className="bg-white min-h-screen flex flex-col">
-      {!hideNav && <NavComponent />}
+      {!hideNav && !isSecondaryNav && <NavComponent />}
+      {isSecondaryNav && <SecondaryNav />}
       <NextTopLoader showSpinner={false} color="#FF6600" />
       <div className={`flex-1 ${contentPaddingClass} pb-[90px] md:pb-0`}>
         {children}
