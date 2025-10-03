@@ -21,10 +21,12 @@ import {
   faX,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuthStore } from "@/store/authStore";
+import { isMobile } from "@/utils/mobile";
 
 export function SecondaryNav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user } = useAuthStore((state) => state);
+  const mobile = isMobile();
 
   const primaryLinks = [
     { href: "/faq", label: "FAQ" },
@@ -40,72 +42,74 @@ export function SecondaryNav() {
 
   return (
     <div className="w-full border-b border-gray-200">
-      <div className="bg-gray-900">
-        <div className="mx-auto px-4 flex flex-row py-2 text-xs text-gray-300 space-x-4">
-          <div className="flex justify-between items-center w-full">
-            <div className="flex space-x-2">
-              <Link
-                href="https://www.ulishalimited.com"
-                prefetch={false}
-                className="hover:underline"
-              >
-                Ulisha Limited
-              </Link>
-            </div>
-            <div className="flex gap-4">
-              {!user ? (
-                <>
-                  <Link
-                    href="/login"
-                    prefetch={false}
-                    className="hover:underline"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    href="/signup"
-                    prefetch={false}
-                    className="hover:underline"
-                  >
-                    Sign Up
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <Link
-                    href="/wishlist"
-                    prefetch={false}
-                    className="hover:underline"
-                  >
-                    <FontAwesomeIcon icon={faHeart} />
-                  </Link>
-                  <Link
-                    href="/cart"
-                    prefetch={false}
-                    className="hover:underline"
-                  >
-                    <FontAwesomeIcon icon={faCartShopping} />
-                  </Link>
-                  <Link
-                    href="/notifications"
-                    prefetch={false}
-                    className="hover:underline"
-                  >
-                    <FontAwesomeIcon icon={faBell} />
-                  </Link>
-                  <Link
-                    href="/my-account"
-                    prefetch={false}
-                    className="hover:underline"
-                  >
-                    {user.email}
-                  </Link>
-                </>
-              )}
+      {!mobile && (
+        <div className="bg-gray-900">
+          <div className="mx-auto px-4 flex flex-row py-2 text-xs text-gray-300 space-x-4">
+            <div className="flex justify-between items-center w-full">
+              <div className="flex space-x-2">
+                <Link
+                  href="https://www.ulishalimited.com"
+                  prefetch={false}
+                  className="hover:underline"
+                >
+                  Ulisha Limited
+                </Link>
+              </div>
+              <div className="flex gap-4">
+                {!user ? (
+                  <>
+                    <Link
+                      href="/login"
+                      prefetch={false}
+                      className="hover:underline"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      href="/signup"
+                      prefetch={false}
+                      className="hover:underline"
+                    >
+                      Sign Up
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/wishlist"
+                      prefetch={false}
+                      className="hover:underline"
+                    >
+                      <FontAwesomeIcon icon={faHeart} />
+                    </Link>
+                    <Link
+                      href="/cart"
+                      prefetch={false}
+                      className="hover:underline"
+                    >
+                      <FontAwesomeIcon icon={faCartShopping} />
+                    </Link>
+                    <Link
+                      href="/notifications"
+                      prefetch={false}
+                      className="hover:underline"
+                    >
+                      <FontAwesomeIcon icon={faBell} />
+                    </Link>
+                    <Link
+                      href="/my-account"
+                      prefetch={false}
+                      className="hover:underline"
+                    >
+                      {user.email}
+                    </Link>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       <nav className="w-full bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

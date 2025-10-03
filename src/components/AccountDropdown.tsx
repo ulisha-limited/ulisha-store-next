@@ -11,18 +11,22 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faBell,
   faCartShopping,
   faEye,
   faGears,
   faRepeat,
+  faShoppingBag,
   faSignOut,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useAuthStore } from "@/store/authStore";
+import { isMobile } from "@/utils/mobile";
 
 export function AccountDropdown({ isOpen }: { isOpen: boolean }) {
   const user = useAuthStore((state) => state.user);
+  const mobile = isMobile();
 
   return (
     <AnimatePresence>
@@ -42,6 +46,29 @@ export function AccountDropdown({ isOpen }: { isOpen: boolean }) {
               <p className="text-xs text-gray-500">{user?.email}</p>
             </div>
 
+            {!mobile && (
+              <>
+                <Link
+                  href="/my-account/orders"
+                  prefetch={false}
+                  className="text-sm flex items-center gap-2 w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
+                >
+                  <FontAwesomeIcon
+                    icon={faShoppingBag}
+                    className=" text-gray-500"
+                  />
+                  <span>Your Cart</span>
+                </Link>
+                <Link
+                  href="/my-account/orders"
+                  prefetch={false}
+                  className="text-sm flex items-center gap-2 w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
+                >
+                  <FontAwesomeIcon icon={faBell} className=" text-gray-500" />
+                  <span>Your Notifications</span>
+                </Link>
+              </>
+            )}
             <Link
               href="/my-account/orders"
               prefetch={false}

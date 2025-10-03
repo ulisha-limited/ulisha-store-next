@@ -66,8 +66,7 @@ export default function Footer() {
   };
 
   return (
-    // Only visible on large screens and up; hidden on small/medium
-    <footer className="hidden md:block bg-gray-900 text-white mt-12 mb-12 md:mb-0">
+    <footer className=" bg-gray-900 text-white mt-12 mb-12 md:mb-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-8">
           {/* About UlishaStore Section */}
