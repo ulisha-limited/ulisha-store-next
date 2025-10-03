@@ -48,6 +48,7 @@ export default function MainLayout({
   const secondaryNav = [
     "/about",
     "/faq",
+    "/legal",
     "/legal/privacy-policy",
     "/legal/return-policy",
     "/legal/terms",
