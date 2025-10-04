@@ -17,12 +17,15 @@ import Footer from "./Footer";
 import BottomNav from "./BottomNav";
 import { usePathname } from "next/navigation";
 import { SecondaryNav } from "./SecondaryNav";
+import { isMobile } from "@/utils/mobile";
+import { Suspense } from "react";
 
 export default function MainLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const mobile = isMobile();
   const pathname = usePathname();
 
   const hiddenPaths = [
@@ -61,16 +64,16 @@ export default function MainLayout({
   const contentPaddingClass = hideNav || isSecondaryNav ? "" : "pt-[90px]";
 
   return (
-    <div className="bg-white min-h-screen flex flex-col">
-      {!hideNav && !isSecondaryNav && <NavComponent />}
-      {isSecondaryNav && <SecondaryNav />}
-      <NextTopLoader showSpinner={false} color="#FF6600" />
-      <div className={`flex-1 ${contentPaddingClass} pb-[90px] md:pb-0`}>
-        {children}
+      <div className="bg-white min-h-screen flex flex-col">
+        {!hideNav && !isSecondaryNav && <NavComponent />}
+        {isSecondaryNav && <SecondaryNav />}
+        {!mobile && <NextTopLoader showSpinner={false} color="#FF6600" />}
+        <div className={`flex-1 ${contentPaddingClass} pb-[90px] md:pb-0`}>
+          {children}
+        </div>
+        {!isFooterHidden && !hideNav && !mobile && <Footer />}
+        {mobile && <BottomNav />}
+        {!hideNav && <ToastContainer />}
       </div>
-      {!isFooterHidden && !hideNav && <Footer />}
-      <BottomNav /> {/* ✅ Always visible on all pages */}
-      {!hideNav && <ToastContainer />}
-    </div>
   );
 }

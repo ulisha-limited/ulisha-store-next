@@ -34,6 +34,7 @@ import {
   faPinterest,
   faTiktok,
 } from "@fortawesome/free-brands-svg-icons";
+import { isMobile } from "@/utils/mobile";
 
 // Array of placeholder texts for the search bar
 const placeholders = [
@@ -61,6 +62,7 @@ export function Nav() {
   const [currentPlaceholder, setCurrentPlaceholder] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const mobile = isMobile();
 
   useEffect(() => {
     fetchCategories();
@@ -134,73 +136,75 @@ export function Nav() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 bg-[#007BFF] pb-1 shadow-md z-50 transition-transform duration-300">
-      <div className="bg-gray-900">
-        <div className="mx-auto px-4 flex flex-row py-2 text-xs text-gray-300 space-x-4">
-          <div className="flex justify-between items-center w-full">
-            <div className="flex space-x-2">
-              <Link
-                href="https://www.ulishalimited.com/ushop"
-                prefetch={false}
-                className="hover:underline"
-              >
-                UShop
-              </Link>
-              <Link href="/web" prefetch={false} className="hover:underline">
-                Download
-              </Link>
-              <div className="flex flex-row">
+      {!mobile && (
+        <div className="bg-gray-900">
+          <div className="mx-auto px-4 flex flex-row py-2 text-xs text-gray-300 space-x-4">
+            <div className="flex justify-between items-center w-full">
+              <div className="flex space-x-2">
                 <Link
-                  href="https://www.facebook.com/share/1AhYhxox4X/?mibextid=wwXIfr"
+                  href="https://www.ulishalimited.com/ushop"
                   prefetch={false}
                   className="hover:underline"
                 >
-                  <FontAwesomeIcon icon={faFacebook} />
+                  UShop
                 </Link>
-                <Link
-                  href="https://www.pinterest.com/ulishastore"
-                  prefetch={false}
-                  className="hover:underline"
-                >
-                  <FontAwesomeIcon icon={faPinterest} />
+                <Link href="/web" prefetch={false} className="hover:underline">
+                  Download
                 </Link>
-                <Link
-                  href="https://x.com/ulishastores"
-                  prefetch={false}
-                  className="hover:underline"
-                >
-                  <FontAwesomeIcon icon={faX} />
-                </Link>
-                <Link
-                  href="https://www.instagram.com/ulisha_store"
-                  prefetch={false}
-                  className="hover:underline"
-                >
-                  <FontAwesomeIcon icon={faInstagram} />
-                </Link>
-                <Link
-                  href="https://www.tiktok.com/@ulishastores"
-                  prefetch={false}
-                  className="hover:underline"
-                >
-                  <FontAwesomeIcon icon={faTiktok} />
+                <div className="flex flex-row">
+                  <Link
+                    href="https://www.facebook.com/share/1AhYhxox4X/?mibextid=wwXIfr"
+                    prefetch={false}
+                    className="hover:underline"
+                  >
+                    <FontAwesomeIcon icon={faFacebook} />
+                  </Link>
+                  <Link
+                    href="https://www.pinterest.com/ulishastore"
+                    prefetch={false}
+                    className="hover:underline"
+                  >
+                    <FontAwesomeIcon icon={faPinterest} />
+                  </Link>
+                  <Link
+                    href="https://x.com/ulishastores"
+                    prefetch={false}
+                    className="hover:underline"
+                  >
+                    <FontAwesomeIcon icon={faX} />
+                  </Link>
+                  <Link
+                    href="https://www.instagram.com/ulisha_store"
+                    prefetch={false}
+                    className="hover:underline"
+                  >
+                    <FontAwesomeIcon icon={faInstagram} />
+                  </Link>
+                  <Link
+                    href="https://www.tiktok.com/@ulishastores"
+                    prefetch={false}
+                    className="hover:underline"
+                  >
+                    <FontAwesomeIcon icon={faTiktok} />
+                  </Link>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <Link href="tel:+2349134781219" className="hover:underline">
+                  <FontAwesomeIcon icon={faPhone} className="me-1" />
+                  +2349134781219
                 </Link>
               </div>
             </div>
-            <div className="flex gap-4">
-              <Link href="tel:+2349134781219" className="hover:underline">
-                <FontAwesomeIcon icon={faPhone} className="me-1" />
-                +2349134781219
-              </Link>
-            </div>
           </div>
         </div>
-      </div>
+      )}
 
       <div className="flex items-center justify-between pt-2 px-4">
         <Link
           href="/"
           prefetch={false}
-          className="flex items-center space-x-2 group hidden md:inline mr-3 text-xl lg:text-2xl font-semibold hover:text-[#FF6600] transition-colors bg-gradient-to-r from-orange-400 via-orange-500 to-yellow-400 bg-[length:200%_auto] bg-clip-text text-transparent animate-gradient-x"
+          className="items-center space-x-2 group hidden md:inline mr-3 text-xl lg:text-2xl font-semibold hover:text-[#FF6600] transition-colors bg-gradient-to-r from-orange-400 via-orange-500 to-yellow-400 bg-[length:200%_auto] bg-clip-text text-transparent animate-gradient-x"
           style={{
             backgroundImage:
               "linear-gradient(270deg, #fb923c, #f97316, #fbbf24, #fb923c)",
@@ -284,30 +288,37 @@ export function Nav() {
           <FontAwesomeIcon icon={faBell} size="lg" />
         </Link>
         {/* User profile */}
-        {!!user ? (
-          <div ref={dropdownRef} className="relative inline-block text-left">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="items-center text-white hover:text-[#FF6600] transition-colors hidden md:flex mx-1 outline-0"
-            >
+        {!mobile && (
+          <>
+            {!!user ? (
               <div
-                className="rounded-full bg-orange-500 flex items-center justify-center"
-                style={{ width: "30px", height: "30px", color: "white" }}
+                ref={dropdownRef}
+                className="relative inline-block text-left"
               >
-                {getInitials(user?.user_metadata?.full_name)}
-              </div>
-            </button>
+                <button
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="items-center text-white hover:text-[#FF6600] transition-colors flex mx-1 outline-0"
+                >
+                  <div
+                    className="rounded-full bg-orange-500 flex items-center justify-center"
+                    style={{ width: "30px", height: "30px", color: "white" }}
+                  >
+                    {getInitials(user?.user_metadata?.full_name)}
+                  </div>
+                </button>
 
-            {/* Dropdown positioned below the button */}
-            <AccountDropdown isOpen={isOpen} />
-          </div>
-        ) : (
-          <Link
-            href="/login"
-            className="items-center text-white hover:text-[#FF6600] transition-colors hidden md:flex mx-1"
-          >
-            Login
-          </Link>
+                {/* Dropdown positioned below the button */}
+                <AccountDropdown isOpen={isOpen} />
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className="items-center text-white hover:text-[#FF6600] transition-colors flex mx-1"
+              >
+                Login
+              </Link>
+            )}
+          </>
         )}
       </div>
 

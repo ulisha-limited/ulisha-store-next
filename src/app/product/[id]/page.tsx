@@ -8,7 +8,6 @@
  *
  */
 
-
 "use client";
 
 import Link from "next/link";
@@ -43,6 +42,7 @@ import Image from "next/image";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Database } from "@/supabase-types";
+import { isMobile } from "@/utils/mobile";
 
 type Product = Database["public"]["Tables"]["products"]["Row"];
 
@@ -70,6 +70,7 @@ export default function ProductDetailPage() {
   const user = useAuthStore((state) => state.user);
   const { formatPrice, currency } = useCurrencyStore();
   const [loading, setLoading] = useState(true);
+  const mobile = isMobile();
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -376,16 +377,6 @@ export default function ProductDetailPage() {
         }}
       />
 
-      <title>{initialProduct.id} | Ulisha Store</title>
-      <meta name="description" content={initialProduct.description} />
-      <meta property="og:title" content={initialProduct.name} />
-      <meta property="og:description" content={initialProduct.description} />
-      <meta property="og:image" content={initialImages[0]} />
-      <meta
-        property="og:url"
-        content={`https://www.ulishastore.com/products/${initialProduct.id}`}
-      />
-
       {/*-- Navbar for easy navigation --*/}
       <div className="flex justify-between md:hidden  top-23 left-0 right-0  border-t  p-3 z-100">
         <button
@@ -397,7 +388,7 @@ export default function ProductDetailPage() {
         </button>
       </div>
 
-      <div className="min-h-screen  py-8">
+      <div className="mt-0 md:mt-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-3 hidden md:block">
             <button
@@ -679,37 +670,39 @@ export default function ProductDetailPage() {
                 <p className="text-gray-600 mb-6">
                   {initialProduct.description}
                 </p>
-                <div className="flex-1 items-right gap-4 hidden md:flex">
-                  <button
-                    onClick={handleAddToCart}
-                    disabled={
-                      initialVariants.length > 0 &&
-                      (!selectedColor || !selectedSize)
-                    }
-                    className="flex items-center justify-center w-40 space-x-2 text-orange-500 text-xs hover:bg-orange-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:no-underline border border-orange-500 rounded-lg py-2 px-4 transition-colors duration-200"
-                  >
-                    <FontAwesomeIcon icon={faShoppingCart} size="xl" />
-                    <span>
-                      {initialVariants.length > 0
-                        ? selectedColor && selectedSize
-                          ? "Add to Cart"
-                          : "Select Options"
-                        : "Add to Cart"}
-                    </span>
-                  </button>
+                {!mobile && (
+                  <div className="flex flex-1 items-right gap-4">
+                    <button
+                      onClick={handleAddToCart}
+                      disabled={
+                        initialVariants.length > 0 &&
+                        (!selectedColor || !selectedSize)
+                      }
+                      className="flex items-center justify-center w-40 space-x-2 text-orange-500 text-xs hover:bg-orange-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:no-underline border border-orange-500 rounded-lg py-2 px-4 transition-colors duration-200"
+                    >
+                      <FontAwesomeIcon icon={faShoppingCart} size="xl" />
+                      <span>
+                        {initialVariants.length > 0
+                          ? selectedColor && selectedSize
+                            ? "Add to Cart"
+                            : "Select Options"
+                          : "Add to Cart"}
+                      </span>
+                    </button>
 
-                  <button
-                    onClick={handleBuyNow}
-                    disabled={
-                      initialVariants.length > 0 &&
-                      (!selectedColor || !selectedSize)
-                    }
-                    className="flex items-center justify-center w-40  space-x-2 bg-orange-500 hover:bg-orange-500/90 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-                  >
-                    <FontAwesomeIcon icon={faArrowRight} size="lg" />
-                    <span>Buy Now</span>
-                  </button>
-                </div>
+                    <button
+                      onClick={handleBuyNow}
+                      disabled={
+                        initialVariants.length > 0 &&
+                        (!selectedColor || !selectedSize)
+                      }
+                      className="flex items-center justify-center w-40  space-x-2 bg-orange-500 hover:bg-orange-500/90 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <FontAwesomeIcon icon={faArrowRight} size="lg" />
+                      <span>Buy Now</span>
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -729,28 +722,30 @@ export default function ProductDetailPage() {
       </div>
 
       {/*-- Footer with Add to Cart and Buy Now buttons --*/}
-      <div className="flex md:hidden fixed bottom-16 left-0 right-0 bg-white border-t shadow-md p-1 items-center justify-around z-100">
-        <button
-          className="text-orange-500 w-full"
-          onClick={handleAddToCart}
-          disabled={
-            initialVariants.length > 0 && (!selectedColor || !selectedSize)
-          }
-        >
-          <FontAwesomeIcon icon={faShoppingCart} size="1x" className="me-2" />
-          Add to cart
-        </button>
-        <button
-          className="bg-orange-500 text-white w-full py-2 rounded-lg"
-          onClick={handleBuyNow}
-          disabled={
-            initialVariants.length > 0 && (!selectedColor || !selectedSize)
-          }
-        >
-          <FontAwesomeIcon icon={faArrowRight} size="lg" className="me-2" />
-          Buy Now
-        </button>
-      </div>
+      {mobile && (
+        <div className="flex fixed bottom-16 left-0 right-0 bg-white border-t shadow-md p-1 items-center justify-around z-100">
+          <button
+            className="text-orange-500 w-full"
+            onClick={handleAddToCart}
+            disabled={
+              initialVariants.length > 0 && (!selectedColor || !selectedSize)
+            }
+          >
+            <FontAwesomeIcon icon={faShoppingCart} size="1x" className="me-2" />
+            Add to cart
+          </button>
+          <button
+            className="bg-orange-500 text-white w-full py-3 rounded-lg"
+            onClick={handleBuyNow}
+            disabled={
+              initialVariants.length > 0 && (!selectedColor || !selectedSize)
+            }
+          >
+            <FontAwesomeIcon icon={faArrowRight} size="lg" className="me-2" />
+            Buy Now
+          </button>
+        </div>
+      )}
     </>
   );
 }
