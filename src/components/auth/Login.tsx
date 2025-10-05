@@ -25,6 +25,7 @@ import Link from "next/link";
 import axios from "axios";
 import { useReCaptcha } from "next-recaptcha-v3";
 import Image from "next/image";
+import { isMobile } from "@/utils/mobile";
 
 export default function Login() {
   const { executeRecaptcha } = useReCaptcha();
@@ -39,6 +40,7 @@ export default function Login() {
   const refreshSession = useAuthStore((state) => state.refreshSession);
   const session = useAuthStore((state) => state.session);
   const signIn = useAuthStore((state) => state.signIn);
+  const mobile = isMobile();
 
   // const handleSubmit = async (e: React.FormEvent) => {
   //   e.preventDefault();
@@ -124,20 +126,20 @@ export default function Login() {
       </div>
 
       <div className="mt-8 sm:mx-auto w-full sm:max-w-md p-5">
-        <div className="bg-white py-8 px-4 sm:px-10 shadow-xl rounded-lg border border-gray-200">
+        <div
+          className={`${!mobile && "border border-gray-200 shadow-xl rounded-lg"} bg-white py-8 px-4 sm:px-10`}
+        >
           <div className="mb-6">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2">
               Hello, welcome back!
             </h2>
             <p className="text-gray-600">Sign in to your account</p>
           </div>
-
           {error && (
             <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
               {error}
             </div>
           )}
-
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <label
@@ -219,7 +221,6 @@ export default function Login() {
               {loading ? "Signing in..." : "Sign in"}
             </button>
           </form>
-
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
@@ -280,7 +281,6 @@ export default function Login() {
               </div>
             </div>
           </div>
-
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
@@ -299,7 +299,6 @@ export default function Login() {
               </div>
             </div>
           </div>
-
           <p className="text-xs text-gray-500 mt-5">
             This site is protected by reCAPTCHA and the Google{" "}
             <a

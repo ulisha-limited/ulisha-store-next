@@ -136,69 +136,67 @@ export function Nav() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 bg-[#007BFF] pb-1 shadow-md z-50 transition-transform duration-300">
-      {!mobile && (
-        <div className="bg-gray-900">
-          <div className="mx-auto px-4 flex flex-row py-2 text-xs text-gray-300 space-x-4">
-            <div className="flex justify-between items-center w-full">
-              <div className="flex space-x-2">
+      <div className={`bg-gray-900 ${mobile ? "hidden" : "block"}`}>
+        <div className="mx-auto px-4 flex flex-row py-2 text-xs text-gray-300 space-x-4">
+          <div className="flex justify-between items-center w-full">
+            <div className="flex space-x-2">
+              <Link
+                href="https://www.ulishalimited.com/ushop"
+                prefetch={false}
+                className="hover:underline"
+              >
+                UShop
+              </Link>
+              <Link href="/web" prefetch={false} className="hover:underline">
+                Download
+              </Link>
+              <div className="flex flex-row">
                 <Link
-                  href="https://www.ulishalimited.com/ushop"
+                  href="https://www.facebook.com/share/1AhYhxox4X/?mibextid=wwXIfr"
                   prefetch={false}
                   className="hover:underline"
                 >
-                  UShop
+                  <FontAwesomeIcon icon={faFacebook} />
                 </Link>
-                <Link href="/web" prefetch={false} className="hover:underline">
-                  Download
+                <Link
+                  href="https://www.pinterest.com/ulishastore"
+                  prefetch={false}
+                  className="hover:underline"
+                >
+                  <FontAwesomeIcon icon={faPinterest} />
                 </Link>
-                <div className="flex flex-row">
-                  <Link
-                    href="https://www.facebook.com/share/1AhYhxox4X/?mibextid=wwXIfr"
-                    prefetch={false}
-                    className="hover:underline"
-                  >
-                    <FontAwesomeIcon icon={faFacebook} />
-                  </Link>
-                  <Link
-                    href="https://www.pinterest.com/ulishastore"
-                    prefetch={false}
-                    className="hover:underline"
-                  >
-                    <FontAwesomeIcon icon={faPinterest} />
-                  </Link>
-                  <Link
-                    href="https://x.com/ulishastores"
-                    prefetch={false}
-                    className="hover:underline"
-                  >
-                    <FontAwesomeIcon icon={faX} />
-                  </Link>
-                  <Link
-                    href="https://www.instagram.com/ulisha_store"
-                    prefetch={false}
-                    className="hover:underline"
-                  >
-                    <FontAwesomeIcon icon={faInstagram} />
-                  </Link>
-                  <Link
-                    href="https://www.tiktok.com/@ulishastores"
-                    prefetch={false}
-                    className="hover:underline"
-                  >
-                    <FontAwesomeIcon icon={faTiktok} />
-                  </Link>
-                </div>
-              </div>
-              <div className="flex gap-4">
-                <Link href="tel:+2349134781219" className="hover:underline">
-                  <FontAwesomeIcon icon={faPhone} className="me-1" />
-                  +2349134781219
+                <Link
+                  href="https://x.com/ulishastores"
+                  prefetch={false}
+                  className="hover:underline"
+                >
+                  <FontAwesomeIcon icon={faX} />
+                </Link>
+                <Link
+                  href="https://www.instagram.com/ulisha_store"
+                  prefetch={false}
+                  className="hover:underline"
+                >
+                  <FontAwesomeIcon icon={faInstagram} />
+                </Link>
+                <Link
+                  href="https://www.tiktok.com/@ulishastores"
+                  prefetch={false}
+                  className="hover:underline"
+                >
+                  <FontAwesomeIcon icon={faTiktok} />
                 </Link>
               </div>
             </div>
+            <div className="flex gap-4">
+              <Link href="tel:+2349134781219" className="hover:underline">
+                <FontAwesomeIcon icon={faPhone} className="me-1" />
+                +2349134781219
+              </Link>
+            </div>
           </div>
         </div>
-      )}
+      </div>
 
       <div className="flex items-center justify-between pt-2 px-4">
         <Link

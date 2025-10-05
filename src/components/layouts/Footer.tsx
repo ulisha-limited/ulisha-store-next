@@ -31,6 +31,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import TrustPilotWidget from "../TrustPilotWidget";
+import { isMobile } from "@/utils/mobile";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -41,6 +42,7 @@ export default function Footer() {
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
   const [showButton, setShowButton] = useState(false);
+  const mobile = isMobile();
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -65,8 +67,10 @@ export default function Footer() {
     setShowButton(false);
   };
 
+  if (mobile) return;
+
   return (
-    <footer className=" bg-gray-900 text-white mt-12 mb-12 md:mb-0">
+    <footer className={`bg-gray-900 text-white ${mobile ? "hidden" : "block"}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-8">
           {/* About UlishaStore Section */}
