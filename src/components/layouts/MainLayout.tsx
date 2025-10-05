@@ -18,15 +18,19 @@ import BottomNav from "./BottomNav";
 import { usePathname } from "next/navigation";
 import { SecondaryNav } from "./SecondaryNav";
 import { isMobile } from "@/utils/mobile";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 export default function MainLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const mobile = isMobile();
   const pathname = usePathname();
+  const [mobile, setMobile] = useState(false);
+
+  useEffect(() => {
+    setMobile(isMobile());
+  }, []);
 
   const hiddenPaths = [
     "/login",
@@ -64,16 +68,14 @@ export default function MainLayout({
   const contentPaddingClass = hideNav || isSecondaryNav ? "" : "pt-[90px]";
 
   return (
-      <div className="bg-white min-h-screen flex flex-col">
-        {!hideNav && !isSecondaryNav && <NavComponent />}
-        {isSecondaryNav && <SecondaryNav />}
-        {!mobile && <NextTopLoader showSpinner={false} color="#FF6600" />}
-        <div className={`flex-1 ${contentPaddingClass} pb-[90px] md:pb-0`}>
-          {children}
-        </div>
-        {!isFooterHidden && !hideNav && !mobile && <Footer />}
-        {mobile && <BottomNav />}
-        {!hideNav && <ToastContainer />}
-      </div>
+    <div className="bg-white min-h-screen flex flex-col">
+      {!hideNav && !isSecondaryNav && <NavComponent />}
+      {isSecondaryNav && <SecondaryNav />}
+      {!mobile && <NextTopLoader showSpinner={false} color="#FF6600" />}
+      <div className={`flex-1 ${contentPaddingClass}`}>{children}</div>
+      {!isFooterHidden && <Footer />}
+      {!hideNav && <BottomNav />}
+      {!hideNav && <ToastContainer />}
+    </div>
   );
 }

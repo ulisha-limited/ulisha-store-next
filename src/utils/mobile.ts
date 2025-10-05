@@ -11,5 +11,5 @@
 export const isMobile = () => {
   if (typeof window === "undefined") return false;
   const ua = navigator.userAgent || "";
-  return ua.includes("UlishaStore/1.0.0");
+  return /(?=.*UlishaStore\/[\d.]+)(?=.*Android)/i.test(ua);
 };
