@@ -1,8 +1,8 @@
 {
   "name": "ulisha-store-next",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
-  "license": "CC BY-NC 4.0",
+  "license": "Polyform Noncommercial License 1.0.0",
   "author": "Ulisha Limited",
   "scripts": {
     "dev": "next dev --turbopack",
