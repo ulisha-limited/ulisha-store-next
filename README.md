@@ -29,7 +29,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the app.
 
 ## License
 
-This project is licensed under the [CC BY-NC 4.0](LICENSE).
+This project is licensed under the [Polyform Noncommercial License 1.0.0](LICENSE).
 
 
 &copy; 2025 Ulisha Limited.
