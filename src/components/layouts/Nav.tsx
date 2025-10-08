@@ -21,6 +21,7 @@ import {
   faRobot,
   faX,
   faPhone,
+  faUser
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuthStore } from "@/store/authStore";
 import { useCartStore } from "@/store/cartStore";
@@ -217,7 +218,7 @@ export function Nav() {
         <Link
           href="/message"
           prefetch={false}
-          className="text-white hover:text-[#FF6600] transition-colors mr-3"
+          className="text-white hover:text-[#FF6600] transition-colors mr-3 hidden md:inline"
           aria-label="Message"
         >
           <FontAwesomeIcon icon={faRobot} size="lg" />
@@ -312,7 +313,8 @@ export function Nav() {
                 href="/login"
                 className="items-center text-white hover:text-[#FF6600] transition-colors flex mx-1"
               >
-                Login
+                <FontAwesomeIcon icon={faUser} />
+                <span className="hidden md:inline ms-1">Login</span>
               </Link>
             )}
           </>
