@@ -157,17 +157,15 @@ export default function ProductDetailPage() {
         return toast.error("Selected variant is out of stock");
       }
 
-      const productWithOptions = {
-        ...initialProduct,
-        image: selectedImage,
-        selectedColor,
-        selectedSize,
-        variantId: selectedVariant?.id,
-      };
-
       const resolveAddToCart = new Promise(async (resolve) => {
         try {
-          await addToCart(productWithOptions);
+          await addToCart(
+            initialProduct,
+            selectedColor,
+            selectedSize,
+            selectedVariant?.id,
+            1,
+          );
           resolve(undefined);
         } catch (error) {
           resolve(error);
@@ -215,7 +213,13 @@ export default function ProductDetailPage() {
       };
 
       await Promise.all([
-        addToCart(productWithOptions),
+        addToCart(
+          initialProduct,
+          selectedColor,
+          selectedSize,
+          selectedVariant?.id,
+          1,
+        ),
         buyNow(productWithOptions),
       ]);
     } catch (error) {

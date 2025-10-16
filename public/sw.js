@@ -7,8 +7,10 @@
  *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-
- self.addEventListener("install", () => {
+self.addEventListener("install", () => {
   console.log("Service Worker installed");
 });
-self.addEventListener("fetch", () => {});
+
+self.addEventListener("fetch", (event) => {
+  event.respondWith(fetch(event.request));
+});

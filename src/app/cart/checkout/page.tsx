@@ -7,7 +7,6 @@
  *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
@@ -30,6 +29,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { supabase } from "@/lib/supabase";
 import { Database } from "@/supabase-types";
+import Image from "next/image";
 
 type Product = Database["public"]["Tables"]["products"]["Row"];
 type CartItem = Database["public"]["Tables"]["cart_items"]["Row"];
@@ -58,7 +58,7 @@ export default function Checkout() {
   const [showConfirmModal, setShowConfirmModal] = useState(false); // Calculate subtotal and total
 
   const subtotal = items.reduce((sum: number, item: any) => {
-     return sum + (item.product?.price || 0) * item.quantity;
+    return sum + (item.product?.price || 0) * item.quantity;
     // return sum + 0 * item.quantity;
   }, 0);
   const deliveryFee = 0; // Placeholder for delivery fee
@@ -370,7 +370,7 @@ export default function Checkout() {
                 </span>
               </div>
 
-              <div className="flex justify-between items-center text-xl font-bold text-gray-900 pt-3 border-t border-gray-200 mt-3">
+              <div className="flex justify-between items-center text-xl font-bold text-orange-500 pt-3 border-t border-gray-200 mt-3">
                 <span>Total:</span>
                 <span className="text-primary-orange">
                   {formatPrice(total)}
@@ -432,11 +432,13 @@ export default function Checkout() {
                       </p>
 
                       <p className="text-gray-700">
-                        {address.street},{address.city},{address.state}
-                        {address.zip ? `, ${address.zip}` : ""}
+                        {address.street}, {address.city}, {address.state}
+                        {address.zip}
                       </p>
 
-                      <p>{address.notes ? `, ${address.notes}` : ""}</p>
+                      <p className="text-gray-700">
+                        {address.notes ? `Note: ${address.notes}` : ""}
+                      </p>
                     </div>
                   </label>
                 ))}
@@ -456,7 +458,7 @@ export default function Checkout() {
             <div className="space-y-4">
               <label
                 className={`flex items-center p-4 border rounded-lg cursor-pointer transition-all duration-200 ease-in-out ${
-                  selectedPaymentMethod === "cash_on_delivery"
+                  selectedPaymentMethod === "mix_pay"
                     ? "border-primary-orange ring-2 ring-primary-orange bg-primary-orange/5"
                     : "border-gray-300 hover:border-gray-400 bg-white"
                 }`}
@@ -464,27 +466,36 @@ export default function Checkout() {
                 <input
                   type="radio"
                   name="paymentMethod"
-                  value="cash_on_delivery"
-                  checked={selectedPaymentMethod === "cash_on_delivery"}
-                  onChange={() => setSelectedPaymentMethod("cash_on_delivery")}
+                  value="mix_pay"
+                  checked={selectedPaymentMethod === "mix_pay"}
+                  onChange={() => setSelectedPaymentMethod("mix_pay")}
                   className="form-radio h-4 w-4 text-primary-orange border-gray-300 focus:ring-primary-orange cursor-pointer"
                 />
 
-                <div className="ml-3 text-sm">
-                  <p className="font-semibold text-gray-900">
-                    Cash on Delivery
-                  </p>
+                <div className="ml-3 text-sm flex flex-column gap-2">
+                  <Image
+                    src="/vendor/MixPay Protocol/MixPay Protocol_id4GAN0jCM_2.jpeg"
+                    width="50"
+                    height="50"
+                    alt="MixPay"
+                    className="rounded-lg"
+                  />
+                  <div>
+                    <p className="font-semibold text-gray-900">
+                      MixPay (Crypto)
+                    </p>
 
-                  <p className="text-gray-700">
-                    Pay with cash when your order arrives.
-                  </p>
+                    <p className="text-gray-700">
+                      Pay securely with a wide range of cryptocurrencies via
+                      MixPay network.
+                    </p>
+                  </div>
                 </div>
               </label>
-              {/* You can add more payment options here */}
 
-              {/* <label
+              <label
                 className={`flex items-center p-4 border rounded-lg cursor-pointer transition-all duration-200 ease-in-out ${
-                  selectedPaymentMethod === "credit_card"
+                  selectedPaymentMethod === "paystack"
                     ? "border-primary-orange ring-2 ring-primary-orange bg-primary-orange/5"
                     : "border-gray-300 hover:border-gray-400 bg-white"
                 }`}
@@ -492,16 +503,32 @@ export default function Checkout() {
                 <input
                   type="radio"
                   name="paymentMethod"
-                  value="credit_card"
-                  checked={selectedPaymentMethod === "credit_card"}
-                  onChange={() => setSelectedPaymentMethod("credit_card")}
+                  value="paystack"
+                  checked={selectedPaymentMethod === "paystack"}
+                  onChange={() => setSelectedPaymentMethod("paystack")}
                   className="form-radio h-4 w-4 text-primary-orange border-gray-300 focus:ring-primary-orange cursor-pointer"
                 />
-                <div className="ml-3 text-sm">
-                  <p className="font-semibold text-gray-900">Credit Card</p>
-                  <p className="text-gray-700">Pay securely with your credit or debit card.</p>
+
+                <div className="ml-3 text-sm flex flex-column gap-2">
+                  <Image
+                    src="/vendor/Paystack/Paystack_idoIEO_8K-_0.jpeg"
+                    width="50"
+                    height="50"
+                    alt="Paystack"
+                    className="rounded-lg"
+                  />
+                  <div>
+                    <p className="font-semibold text-gray-900">
+                      Paystack (Card & Wallet)
+                    </p>
+
+                    <p className="text-gray-700">
+                      Pay instantly using cards, bank transfer, or e-wallets
+                      with Paystack.
+                    </p>
+                  </div>
                 </div>
-              </label> */}
+              </label>
             </div>
           </div>
           {/* Place Order Button */}
@@ -510,7 +537,7 @@ export default function Checkout() {
             disabled={
               checkoutProcessing || !selectedAddress || items.length === 0
             }
-            className={`w-full inline-flex items-center justify-center px-6 py-3 sm:py-4 rounded-full text-white text-base sm:text-lg font-semibold tracking-wide transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg
+            className={`w-full inline-flex items-center bg-orange-400 justify-center px-6 py-3 sm:py-4 rounded-full text-white text-base sm:text-lg font-semibold tracking-wide transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg
               ${
                 checkoutProcessing || !selectedAddress || items.length === 0
                   ? "bg-gray-400 cursor-not-allowed"
@@ -533,9 +560,10 @@ export default function Checkout() {
           </button>
         </div>
       </div>
+
       {/* Confirmation Modal */}
       {showConfirmModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 animate-fade-in">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 animate-fade-in">
           <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md transform animate-scale-up">
             <h3 className="text-xl font-bold text-gray-900 mb-4">
               Confirm Your Order
@@ -544,19 +572,15 @@ export default function Checkout() {
             <p className="text-gray-700 mb-6">
               You are about to place an order for
               <span className="font-semibold text-primary-orange">
-                {formatPrice(total)}
+                {" "}
+                {formatPrice(total)}{" "}
               </span>
               to be delivered to
               <span className="font-semibold text-gray-900">
+                {" "}
                 {selectedAddress?.name}
               </span>
-              via
-              <span className="font-semibold text-gray-900">
-                {selectedPaymentMethod === "cash_on_delivery"
-                  ? "Cash on Delivery"
-                  : selectedPaymentMethod}
-                .
-              </span>
+              .
             </p>
 
             <div className="flex justify-end space-x-3">
@@ -570,7 +594,7 @@ export default function Checkout() {
 
               <button
                 onClick={handlePlaceOrder}
-                className="px-5 py-2 rounded-full bg-primary-orange text-white hover:bg-primary-orange-dark transition-colors flex items-center"
+                className="px-5 py-2 rounded-full bg-orange-400 text-white hover:bg-primary-orange-dark transition-colors flex items-center"
                 disabled={checkoutProcessing}
               >
                 {checkoutProcessing && (
