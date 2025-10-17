@@ -7,17 +7,17 @@
  *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { Database } from "@/supabase-types";
+import config from "@/config/index";
 
 export function createSupabaseServerClient() {
   const cookieStorePromise = cookies();
 
   return createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    config.supabaseURL,
+    config.supabaseAnonKey,
     {
       cookies: {
         async getAll() {
@@ -27,10 +27,10 @@ export function createSupabaseServerClient() {
         async setAll(cookiesToSet) {
           const cookieStore = await cookieStorePromise;
           cookiesToSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options)
+            cookieStore.set(name, value, options),
           );
         },
       },
-    }
+    },
   );
 }

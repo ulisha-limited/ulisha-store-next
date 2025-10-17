@@ -7,8 +7,7 @@
  *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-
-const secret = process.env.RECAPTCHA_SECRET_KEY || "";
+import config from "@/config/index";
 
 async function recaptcha(token: string, action: string) {
   if (!token) return false;
@@ -18,7 +17,7 @@ async function recaptcha(token: string, action: string) {
   const response = await fetch(verifyUrl, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `secret=${secret}&response=${token}`,
+    body: `secret=${config.recaptchaSecretKey}&response=${token}`,
   });
 
   const data = await response.json();

@@ -7,11 +7,11 @@
  *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { isDisposableEmail, validateEmail } from "@/lib/emailChecker";
 import { recaptcha } from "@/lib/recaptcha";
+import * as Sentry from "@sentry/nextjs";
 
 export async function POST(req: NextRequest) {
   try {
@@ -70,6 +70,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ status: 201 });
   } catch (err) {
     console.error("Register error:", err);
+    Sentry.captureException(err);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

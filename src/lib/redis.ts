@@ -9,9 +9,10 @@
 
 
 import { createClient } from "redis";
+import config from "@/config/index";
 
 const redis = await createClient({
-  url: process.env.REDIS_URL || "",
+  url: config.redisURL,
 }).connect();
 
 export { redis };

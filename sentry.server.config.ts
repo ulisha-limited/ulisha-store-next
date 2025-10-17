@@ -13,10 +13,11 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
 import * as Sentry from "@sentry/nextjs";
+import config from "@/config/index";
 
 Sentry.init({
-  dsn: process.env.SENTRY_DSN || "",
+  dsn: config.sentryDNS,
   // Setting this option to true will print useful information to the console while you're setting up Sentry.
   debug: false,
-  enabled: process.env.NODE_ENV !== "development",
+  enabled: config.nodeEnv === "production" && config.enableSentry,
 });

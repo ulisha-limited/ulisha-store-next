@@ -7,8 +7,9 @@
  *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-
 import axios from "axios";
+import * as Sentry from "@sentry/nextjs";
+import config from "@/config/index";
 
 export async function POST(req: Request) {
   try {
@@ -16,24 +17,31 @@ export async function POST(req: Request) {
     const { email, amount } = body;
 
     const callbackUrl =
-      process.env.NODE_ENV === "development"
-        ? process.env.PAYSTACK_CALLBACK_URL_DEVELOPMENT
-        : process.env.PAYSTACK_CALLBACK_URL_PRODUCTION;
+      config.nodeEnv === "development"
+        ? config.paystackCallbackURLDevelopment
+        : config.paystackCallbackURLProduction;
+
+    if (!config.paystackSecretKey) {
+      throw Error("PAYSTACK_SECRET_KEY is undefined");
+    }
+    if (!callbackUrl) {
+      throw Error("PAYSTACK_CALLBACK_URLS is undefined");
+    }
 
     const response = await axios.post(
       "https://api.paystack.co/transaction/initialize",
       {
         email,
-        amount: amount * 100,
+        amount: amount,
         currency: "NGN",
         callback_url: callbackUrl,
       },
       {
         headers: {
-          Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+          Authorization: `Bearer ${config.paystackSecretKey}`,
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     return new Response(JSON.stringify(response.data), {
@@ -42,12 +50,9 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     console.error("Initialization error:", error);
-    return new Response(
-      JSON.stringify({ error: "Payment initialization failed" }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    Sentry.captureException(error);
+    return new Response(JSON.stringify({ error: "Internal server error" }), {
+      status: 500,
+    });
   }
 }

@@ -215,8 +215,6 @@ export default function Products() {
 
           if (additionalImagesError) throw additionalImagesError;
         }
-
-        pingIndexNow(editingProduct.id);
       } else {
         if (!productData.image) {
           throw new Error("Product image is required");
@@ -287,8 +285,6 @@ export default function Products() {
 
           if (additionalImagesError) throw additionalImagesError;
         }
-
-        pingIndexNow(newProduct.id);
       }
 
       setProductData({
@@ -321,14 +317,6 @@ export default function Products() {
       toast.error("Error saving product. Please try again.");
     } finally {
       setFormLoading(false);
-    }
-  };
-
-  const pingIndexNow = (productId: string) => {
-    try {
-      fetch(`/api/webmasters/bing/indexnow?productId=${productId}`);
-    } catch (error) {
-      console.error("Error pinging IndexNow:", error);
     }
   };
 

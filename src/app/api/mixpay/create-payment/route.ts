@@ -7,24 +7,35 @@
  *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
+import * as Sentry from "@sentry/nextjs";
+import config from "@/config/index";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const { amount } = body;
+
+  if (!config.mixPayAppId) {
+    throw Error("MIXPAY_APP_ID is undefined");
+  }
+  if (!config.mixPayReturnTo) {
+    throw Error("MIXPAY_RETURN_TO is undefined");
+  }
+  if (!config.mixPayCallbackUrl) {
+    throw Error("MIXPAY_CALLBACK_URL is undefined");
+  }
 
   try {
     const res = await axios.post("https://api.mixpay.me/v1/one_time_payment", {
       quoteAmount: amount,
       quoteAssetId: "usd",
       settlementAssetId: "c94ac88f-4671-3976-b60a-09064f1811e8",
-      payeeId: process.env.MIXPAY_APP_ID,
+      payeeId: config.mixPayAppId,
       orderId: `order-${Date.now()}`,
       isTemp: "1",
-      returnTo: "https://www.ulishastore.com/orders",
-      callbackUrl: "https://www.ulishastore.com/api/mixpay/webhook",
+      returnTo: config.mixPayReturnTo,
+      callbackUrl: config.mixPayCallbackUrl,
     });
 
     return NextResponse.json({
@@ -32,9 +43,9 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.error("Payment creation error:", error);
-    return NextResponse.json(
-      { error: "Failed to create payment" },
-      { status: 500 }
-    );
+    Sentry.captureException(error);
+    return new Response(JSON.stringify({ error: "Internal server error" }), {
+      status: 500,
+    });
   }
 }
