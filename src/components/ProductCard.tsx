@@ -8,7 +8,7 @@
  */
 
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Database } from "@/supabase-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

@@ -20,12 +20,10 @@ import {
   faX,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuthStore } from "@/store/authStore";
-import { isMobile } from "@/utils/mobile";
 
-export function SecondaryNav() {
+export function SecondaryNav({ isMobile }: { isMobile: boolean }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user } = useAuthStore((state) => state);
-  const mobile = isMobile();
 
   const primaryLinks = [
     { href: "/faq", label: "FAQ" },
@@ -41,7 +39,7 @@ export function SecondaryNav() {
 
   return (
     <div className="w-full border-b border-gray-200">
-      {!mobile && (
+      {!isMobile && (
         <div className="bg-gray-900">
           <div className="mx-auto px-4 flex flex-row py-2 text-xs text-gray-300 space-x-4">
             <div className="flex justify-between items-center w-full">

@@ -10,7 +10,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useRef, Suspense } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCamera,
@@ -21,20 +21,18 @@ import {
   faRobot,
   faX,
   faPhone,
-  faUser
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuthStore } from "@/store/authStore";
 import { useCartStore } from "@/store/cartStore";
-import { useCategoryStore } from "@/store/categoryStore";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import { AccountDropdown } from "../AccountDropdown";
+import { AccountDropdown } from "./AccountDropdown";
 import {
   faFacebook,
   faInstagram,
   faPinterest,
   faTiktok,
 } from "@fortawesome/free-brands-svg-icons";
-import { isMobile } from "@/utils/mobile";
 
 // Array of placeholder texts for the search bar
 const placeholders = [
@@ -50,23 +48,23 @@ const placeholders = [
   "Graphic Novel",
 ];
 
-export function Nav() {
+export default function Nav({
+  productCategories,
+  isMobile,
+}: {
+  productCategories: { name: string }[];
+  isMobile: boolean;
+}) {
   const location = { pathname: usePathname() };
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
   const { user } = useAuthStore((state) => state);
   const cartItems = useCartStore((state) => state.items);
-  const { categories, fetchCategories } = useCategoryStore();
   const searchParams = useSearchParams();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [currentPlaceholder, setCurrentPlaceholder] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const mobile = isMobile();
-
-  useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
 
   useEffect(() => {
     setSearchQuery(searchParams.get("q") || "");
@@ -136,7 +134,7 @@ export function Nav() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 bg-[#007BFF] pb-1 shadow-md z-50 transition-transform duration-300">
-      <div className={`bg-gray-900 ${mobile ? "hidden" : "block"}`}>
+      <div className={`bg-gray-900 ${isMobile ? "hidden" : "block"}`}>
         <div className="mx-auto px-4 flex flex-row py-2 text-xs text-gray-300 space-x-4">
           <div className="flex justify-between items-center w-full">
             <div className="flex space-x-2">
@@ -286,7 +284,7 @@ export function Nav() {
           <FontAwesomeIcon icon={faBell} size="lg" />
         </Link>
         {/* User profile */}
-        {!mobile && (
+        {!isMobile && (
           <>
             {!!user ? (
               <div
@@ -306,7 +304,7 @@ export function Nav() {
                 </button>
 
                 {/* Dropdown positioned below the button */}
-                <AccountDropdown isOpen={isOpen} />
+                <AccountDropdown isOpen={isOpen} isMobile={isMobile} />
               </div>
             ) : (
               <Link
@@ -339,7 +337,7 @@ export function Nav() {
           )}
         </Link>
 
-        {categories.map((category) => (
+        {productCategories.map((category) => (
           <Link
             key={category.name}
             href={`/category/${category.name.toLowerCase().replace(/\s+/g, "-")}`}
@@ -359,13 +357,5 @@ export function Nav() {
         ))}
       </div>
     </nav>
-  );
-}
-
-export default function NavComponent() {
-  return (
-    <Suspense>
-      <Nav />
-    </Suspense>
   );
 }

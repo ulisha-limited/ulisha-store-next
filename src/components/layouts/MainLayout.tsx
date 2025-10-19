@@ -7,30 +7,28 @@
  *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-"use client";
-
 import NextTopLoader from "nextjs-toploader";
 import NavComponent from "./Nav";
 import { ToastContainer } from "react-toastify";
 import Footer from "./Footer";
 import BottomNav from "./BottomNav";
-import { usePathname } from "next/navigation";
 import { SecondaryNav } from "./SecondaryNav";
-import { isMobile } from "@/utils/mobile";
-import { Suspense, useEffect, useState } from "react";
+import { isMobileRequest } from "@/lib/device";
+import { getServerPathname } from "@/lib/pathname";
 
-export default function MainLayout({
-  children,
-}: Readonly<{
+type MainLayoutProps = {
   children: React.ReactNode;
-}>) {
-  const pathname = usePathname();
-  const [mobile, setMobile] = useState(false);
+  productCategories: { name: string }[];
+};
 
-  useEffect(() => {
-    setMobile(isMobile());
-  }, []);
-
+export default async function MainLayout({
+  children,
+  productCategories,
+}: Readonly<MainLayoutProps>) {
+  const [pathname, isMobile] = await Promise.all([
+    getServerPathname(),
+    isMobileRequest(),
+  ]);
   const hiddenPaths = [
     "/login",
     "/register",
@@ -68,12 +66,17 @@ export default function MainLayout({
 
   return (
     <div className="bg-white min-h-screen flex flex-col">
-      {!hideNav && !isSecondaryNav && <NavComponent />}
-      {isSecondaryNav && <SecondaryNav />}
-      {!mobile && <NextTopLoader showSpinner={false} color="#FF6600" />}
+      {!hideNav && !isSecondaryNav && (
+        <NavComponent
+          productCategories={productCategories}
+          isMobile={isMobile}
+        />
+      )}
+      {isSecondaryNav && <SecondaryNav isMobile={isMobile} />}
+      {!isMobile && <NextTopLoader showSpinner={false} color="#FF6600" />}
       <div className={`flex-1 ${contentPaddingClass}`}>{children}</div>
-      {!isFooterHidden && <Footer />}
-      {!hideNav && <BottomNav />}
+      {!isFooterHidden && !isMobile && <Footer isMobile={isMobile} />}
+      {!hideNav && isMobile && <BottomNav />}
       {!hideNav && <ToastContainer />}
     </div>
   );

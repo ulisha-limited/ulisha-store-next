@@ -21,11 +21,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useAuthStore } from "@/store/authStore";
-import { isMobile } from "@/utils/mobile";
 
-export function AccountDropdown({ isOpen }: { isOpen: boolean }) {
+export function AccountDropdown({
+  isOpen,
+  isMobile,
+}: {
+  isOpen: boolean;
+  isMobile: boolean;
+}) {
   const user = useAuthStore((state) => state.user);
-  const mobile = isMobile();
 
   return (
     <AnimatePresence>
@@ -45,7 +49,7 @@ export function AccountDropdown({ isOpen }: { isOpen: boolean }) {
               <p className="text-xs text-gray-500">{user?.email}</p>
             </div>
 
-            {!mobile && (
+            {!isMobile && (
               <>
                 <Link
                   href="/my-account/orders"

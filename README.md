@@ -11,7 +11,6 @@ Your one-stop shop for all things trendy and affordable.
 - MixPay (Payment)
 - PayStack (Payment)
 - Sentry (Optional)
-- PreRender (Optional)
 
 ## Development Server
 
