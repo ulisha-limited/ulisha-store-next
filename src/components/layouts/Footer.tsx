@@ -1,11 +1,10 @@
 /**
- * Copyright (c) 2025 Ulisha Limited
+ * Required Notice: Copyright (c) 2025 Ulisha Limited (https://www.ulishalimited.com)
  *
- * This file is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+ * This file is licensed under the Polyform Noncommercial License 1.0.0.
  * You may obtain a copy of the License at:
  *
- *     https://creativecommons.org/licenses/by-nc/4.0/
- *
+ *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
 "use client";
@@ -30,19 +29,17 @@ import {
   faPhone,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import TrustPilotWidget from "../TrustPilotWidget";
-import { isMobile } from "@/utils/mobile";
+import TrustPilotWidget from "./TrustPilotWidget";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>;
 }
 
-export default function Footer() {
+export default function Footer({ isMobile }: { isMobile: boolean }) {
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
   const [showButton, setShowButton] = useState(false);
-  const mobile = isMobile();
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -67,10 +64,10 @@ export default function Footer() {
     setShowButton(false);
   };
 
-  if (mobile) return;
-
   return (
-    <footer className={`bg-gray-900 text-white ${mobile ? "hidden" : "block"}`}>
+    <footer
+      className={`bg-gray-900 text-white ${isMobile ? "hidden" : "block"}`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-8">
           {/* About UlishaStore Section */}

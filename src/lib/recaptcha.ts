@@ -1,15 +1,13 @@
 /**
- * Copyright (c) 2025 Ulisha Limited
+ * Required Notice: Copyright (c) 2025 Ulisha Limited (https://www.ulishalimited.com)
  *
- * This file is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+ * This file is licensed under the Polyform Noncommercial License 1.0.0.
  * You may obtain a copy of the License at:
  *
- *     https://creativecommons.org/licenses/by-nc/4.0/
- *
+ *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-
-const secret = process.env.RECAPTCHA_SECRET_KEY || "";
+import config from "@/config/index";
 
 async function recaptcha(token: string, action: string) {
   if (!token) return false;
@@ -19,7 +17,7 @@ async function recaptcha(token: string, action: string) {
   const response = await fetch(verifyUrl, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `secret=${secret}&response=${token}`,
+    body: `secret=${config.recaptchaSecretKey}&response=${token}`,
   });
 
   const data = await response.json();

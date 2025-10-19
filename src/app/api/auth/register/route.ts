@@ -1,18 +1,17 @@
 /**
- * Copyright (c) 2025 Ulisha Limited
+ * Required Notice: Copyright (c) 2025 Ulisha Limited (https://www.ulishalimited.com)
  *
- * This file is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+ * This file is licensed under the Polyform Noncommercial License 1.0.0.
  * You may obtain a copy of the License at:
  *
- *     https://creativecommons.org/licenses/by-nc/4.0/
- *
+ *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
-
 
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { isDisposableEmail, validateEmail } from "@/lib/emailChecker";
 import { recaptcha } from "@/lib/recaptcha";
+import * as Sentry from "@sentry/nextjs";
 
 export async function POST(req: NextRequest) {
   try {
@@ -71,6 +70,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ status: 201 });
   } catch (err) {
     console.error("Register error:", err);
+    Sentry.captureException(err);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

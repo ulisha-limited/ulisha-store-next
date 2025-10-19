@@ -1,13 +1,11 @@
 /**
- * Copyright (c) 2025 Ulisha Limited
+ * Required Notice: Copyright (c) 2025 Ulisha Limited (https://www.ulishalimited.com)
  *
- * This file is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+ * This file is licensed under the Polyform Noncommercial License 1.0.0.
  * You may obtain a copy of the License at:
  *
- *     https://creativecommons.org/licenses/by-nc/4.0/
- *
+ *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
-
 
 "use client"; // This directive makes the component a Client Component in Next.js 13+
 
@@ -89,7 +87,7 @@ export default function Cart() {
     }
   }, [notification]);
 
-  const subtotal = items.reduce((sum: number, item:any) => {
+  const subtotal = items.reduce((sum: number, item: any) => {
     if (item.product) {
       return sum + item.product.price * item.quantity;
     }
@@ -103,12 +101,12 @@ export default function Cart() {
     (message: string, type: "success" | "error") => {
       setNotification({ message, type });
     },
-    []
+    [],
   );
 
   const handleQuantityChange = async (
     productId: string,
-    newQuantity: number
+    newQuantity: number,
   ) => {
     if (newQuantity < 1) return;
     try {
@@ -167,25 +165,23 @@ export default function Cart() {
     setCheckoutLoading(true); // Still show loading state during navigation
     setError(null); // Clear previous errors
 
+    router.push("/cart/checkout");
     try {
-      // TEST ONLY
-
-      const totalPrice = items.reduce((sum: number, item:any) => {
-        if (item.product) {
-          return sum + item.product.price * item.quantity;
-        }
-        return sum;
-      }, 0);
-
-      handlePayment(totalPrice);
-
+      // // TEST ONLY
+      // const totalPrice = items.reduce((sum: number, item:any) => {
+      //   if (item.product) {
+      //     return sum + item.product.price * item.quantity;
+      //   }
+      //   return sum;
+      // }, 0);
+      //
+      // handlePayment(totalPrice);
       // if (!user?.id) {
       //   showAppNotification("Please log in to proceed to checkout.", "error");
       //   router.push("/login");
       //   setCheckoutLoading(false); // Make sure to turn off loading on early exit
       //   return;
       // }
-
       // // Fetch user's primary address to ensure it exists before proceeding
       // const { data: addresses, error: addressError } = await supabase
       //   .from("user_addresses")
@@ -193,7 +189,6 @@ export default function Cart() {
       //   .eq("user_id", user.id)
       //   .order("is_primary", { ascending: false }) // Assuming an 'is_primary' column
       //   .limit(1);
-
       // if (addressError) {
       //   console.error("Failed to fetch address:", addressError);
       //   showAppNotification(
@@ -203,7 +198,6 @@ export default function Cart() {
       //   setCheckoutLoading(false); // Make sure to turn off loading on early exit
       //   return;
       // }
-
       // if (!addresses || addresses.length === 0) {
       //   showAppNotification(
       //     "Please add a delivery address to your profile before checking out.",
@@ -213,7 +207,6 @@ export default function Cart() {
       //   setCheckoutLoading(false); // Make sure to turn off loading on early exit
       //   return;
       // }
-
       // router.push("/checkout");
     } finally {
       // The finally block will always execute, ensuring loading is turned off
@@ -364,7 +357,7 @@ export default function Cart() {
                             onClick={() =>
                               handleQuantityChange(
                                 item.product_id,
-                                item.quantity - 1
+                                item.quantity - 1,
                               )
                             }
                             className="p-1 sm:p-1.5 rounded-full text-gray-600 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
@@ -383,7 +376,7 @@ export default function Cart() {
                             onClick={() =>
                               handleQuantityChange(
                                 item.product_id,
-                                item.quantity + 1
+                                item.quantity + 1,
                               )
                             }
                             className="p-1 sm:p-1.5 rounded-full text-gray-600 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"

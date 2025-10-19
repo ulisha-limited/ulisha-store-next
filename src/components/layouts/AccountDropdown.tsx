@@ -1,11 +1,10 @@
 /**
- * Copyright (c) 2025 Ulisha Limited
+ * Required Notice: Copyright (c) 2025 Ulisha Limited (https://www.ulishalimited.com)
  *
- * This file is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+ * This file is licensed under the Polyform Noncommercial License 1.0.0.
  * You may obtain a copy of the License at:
  *
- *     https://creativecommons.org/licenses/by-nc/4.0/
- *
+ *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -22,11 +21,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useAuthStore } from "@/store/authStore";
-import { isMobile } from "@/utils/mobile";
 
-export function AccountDropdown({ isOpen }: { isOpen: boolean }) {
+export function AccountDropdown({
+  isOpen,
+  isMobile,
+}: {
+  isOpen: boolean;
+  isMobile: boolean;
+}) {
   const user = useAuthStore((state) => state.user);
-  const mobile = isMobile();
 
   return (
     <AnimatePresence>
@@ -46,7 +49,7 @@ export function AccountDropdown({ isOpen }: { isOpen: boolean }) {
               <p className="text-xs text-gray-500">{user?.email}</p>
             </div>
 
-            {!mobile && (
+            {!isMobile && (
               <>
                 <Link
                   href="/my-account/orders"

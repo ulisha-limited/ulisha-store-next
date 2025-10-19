@@ -1,15 +1,15 @@
 /**
- * Copyright (c) 2025 Ulisha Limited
+ * Required Notice: Copyright (c) 2025 Ulisha Limited (https://www.ulishalimited.com)
  *
- * This file is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+ * This file is licensed under the Polyform Noncommercial License 1.0.0.
  * You may obtain a copy of the License at:
  *
- *     https://creativecommons.org/licenses/by-nc/4.0/
- *
+ *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-
 import axios from "axios";
+import * as Sentry from "@sentry/nextjs";
+import config from "@/config/index";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -17,9 +17,13 @@ export async function GET(request: Request) {
 
   if (!reference) {
     return new Response(
-      JSON.stringify({ error: "Missing payment reference" }),
-      { status: 400, headers: { "Content-Type": "application/json" } }
+      JSON.stringify({ error: "Invalid Payment Reference Number" }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
     );
+  }
+
+  if (!config.paystackSecretKey) {
+    throw Error("PAYSTACK_SECRET_KEY is undefined");
   }
 
   try {
@@ -27,9 +31,9 @@ export async function GET(request: Request) {
       `https://api.paystack.co/transaction/verify/${reference}`,
       {
         headers: {
-          Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+          Authorization: `Bearer ${config.paystackSecretKey}`,
         },
-      }
+      },
     );
 
     return new Response(JSON.stringify(response.data), {
@@ -38,9 +42,9 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     console.error("Paystack verification error:", error);
+    Sentry.captureException(error);
     return new Response(JSON.stringify({ error: "Verification failed" }), {
       status: 500,
-      headers: { "Content-Type": "application/json" },
     });
   }
 }

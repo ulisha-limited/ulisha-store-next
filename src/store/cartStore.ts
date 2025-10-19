@@ -1,13 +1,11 @@
 /**
- * Copyright (c) 2025 Ulisha Limited
+ * Required Notice: Copyright (c) 2025 Ulisha Limited (https://www.ulishalimited.com)
  *
- * This file is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+ * This file is licensed under the Polyform Noncommercial License 1.0.0.
  * You may obtain a copy of the License at:
  *
- *     https://creativecommons.org/licenses/by-nc/4.0/
- *
+ *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
-
 
 import { create } from "zustand";
 import { supabase } from "@/lib/supabase";
@@ -229,7 +227,13 @@ export const useCartStore = create<any>((set, get) => ({
     }
   },
 
-  addToCart: async (product: Product, quantity = 1) => {
+  addToCart: async (
+    product: Product,
+    selectedColor: string,
+    selectedSize: string,
+    variantId: any,
+    quantity: number,
+  ) => {
     try {
       set({ loading: true, error: null });
 
@@ -243,18 +247,19 @@ export const useCartStore = create<any>((set, get) => ({
       }
 
       // Query for existing cart item with exact variant match
-      const { data: existingItem } = await retryWithBackoff(
-        async () =>
-          await supabase
-            .from("cart_items_new")
-            .select("*")
-            .eq("session_id", currentSession.id)
-            .eq("product_id", product.id)
-            // .is('variant_id', product.variantId || null)
-            // .is('selected_color', product.selectedColor || null)
-            // .is('selected_size', product.selectedSize || null)
-            .maybeSingle(),
-      );
+      const { data: existingItem } = await retryWithBackoff(async () => {
+        let query = supabase
+          .from("cart_items_new")
+          .select("*")
+          .eq("session_id", currentSession.id)
+          .eq("product_id", product.id);
+
+        if (variantId) query = query.eq("variant_id", variantId);
+        if (selectedColor) query = query.eq("selected_color", selectedColor);
+        if (selectedSize) query = query.eq("selected_size", selectedSize);
+
+        return await query.maybeSingle();
+      });
 
       if (existingItem) {
         // Update existing item quantity
@@ -279,9 +284,9 @@ export const useCartStore = create<any>((set, get) => ({
                 product_id: product.id,
                 quantity,
                 price_snapshot: product.price,
-                // variant_id: product.variantId || null,
-                // selected_color: product.selectedColor || null,
-                // selected_size: product.selectedSize || null,
+                variant_id: variantId,
+                selected_color: variantId ? selectedColor : null,
+                selected_size: variantId ? selectedSize : null,
                 is_saved_for_later: false,
               },
             ]),

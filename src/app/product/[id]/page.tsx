@@ -1,11 +1,10 @@
 /**
- * Copyright (c) 2025 Ulisha Limited
+ * Required Notice: Copyright (c) 2025 Ulisha Limited (https://www.ulishalimited.com)
  *
- * This file is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+ * This file is licensed under the Polyform Noncommercial License 1.0.0.
  * You may obtain a copy of the License at:
  *
- *     https://creativecommons.org/licenses/by-nc/4.0/
- *
+ *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
 "use client";
@@ -158,17 +157,15 @@ export default function ProductDetailPage() {
         return toast.error("Selected variant is out of stock");
       }
 
-      const productWithOptions = {
-        ...initialProduct,
-        image: selectedImage,
-        selectedColor,
-        selectedSize,
-        variantId: selectedVariant?.id,
-      };
-
       const resolveAddToCart = new Promise(async (resolve) => {
         try {
-          await addToCart(productWithOptions);
+          await addToCart(
+            initialProduct,
+            selectedColor,
+            selectedSize,
+            selectedVariant?.id,
+            1,
+          );
           resolve(undefined);
         } catch (error) {
           resolve(error);
@@ -216,7 +213,13 @@ export default function ProductDetailPage() {
       };
 
       await Promise.all([
-        addToCart(productWithOptions),
+        addToCart(
+          initialProduct,
+          selectedColor,
+          selectedSize,
+          selectedVariant?.id,
+          1,
+        ),
         buyNow(productWithOptions),
       ]);
     } catch (error) {

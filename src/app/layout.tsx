@@ -1,13 +1,11 @@
 /**
- * Copyright (c) 2025 Ulisha Limited
+ * Required Notice: Copyright (c) 2025 Ulisha Limited (https://www.ulishalimited.com)
  *
- * This file is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+ * This file is licensed under the Polyform Noncommercial License 1.0.0.
  * You may obtain a copy of the License at:
  *
- *     https://creativecommons.org/licenses/by-nc/4.0/
- *
+ *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
-
 
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";
@@ -18,9 +16,10 @@ import "swiper/css/pagination";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import Session from "@/components/auth/Session";
 import { config } from "@fortawesome/fontawesome-svg-core";
-import CanonicalUrl from "@/components/Canonical";
+import CanonicalUrl from "@/components/layouts/CanonicalUrl";
 import MainLayout from "@/components/layouts/MainLayout";
 import RegisterSW from "./register-sw";
+import { createSupabaseServerClient } from "@/lib/supabaseServer";
 
 config.autoAddCss = false;
 
@@ -47,11 +46,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = createSupabaseServerClient();
+  const productCategories = await supabase
+    .from("product_categories")
+    .select("name");
+
   return (
     <html lang="en">
       <head>
@@ -71,7 +75,9 @@ export default function RootLayout({
       </head>
       <body className={`${latoSans.variable} antialiased`}>
         <RegisterSW />
-        <MainLayout>{children}</MainLayout>
+        <MainLayout productCategories={productCategories.data ?? []}>
+          {children}
+        </MainLayout>
         <Session />
       </body>
     </html>

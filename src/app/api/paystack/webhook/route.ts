@@ -1,15 +1,15 @@
 /**
- * Copyright (c) 2025 Ulisha Limited
+ * Required Notice: Copyright (c) 2025 Ulisha Limited (https://www.ulishalimited.com)
  *
- * This file is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+ * This file is licensed under the Polyform Noncommercial License 1.0.0.
  * You may obtain a copy of the License at:
  *
- *     https://creativecommons.org/licenses/by-nc/4.0/
- *
+ *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-
 import crypto from "crypto";
+import * as Sentry from "@sentry/nextjs";
+import _config from "@/config/index";
 
 export const config = {
   api: {
@@ -35,26 +35,19 @@ export async function POST(req: Request) {
     }
 
     const rawBody = Buffer.concat(chunks).toString("utf-8");
-
     const signature = req.headers.get("x-paystack-signature");
-    const secretKey = process.env.PAYSTACK_SECRET_KEY;
 
-    if (!secretKey) {
-      return new Response(
-        JSON.stringify({ error: "Paystack secret key not configured" }),
-        { status: 500 }
-      );
+    if (!_config.paystackSecretKey) {
+      throw Error("PAYSTACK_SECRET_KEY is undefined");
     }
 
     const hash = crypto
-      .createHmac("sha512", secretKey)
+      .createHmac("sha512", _config.paystackSecretKey)
       .update(rawBody)
       .digest("hex");
 
     if (hash !== signature) {
-      return new Response(JSON.stringify({ error: "Invalid signature" }), {
-        status: 401,
-      });
+      throw Error("Invalid Signature");
     }
 
     const event = JSON.parse(rawBody);
@@ -64,6 +57,7 @@ export async function POST(req: Request) {
     return new Response("Webhook received", { status: 200 });
   } catch (error) {
     console.error("Webhook error:", error);
+    Sentry.captureException(error);
     return new Response(JSON.stringify({ error: "Internal server error" }), {
       status: 500,
     });

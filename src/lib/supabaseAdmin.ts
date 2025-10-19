@@ -1,18 +1,17 @@
 /**
- * Copyright (c) 2025 Ulisha Limited
+ * Required Notice: Copyright (c) 2025 Ulisha Limited (https://www.ulishalimited.com)
  *
- * This file is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+ * This file is licensed under the Polyform Noncommercial License 1.0.0.
  * You may obtain a copy of the License at:
  *
- *     https://creativecommons.org/licenses/by-nc/4.0/
- *
+ *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
+import { createClient } from "@supabase/supabase-js";
+import { Database } from "@/supabase-types";
+import config from "@/config/index";
 
- import { createClient } from "@supabase/supabase-js";
- import { Database } from "@/supabase-types";
-
- export const supabaseAdmin = createClient<Database>(
-   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-   process.env.SUPABASE_SERVICE_ROLE_KEY!
- );
+export const supabaseAdmin = createClient<Database>(
+  config.supabaseURL,
+  config.supabaseAnonKey,
+);

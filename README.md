@@ -1,35 +1,39 @@
 # Ulisha Store
 
 Your one-stop shop for all things trendy and affordable.
-[![CI Build](https://github.com/ulisha-limited/ulisha-store-next/actions/workflows/ci-build.yml/badge.svg)](https://github.com/ulisha-limited/ulisha-store-next/actions/workflows/ci-build.yml) [![Dependabot Updates](https://github.com/ulisha-limited/ulisha-store-next/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/ulisha-limited/ulisha-store-next/actions/workflows/dependabot/dependabot-updates)
+[![CI Build](https://github.com/ulisha-limited/ulisha-store-next/actions/workflows/ci-build.yml/badge.svg)](https://github.com/ulisha-limited/ulisha-store-next/actions/workflows/ci-build.yml)
 
-### Installation
+## Prerequisites
 
-```bash
-git clone https://github.com/ulisha/ulisha-store-next.git
-cd ulisha-store-next
-npm install
-```
+- Node.js
+- Supabase
+- Google ReCaptcha
+- MixPay (Payment)
+- PayStack (Payment)
+- Sentry (Optional)
 
-### Environment Variables
+## Development Server
 
-Create a `.env` file in the root directory and configure the following:
-
-```sh
-cp .env.example .env
-```
-
-### Running the Development Server
+To start a local development server, run:
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the app.
+Once the server is running, open your browser and navigate to `http://localhost:4000/`. The application will automatically reload whenever you modify any of the source files.
+
+## Building
+
+To build the project run:
+
+```bash
+npm run  build
+```
+
+This will compile your project and store the build artifacts in the dist/ directory. By default, the production build optimizes your application for performance and speed.
 
 ## License
 
-This project is licensed under the [CC BY-NC 4.0](LICENSE).
-
+This project is licensed under the [Polyform Noncommercial License 1.0.0](LICENSE).
 
 &copy; 2025 Ulisha Limited.

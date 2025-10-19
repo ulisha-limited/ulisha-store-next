@@ -1,11 +1,10 @@
 /**
- * Copyright (c) 2025 Ulisha Limited
+ * Required Notice: Copyright (c) 2025 Ulisha Limited (https://www.ulishalimited.com)
  *
- * This file is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+ * This file is licensed under the Polyform Noncommercial License 1.0.0.
  * You may obtain a copy of the License at:
  *
- *     https://creativecommons.org/licenses/by-nc/4.0/
- *
+ *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
 "use client";
@@ -216,8 +215,6 @@ export default function Products() {
 
           if (additionalImagesError) throw additionalImagesError;
         }
-
-        pingIndexNow(editingProduct.id);
       } else {
         if (!productData.image) {
           throw new Error("Product image is required");
@@ -288,8 +285,6 @@ export default function Products() {
 
           if (additionalImagesError) throw additionalImagesError;
         }
-
-        pingIndexNow(newProduct.id);
       }
 
       setProductData({
@@ -322,14 +317,6 @@ export default function Products() {
       toast.error("Error saving product. Please try again.");
     } finally {
       setFormLoading(false);
-    }
-  };
-
-  const pingIndexNow = (productId: string) => {
-    try {
-      fetch(`/api/webmasters/bing/indexnow?productId=${productId}`);
-    } catch (error) {
-      console.error("Error pinging IndexNow:", error);
     }
   };
 
