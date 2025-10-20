@@ -132,7 +132,7 @@ export default async function CategoryPage() {
               return (
                 <li key={category.name}>
                   <Link
-                    href={`/category/${category.name.toLowerCase().replace(/\s+/g, "-")}`}
+                    href={`/category/${encodeURIComponent(category.name.toLowerCase().replace(/\s+/g, "-"))}`}
                     prefetch={false}
                     className={`group relative flex flex-col items-center justify-center p-6 bg-gradient-to-br ${bg} rounded-3xl shadow-lg transition-all duration-500 ease-in-out transform hover:-translate-y-2 hover:scale-105 hover:rotate-1 hover:shadow-2xl`}
                   >

@@ -7,10 +7,10 @@
  *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-
 import Recaptcha from "@/components/Recaptcha";
 import Register from "../../components/auth/Register";
 import { Metadata } from "next";
+import { isMobileRequest } from "@/lib/device";
 
 export const metadata: Metadata = {
   title: "Register - Ulisha Store",
@@ -51,10 +51,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RegisterPage() {
+export default async function RegisterPage() {
+  const isMobile = await isMobileRequest();
+
   return (
     <Recaptcha>
-      <Register />
+      <Register isMobile={isMobile} />
     </Recaptcha>
   );
 }

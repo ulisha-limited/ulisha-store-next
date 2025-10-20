@@ -261,7 +261,7 @@ export default function Nav({
         {/* Wishlist */}
         <Link
           href="/wishlist"
-          className="text-white hover:text-[#FF6600] transition-colors mx-3"
+          className="text-white hover:text-[#FF6600] transition-colors hidden md:inline mx-3"
         >
           <FontAwesomeIcon icon={faHeart} size="lg" />
         </Link>
@@ -289,7 +289,7 @@ export default function Nav({
             {!!user ? (
               <div
                 ref={dropdownRef}
-                className="relative inline-block text-left"
+                className="relative inline-block text-left ml-3"
               >
                 <button
                   onClick={() => setIsOpen(!isOpen)}

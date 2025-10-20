@@ -10,71 +10,21 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEnvelope,
-  faLock,
-  faBagShopping,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 
 import { useAuthStore } from "@/store/authStore";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
-import axios from "axios";
-import { useReCaptcha } from "next-recaptcha-v3";
 import Image from "next/image";
-import { isMobile } from "@/utils/mobile";
 
-export default function Login() {
-  const { executeRecaptcha } = useReCaptcha();
+export default function Login({ isMobile }: { isMobile: boolean }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
-  const navigate = router.push;
-  const setUser = useAuthStore((state) => state.setUser);
-  const setSession = useAuthStore((state) => state.setSession);
-  const refreshSession = useAuthStore((state) => state.refreshSession);
-  const session = useAuthStore((state) => state.session);
   const signIn = useAuthStore((state) => state.signIn);
-  const mobile = isMobile();
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setError("");
-  //   if (!executeRecaptcha) return setError("Recaptcha not yet available!");
-
-  //   setLoading(true);
-  //   try {
-  //     const token = await executeRecaptcha("login_form");
-
-  //     const res = await axios.post("/api/auth/login", {
-  //       email,
-  //       password,
-  //       recaptchaToken: token,
-  //     });
-
-  //     setUser(res.data.user);
-  //     setSession(res.data.session);
-
-  //     window.location.href = "/"
-  //   } catch (err: any) {
-  //     if (err.response) {
-  //       setError(
-  //         err.response.data.error || "An error occurred. Please try again.",
-  //       );
-  //     } else if (err.request) {
-  //       setError("No response from server. Please try again.");
-  //     } else {
-  //       setError(err.message);
-  //     }
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-  //
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -126,7 +76,7 @@ export default function Login() {
 
       <div className="mt-8 sm:mx-auto w-full sm:max-w-md p-5">
         <div
-          className={`${!mobile && "border border-gray-200 shadow-xl rounded-lg"} bg-white py-8 px-4 sm:px-10`}
+          className={`${!isMobile && "border border-gray-200 shadow-xl rounded-lg"} bg-white py-8 px-4 sm:px-10`}
         >
           <div className="mb-6">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2">

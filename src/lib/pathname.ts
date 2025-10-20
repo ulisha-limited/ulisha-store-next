@@ -11,10 +11,11 @@ import { headers } from "next/headers";
 
 export async function getServerPathname(): Promise<string> {
   const headersList = await headers();
-  const host = headersList.get("host");
-  const protocol = headersList.get("x-forwarded-proto") || "http";
-  const fullUrl = `${protocol}://${host}${headersList.get("x-next-url") || "/"}`;
+  const referer = headersList.get("referer");
+  if (referer) {
+    const url = new URL(referer);
+    return url.pathname;
+  }
 
-  const url = new URL(fullUrl);
-  return url.pathname;
+  return "/";
 }
