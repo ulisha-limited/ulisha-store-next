@@ -17,17 +17,14 @@ import {
   faEnvelope,
   faLock,
   faUser,
-  faBagShopping,
 } from "@fortawesome/free-solid-svg-icons";
-import { useAuthStore } from "@/store/authStore";
 import { PasswordStrengthMeter } from "@/components/PasswordStrengthMeter";
 import { supabase } from "@/lib/supabase";
 import axios from "axios";
 import { useReCaptcha } from "next-recaptcha-v3";
 import Image from "next/image";
-import { isMobile } from "@/utils/mobile";
 
-export default function Register() {
+export default function Register({ isMobile }: { isMobile: boolean }) {
   const { executeRecaptcha } = useReCaptcha();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -38,7 +35,6 @@ export default function Register() {
   const [passwordStrength, setPasswordStrength] = useState(0);
   const router = useRouter();
   const navigate = router.push;
-  const mobile = isMobile();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -105,7 +101,7 @@ export default function Register() {
 
       <div className="mt-8 sm:mx-auto w-full sm:max-w-md p-5">
         <div
-          className={`${!mobile && "border border-gray-200 shadow-xl rounded-lg"} bg-white py-8 px-4 sm:px-10`}
+          className={`${!isMobile && "border border-gray-200 shadow-xl rounded-lg"} bg-white py-8 px-4 sm:px-10`}
         >
           <div className="mb-6">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2">

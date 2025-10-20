@@ -96,7 +96,7 @@ export default function HomePageUI({
               {[...products].slice(0, 15).map((product, index) => (
                 <div
                   key={index}
-                  className="min-w-[220px] max-w-xs flex-shrink-1"
+                  className="min-w-[220px] max-w-xs flex-shrink-1 gap-4"
                 >
                   <ProductCard product={product} />
                 </div>
@@ -122,7 +122,7 @@ export default function HomePageUI({
             <h2 className="mt-3 text-lg font-semibold text-gray-900">
               Trending Products
             </h2>
-            <div className="mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <div className="flex overflow-x-auto gap-4 mt-2 pb-2">
               {[...products].slice(31, 40).map((product, index) => (
                 <div
                   key={index}
@@ -141,12 +141,7 @@ export default function HomePageUI({
               {[...products]
                 .slice(41, products.length)
                 .map((product, index) => (
-                  <div
-                    key={index}
-                    className="min-w-[220px] max-w-xs flex-shrink-1"
-                  >
-                    <ProductCard product={product} />
-                  </div>
+                  <ProductCard key={index} product={product} />
                 ))}
             </div>
 
