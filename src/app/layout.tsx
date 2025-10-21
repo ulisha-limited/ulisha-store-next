@@ -19,6 +19,9 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import CanonicalUrl from "@/components/layouts/CanonicalUrl";
 import RegisterSW from "./register-sw";
 import { ToastContainer } from "react-toastify";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
+import _config from "@/config/index";
+import GoogleAdsense from "@/components/GoogleAdsense";
 
 config.autoAddCss = false;
 
@@ -53,22 +56,20 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const isProd = _config.nodeEnv === "production";
+
   return (
     <html lang="en">
       <head>
         <meta name="hostname" content="www.ulishastore.com" />
-        <meta name="google-adsense-account" content="ca-pub-5077097159223655" />
         <meta
           name="p:domain_verify"
-          content="b455103d3d00b5b90ad6fd02adcda753"
+          content={`${_config.pinterestDomainVerify}`}
         />
         <meta name="manifest" content="/manifest.webmanifest" />
         <CanonicalUrl />
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5077097159223655"
-          crossOrigin="anonymous"
-        ></script>
+        {isProd && <GoogleAnalytics />}
+        {isProd && <GoogleAdsense />}
       </head>
       <body className={`${latoSans.variable} antialiased`}>
         <RegisterSW />

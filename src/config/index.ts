@@ -21,6 +21,9 @@ const config = {
   sentryDNS: process.env.SENTRY_DNS || "",
   recaptchaSecretKey: process.env.RECAPTCHA_SECRET_KEY || "",
   redisURL: process.env.REDIS_URL || "",
+  googleAnalyticsId: process.env.NEXT_PUBLIC_GA_ID || "",
+  googleAdsenseCaPub: process.env.NEXT_PUBLIC_CA_PUB || "",
+  pinterestDomainVerify: process.env.NEXT_PUBLIC_PINTEREST_DOMAIN_VERIFY || ""
 };
 
 export default config;
