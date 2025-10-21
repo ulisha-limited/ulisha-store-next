@@ -2,7 +2,7 @@
   "relation": ["delegate_permission/common.handle_all_urls"],
   "target": {
     "namespace": "android_app",
-    "package_name": "com.mrepol742.ulishastore",
+    "package_name": "com.ulishastore.android",
     "sha256_cert_fingerprints": [
       "34:D4:4F:1A:EB:EB:A5:0F:BF:5B:4C:6D:30:67:5C:85:6A:4F:62:0E:15:8E:7B:73:8E:B6:7F:FD:FC:04:97:96",
       "9E:26:3B:52:52:06:61:4E:E3:A0:59:BF:9F:C9:B1:A5:15:2C:F4:BA:CC:5F:48:E2:E4:77:95:C5:64:B1:50:FA"
