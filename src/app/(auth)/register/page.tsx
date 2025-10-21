@@ -8,12 +8,12 @@
  */
 
 import Recaptcha from "@/components/Recaptcha";
-import Register from "../../components/auth/Register";
+import Register from "../../../components/auth/Register";
 import { Metadata } from "next";
 import { isMobileRequest } from "@/lib/device";
 
 export const metadata: Metadata = {
-  title: "Register - Ulisha Store",
+  title: "Register",
   description: "Create an account to start shopping at Ulisha Store.",
   keywords: [
     "Ulisha Store",

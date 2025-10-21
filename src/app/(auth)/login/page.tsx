@@ -8,12 +8,12 @@
  */
 
 import Recaptcha from "@/components/Recaptcha";
-import Login from "../../components/auth/Login";
+import Login from "../../../components/auth/Login";
 import { Metadata } from "next";
 import { isMobileRequest } from "@/lib/device";
 
 export const metadata: Metadata = {
-  title: "Login - Ulisha Store",
+  title: "Login",
   description: "Sign in to your account to continue shopping at Ulisha Store.",
   keywords: [
     "Ulisha Store",
