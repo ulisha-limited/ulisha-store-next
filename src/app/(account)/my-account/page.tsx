@@ -7,7 +7,6 @@
  *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-
 "use client";
 
 import { useAuthStore } from "@/store/authStore";
@@ -28,6 +27,7 @@ import {
   faUsers,
   faUser,
   faHouse,
+  faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
@@ -70,7 +70,10 @@ const Navbar = () => {
           href="/"
           className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-orange-50 transition-colors"
         >
-          <FontAwesomeIcon icon={faArrowLeft} className="w-5 h-5 text-slate-700" />
+          <FontAwesomeIcon
+            icon={faArrowLeft}
+            className="w-5 h-5 text-slate-700"
+          />
         </Link>
         <div className="flex space-x-10">
           <Link
@@ -109,7 +112,10 @@ const Breadcrumb = ({ current }: { current: string }) => {
     <div className="hidden lg:block border-b border-slate-200/60 bg-white">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-3 text-sm">
         <nav className="flex items-center space-x-2 text-slate-500">
-          <Link href="/" className="hover:text-orange-500 flex items-center gap-1">
+          <Link
+            href="/"
+            className="hover:text-orange-500 flex items-center gap-1"
+          >
             <FontAwesomeIcon icon={faHouse} className="w-4 h-4" />
             <span>Home</span>
           </Link>
@@ -149,16 +155,48 @@ export default function MyAccount() {
   ];
 
   const adminLinks = [
-    { href: "/my-account/admin/dashboard", icon: faChartLine, label: "Dashboard" },
+    {
+      href: "/my-account/admin/dashboard",
+      icon: faChartLine,
+      label: "Dashboard",
+    },
     { href: "/my-account/admin/orders", icon: faBox, label: "Orders" },
-    { href: "/my-account/admin/products", icon: faTruckFast, label: "Products" },
+    {
+      href: "/my-account/admin/products",
+      icon: faTruckFast,
+      label: "Products",
+    },
     { href: "/my-account/admin/users", icon: faUsers, label: "Users" },
-    { href: "/my-account/admin/short-links", icon: faShieldHalved, label: "Short Links" },
-    { href: "/my-account/admin/reviews", icon: faCommentDots, label: "Reviews" },
-    { href: "/my-account/admin/affiliate/join", icon: faChartLine, label: "Affiliate Dashboard" },
-    { href: "/my-account/admin/affiliates/referrals", icon: faUsers, label: "My Referrals" },
-    { href: "/my-account/admin/affiliates/earnings", icon: faCreditCard, label: "My Earnings" },
-    { href: "/my-account/admin/affiliates/payouts", icon: faBox, label: "Payouts" },
+    {
+      href: "/my-account/admin/short-links",
+      icon: faShieldHalved,
+      label: "Short Links",
+    },
+    {
+      href: "/my-account/admin/reviews",
+      icon: faCommentDots,
+      label: "Reviews",
+    },
+    {
+      href: "/my-account/admin/affiliate/join",
+      icon: faChartLine,
+      label: "Affiliate Dashboard",
+    },
+    {
+      href: "/my-account/admin/affiliates/referrals",
+      icon: faUsers,
+      label: "My Referrals",
+    },
+    {
+      href: "/my-account/admin/affiliates/earnings",
+      icon: faCreditCard,
+      label: "My Earnings",
+    },
+    {
+      href: "/my-account/admin/affiliates/payouts",
+      icon: faBox,
+      label: "Payouts",
+    },
   ];
 
   const moreLinks = [
@@ -170,9 +208,21 @@ export default function MyAccount() {
 
   if (!isAdmin) {
     moreLinks.push(
-      { href: "/my-account/affiliate/join", icon: faChartLine, label: "Join Affiliate" },
-      { href: "/my-account/affiliate/referrals", icon: faUsers, label: "My Referrals" },
-      { href: "/my-account/affiliate/earnings", icon: faCreditCard, label: "Reward History" }
+      {
+        href: "/my-account/affiliate/join",
+        icon: faChartLine,
+        label: "Join Affiliate",
+      },
+      {
+        href: "/my-account/affiliate/referrals",
+        icon: faUsers,
+        label: "My Referrals",
+      },
+      {
+        href: "/my-account/affiliate/earnings",
+        icon: faCreditCard,
+        label: "Reward History",
+      },
     );
   }
 
@@ -180,7 +230,22 @@ export default function MyAccount() {
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800 flex flex-col">
       <Navbar />
       <Breadcrumb current="My Account" />
-      <main className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-10 flex-grow space-y-10">
+      <main className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-2">
+        <div className="flex items-center py-4 lg:hidden">
+          <Link
+            className="rounded-full hover:bg-gray-200 transition-colors"
+            href="/"
+          >
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              className="text-gray-700"
+              size="lg"
+            />
+          </Link>
+          <h1 className="text-2xl font-extrabold text-gray-900 capitalize">
+            Back
+          </h1>
+        </div>
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div className="flex items-center gap-5">
             <div className="flex-shrink-0 w-20 h-20 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-3xl font-bold shadow-lg">
@@ -201,7 +266,7 @@ export default function MyAccount() {
             <span>Logout</span>
           </Link>
         </div>
-        <div className="grid grid-cols-1 gap-10">
+        <div className="grid grid-cols-1 gap-10 mt-7">
           {isAdmin && (
             <Card>
               <CardHeader title="Admin Panel" />
@@ -246,7 +311,9 @@ export default function MyAccount() {
                       icon={link.icon}
                       className="h-8 w-8 text-slate-500 group-hover:text-orange-500 transition-colors"
                     />
-                    <p className="mt-3 font-semibold text-slate-700">{link.label}</p>
+                    <p className="mt-3 font-semibold text-slate-700">
+                      {link.label}
+                    </p>
                     <p className="text-xs text-slate-400">0 Items</p>
                   </Link>
                 ))}
@@ -269,7 +336,9 @@ export default function MyAccount() {
                         icon={link.icon}
                         className="w-5 h-5 text-slate-400 group-hover:text-orange-500 transition-colors"
                       />
-                      <span className="font-medium text-slate-700">{link.label}</span>
+                      <span className="font-medium text-slate-700">
+                        {link.label}
+                      </span>
                     </div>
                     <FontAwesomeIcon
                       icon={faChevronRight}

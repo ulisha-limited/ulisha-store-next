@@ -26,11 +26,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { Database } from "@/supabase-types";
-import { useCartStore } from "../../store/cartStore";
-import { useAuthStore } from "../../store/authStore";
-import { useCurrencyStore } from "../../store/currencyStore";
+import { useCartStore } from "@/store/cartStore";
+import { useAuthStore } from "@/store/authStore";
+import { useCurrencyStore } from "@/store/currencyStore";
 import { toast } from "react-toastify";
-import { supabase } from "../../lib/supabase"; // Ensure this path is correct
+import { supabase } from "@/lib/supabase"; // Ensure this path is correct
 import Image from "next/image";
 
 type Product = Database["public"]["Tables"]["products"]["Row"];

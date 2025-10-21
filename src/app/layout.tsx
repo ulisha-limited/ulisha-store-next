@@ -17,9 +17,8 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import Session from "@/components/auth/Session";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import CanonicalUrl from "@/components/layouts/CanonicalUrl";
-import MainLayout from "@/components/layouts/MainLayout";
 import RegisterSW from "./register-sw";
-import { createSupabaseServerClient } from "@/lib/supabaseServer";
+import { ToastContainer } from "react-toastify";
 
 config.autoAddCss = false;
 
@@ -31,8 +30,11 @@ const latoSans = Lato({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.ulishastore.com"),
-  title:
-    "Ulisha Store - Shop with ease, Quality Products, Effortless Shopping.",
+  title: {
+    default:
+      "Ulisha Store - Shop with ease, Quality Products, Effortless Shopping.",
+    template: "%s | Ulisha Store",
+  },
   description: "Your one-stop shop for all things trendy and affordable.",
   alternates: {
     types: {
@@ -51,11 +53,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const supabase = createSupabaseServerClient();
-  const productCategories = await supabase
-    .from("product_categories")
-    .select("name");
-
   return (
     <html lang="en">
       <head>
@@ -75,9 +72,8 @@ export default async function RootLayout({
       </head>
       <body className={`${latoSans.variable} antialiased`}>
         <RegisterSW />
-        <MainLayout productCategories={productCategories.data ?? []}>
-          {children}
-        </MainLayout>
+        {children}
+        <ToastContainer />
         <Session />
       </body>
     </html>
