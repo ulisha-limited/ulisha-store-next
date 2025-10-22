@@ -7,7 +7,7 @@
  *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-import { createSupabaseServerClient } from "@/lib/supabaseServer";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

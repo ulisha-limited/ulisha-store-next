@@ -9,7 +9,7 @@
 
 import ProductUI from "@/components/ui/products/ProductUI";
 import { isMobileRequest } from "@/lib/device";
-import { createSupabaseServerClient } from "@/lib/supabaseServer";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 
 export default async function Product({

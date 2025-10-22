@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 
 import { useAuthStore } from "@/store/authStore";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 import Link from "next/link";
 import Image from "next/image";
 

@@ -13,5 +13,5 @@ import config from "@/config/index";
 
 export const supabaseAdmin = createClient<Database>(
   config.supabaseURL,
-  config.supabaseAnonKey,
+  config.supabaseServiceRoleKey,
 );

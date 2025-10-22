@@ -10,7 +10,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { Database } from "@/supabase-types";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 
 type Product = Database["public"]["Tables"]["products"]["Row"];
 type CartItem = Database["public"]["Tables"]["cart_items"]["Row"];

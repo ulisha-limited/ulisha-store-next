@@ -10,7 +10,7 @@
 
 import { create } from "zustand";
 import cookies from "js-cookie";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 
 interface CurrencyState {
   currency: "NGN" | "USD";

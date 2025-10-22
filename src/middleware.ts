@@ -7,9 +7,9 @@
  *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-import { createSupabaseServerClient } from "./lib/supabaseServer";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
-import { checkRateLimit } from "./lib/rateLimit";
+import { checkRateLimit } from "@/lib/rateLimit";
 import _config from "@/config/index";
 
 const PROTECTED_ROUTE_REGEX = [

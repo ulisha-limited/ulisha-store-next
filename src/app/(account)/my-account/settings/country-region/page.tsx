@@ -16,7 +16,7 @@ import {
   faCircleChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuthStore } from "@/store/authStore";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 import Link from "next/link";
 import { toast } from "react-toastify";
 

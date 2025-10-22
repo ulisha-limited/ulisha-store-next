@@ -12,7 +12,7 @@
 
 import { useEffect } from "react";
 import { useAuthStore } from "@/store/authStore";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 
 export default function Session() {
   const setUser = useAuthStore((state) => state.setUser);
