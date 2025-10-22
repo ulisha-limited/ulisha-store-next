@@ -24,11 +24,16 @@ const PROTECTED_ROUTE_REGEX = [
 ];
 const bots = [
   "googlebot",
+  "adsbot-google",
+  "adsbot-google-mobile",
+  "google-display-ads-bot",
+  "mediapartners-google",
   "yahoo! slurp",
   "bingbot",
   "yandex",
   "baiduspider",
   "facebookexternalhit",
+  "facebookbot",
   "twitterbot",
   "rogerbot",
   "linkedinbot",
@@ -62,7 +67,8 @@ const bots = [
 
 const botRegex =
   /(HeadlessChrome|puppeteer|playwright|phantomjs|selenium|curl|wget|node-fetch|python-requests)/i;
-const AIRegex = /(chatgpt|gptbot|perplexity|claudebot|amazonbot)/i;
+const AIRegex =
+  /(chatgpt|gptbot|perplexity|claudebot|amazonbot|anthropic-ai|perplexitybot|meta-externalagent|chatgpt-user|google-extended|ccbot|cohere-ai|aibot|facebookai|yandexgpt|youbot|gemini)/i;
 
 export async function middleware(request: NextRequest) {
   const forwardedFor = request.headers.get("x-forwarded-for");
