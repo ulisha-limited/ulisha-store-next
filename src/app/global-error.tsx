@@ -7,21 +7,23 @@
  *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-
 "use client";
 
 import * as Sentry from "@sentry/nextjs";
 import NextError from "next/error";
 import { useEffect } from "react";
+import config from "@/config/index";
 
 export default function GlobalError({
   error,
 }: {
   error: Error & { digest?: string };
 }) {
+  const isProd = config.nodeEnv === "production";
+
   useEffect(() => {
-    Sentry.captureException(error);
-  }, [error]);
+    if (isProd) Sentry.captureException(error);
+  }, [isProd, error]);
 
   return (
     <html>

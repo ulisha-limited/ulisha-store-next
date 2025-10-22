@@ -8,25 +8,30 @@
  */
 
 import type { Metadata } from "next";
-import { Lato } from "next/font/google";
+import { Lato, Poppins } from "next/font/google";
 import "./globals.css";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import Session from "@/components/auth/Session";
-import { config } from "@fortawesome/fontawesome-svg-core";
 import CanonicalUrl from "@/components/layouts/CanonicalUrl";
 import RegisterSW from "./register-sw";
 import { ToastContainer } from "react-toastify";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import _config from "@/config/index";
+import NextTopLoader from "nextjs-toploader";
 import GoogleAdsense from "@/components/GoogleAdsense";
-
-config.autoAddCss = false;
+import BrowserCheckPage from "@/components/BrowserChecks";
 
 const latoSans = Lato({
   variable: "--font-lato-sans",
+  weight: ["400", "700"],
+  subsets: ["latin"],
+});
+
+const poppinsSans = Poppins({
+  variable: "--font-poppins-sans",
   weight: ["400", "700"],
   subsets: ["latin"],
 });
@@ -71,7 +76,11 @@ export default async function RootLayout({
         {isProd && <GoogleAnalytics />}
         {isProd && <GoogleAdsense />}
       </head>
-      <body className={`${latoSans.variable} antialiased`}>
+      <body
+        className={`${latoSans.variable} ${poppinsSans.variable} antialiased`}
+      >
+        <BrowserCheckPage />
+        <NextTopLoader showSpinner={false} color="#FF6600" />
         <RegisterSW />
         {children}
         <ToastContainer />
