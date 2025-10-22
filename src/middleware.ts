@@ -22,14 +22,72 @@ const PROTECTED_ROUTE_REGEX = [
   /^\/my-account/,
   /^\/logout/,
 ];
+const bots = [
+  "googlebot",
+  "yahoo! slurp",
+  "bingbot",
+  "yandex",
+  "baiduspider",
+  "facebookexternalhit",
+  "twitterbot",
+  "rogerbot",
+  "linkedinbot",
+  "embedly",
+  "quora link preview",
+  "showyoubot",
+  "outbrain",
+  "pinterest/0.",
+  "developers.google.com/+/web/snippet",
+  "slackbot",
+  "vkshare",
+  "w3c_validator",
+  "redditbot",
+  "applebot",
+  "whatsapp",
+  "flipboard",
+  "tumblr",
+  "bitlybot",
+  "skypeuripreview",
+  "nuzzel",
+  "discordbot",
+  "google page speed",
+  "qwantify",
+  "pinterestbot",
+  "bitrix link preview",
+  "xing-contenttabreceiver",
+  "chrome-lighthouse",
+  "telegrambot",
+  "oai-searchbot",
+];
+
+const botRegex =
+  /(HeadlessChrome|puppeteer|playwright|phantomjs|selenium|curl|wget|node-fetch|python-requests)/i;
+const AIRegex = /(chatgpt|gptbot|perplexity|claudebot|amazonbot)/i;
 
 export async function middleware(request: NextRequest) {
+  const forwardedFor = request.headers.get("x-forwarded-for");
+  const ip = forwardedFor?.split(",")[0] || "unknown";
+  const ua = request.headers.get("user-agent") || "";
+  const cookies = request.headers.get("cookie") || "";
+  const isAllowedBots = bots.some((bot) => ua.toLowerCase().includes(bot));
+  const hasSupabaseCookies =
+    cookies.includes("sb-access-token") || cookies.includes("sb-refresh-token");
+
+  /*
+   * Simple bot detection patterns
+   */
+  if (botRegex.test(ua) || AIRegex.test(ua)) {
+    return new NextResponse("Access Denied", { status: 403 });
+  }
+
+  // will check for missing headers typical in automation
+  if (!isAllowedBots && !request.headers.get("accept-language")) {
+    return new NextResponse("Suspicious client", { status: 403 });
+  }
+
   /*
    * Rate Limit
    */
-  const forwardedFor = request.headers.get("x-forwarded-for");
-  const ip = forwardedFor?.split(",")[0] || "unknown";
-
   if (/api\//.test(request.nextUrl.pathname)) {
     const maxRequest = /api\/auth\//.test(request.nextUrl.pathname) ? 5 : 10;
     const window = /api\/auth\//.test(request.nextUrl.pathname)
@@ -60,18 +118,20 @@ export async function middleware(request: NextRequest) {
    * and redirect to login if the user is not authenticated.
    */
   try {
-    const supabase = createSupabaseServerClient();
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
+    if (!isAllowedBots && hasSupabaseCookies) {
+      const supabase = createSupabaseServerClient();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
 
-    if (
-      !session &&
-      PROTECTED_ROUTE_REGEX.some((r) => r.test(request.nextUrl.pathname))
-    ) {
-      const url = new URL("/login", request.url);
-      url.searchParams.set("next", request.nextUrl.pathname);
-      return NextResponse.redirect(url);
+      if (
+        !session &&
+        PROTECTED_ROUTE_REGEX.some((r) => r.test(request.nextUrl.pathname))
+      ) {
+        const url = new URL("/login", request.url);
+        url.searchParams.set("next", request.nextUrl.pathname);
+        return NextResponse.redirect(url);
+      }
     }
   } catch (error) {
     console.error(error);
