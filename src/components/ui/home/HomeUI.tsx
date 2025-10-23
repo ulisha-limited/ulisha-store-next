@@ -150,12 +150,12 @@ export default function HomePageUI({
               <>
                 <div ref={sentinelRef} style={{ height: 1 }} />
                 {isFetchingMore && (
-                  <div className="flex items-center justify-center py-4">
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-500"></div>
+                  <div className="text-center py-4 text-gray-700">
+                    Loading more...
                   </div>
                 )}
                 {!hasMore && (
-                  <div className="text-center py-4 text-gray-500">
+                  <div className="text-center py-4 text-gray-700">
                     No more products to load.
                   </div>
                 )}
