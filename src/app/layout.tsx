@@ -23,6 +23,7 @@ import _config from "@/config/index";
 import NextTopLoader from "nextjs-toploader";
 import GoogleAdsense from "@/components/GoogleAdsense";
 import BrowserCheckPage from "@/components/BrowserChecks";
+import DynamicAppColor from "@/components/layouts/DynamicAppColor";
 
 const latoSans = Lato({
   variable: "--font-lato-sans",
@@ -85,6 +86,7 @@ export default async function RootLayout({
         {children}
         <ToastContainer />
         <Session />
+        <DynamicAppColor />
       </body>
     </html>
   );

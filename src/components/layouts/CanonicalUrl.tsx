@@ -7,8 +7,7 @@
  *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-
- "use client"
+"use client"
 
 import { usePathname } from "next/navigation";
 
