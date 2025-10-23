@@ -24,6 +24,7 @@ import NextTopLoader from "nextjs-toploader";
 import GoogleAdsense from "@/components/GoogleAdsense";
 import BrowserCheckPage from "@/components/BrowserChecks";
 import DynamicAppColor from "@/components/layouts/DynamicAppColor";
+import BreadcrumbJsonLd from "@/components/layouts/BreadcrumbJsonLd";
 
 const latoSans = Lato({
   variable: "--font-lato-sans",
@@ -74,6 +75,7 @@ export default async function RootLayout({
         />
         <meta name="manifest" content="/manifest.webmanifest" />
         <CanonicalUrl />
+        <BreadcrumbJsonLd />
         {isProd && <GoogleAnalytics />}
         {isProd && <GoogleAdsense />}
       </head>

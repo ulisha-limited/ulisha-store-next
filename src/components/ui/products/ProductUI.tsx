@@ -198,7 +198,7 @@ export default function ProductUI({
             "@context": "https://schema.org/",
             "@type": "Product",
             name: product.name,
-            image: images,
+            image: images.map(img => img.image_url),
             description: product.description,
             sku: product.id,
             brand: {
@@ -207,7 +207,7 @@ export default function ProductUI({
             },
             offers: {
               "@type": "Offer",
-              url: `https://www.ulishastore.com/products/${product.id}`,
+              url: `https://www.ulishastore.com/product/${product.id}`,
               priceCurrency: "NGN",
               price: product.price,
               itemCondition: "https://schema.org/NewCondition",
