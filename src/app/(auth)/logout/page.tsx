@@ -11,7 +11,7 @@
 "use client";
 
 import { redirect } from "next/navigation";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 import cookies from "js-cookie";
 import { useEffect } from "react";
 

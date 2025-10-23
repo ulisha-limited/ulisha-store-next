@@ -19,7 +19,7 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { PasswordStrengthMeter } from "@/components/PasswordStrengthMeter";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 import axios from "axios";
 import { useReCaptcha } from "next-recaptcha-v3";
 import Image from "next/image";

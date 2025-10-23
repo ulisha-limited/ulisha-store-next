@@ -8,7 +8,7 @@
  */
 
 import { isMobileRequest } from "@/lib/device";
-import { createSupabaseServerClient } from "@/lib/supabaseServer";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import NavComponent from "@/components/layouts/Nav";
 import Footer from "@/components/layouts/Footer";
 import BottomNav from "@/components/layouts/BottomNav";

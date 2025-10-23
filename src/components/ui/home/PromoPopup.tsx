@@ -19,7 +19,7 @@ import {
   faGift,
 } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { Database } from "@/supabase-types";
 import Image from "next/image";

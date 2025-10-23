@@ -10,7 +10,7 @@
 
 import { create } from "zustand";
 import { User, AuthError } from "@supabase/supabase-js";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 
 interface AuthState {
   user: User | null;

@@ -7,16 +7,15 @@
  *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-
 "use client";
 
 import Link from "next/link";
 import { useState, useEffect, useRef, Suspense } from "react";
 import { ProductCard } from "@/components/ProductCard";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 import { Database } from "@/supabase-types";
 import { usePathname, useSearchParams } from "next/navigation";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const PAGE_SIZE = 10;
@@ -79,7 +78,9 @@ function Search() {
       const { data, error } = await supabase
         .from("products")
         .select("*")
-        .ilike("name", `%${searchQuery}%`)
+        .or(
+          `name.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%,shipping_location.ilike.%${searchQuery}%,category.ilike.%${searchQuery}%`,
+        )
         .order("created_at", { ascending: false })
         .range(from, to);
       if (error) throw error;
@@ -93,7 +94,7 @@ function Search() {
       }
     } catch (error) {
       setError(
-        "Unable to load products. Please check your connection and try again."
+        "Unable to load products. Please check your connection and try again.",
       );
       setHasMore(false);
     } finally {
@@ -159,7 +160,10 @@ export default function SearchPage() {
   return (
     <Suspense
       fallback={
-        <FontAwesomeIcon icon={faSpinner} className="w-12 h-12 animate-spin text-primary-orange mx-auto mt-20" />
+        <FontAwesomeIcon
+          icon={faSpinner}
+          className="w-12 h-12 animate-spin text-primary-orange mx-auto mt-20"
+        />
       }
     >
       <Search />

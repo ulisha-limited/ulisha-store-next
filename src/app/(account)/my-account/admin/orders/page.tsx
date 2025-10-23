@@ -32,7 +32,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import { useAuthStore } from "@/store/authStore";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 import { OrderReceipt } from "@/components/OrderReceipt";
 import Link from "next/link";
 import Image from "next/image";

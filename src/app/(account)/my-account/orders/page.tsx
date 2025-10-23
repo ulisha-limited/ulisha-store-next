@@ -30,7 +30,7 @@ import {
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuthStore } from "@/store/authStore";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 import { OrderReceipt } from "@/components/OrderReceipt";
 import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
