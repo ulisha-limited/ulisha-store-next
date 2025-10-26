@@ -8,7 +8,7 @@
  */
 
 import Recaptcha from "@/components/Recaptcha";
-import Login from "../../../components/auth/Login";
+import Login from "@/components/auth/Login";
 import { Metadata } from "next";
 import { isMobileRequest } from "@/lib/device";
 

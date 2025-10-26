@@ -143,7 +143,8 @@ export default function MyAccount() {
     "paulelite606@gmail.com",
     "obajeufedo2@gmail.com",
     "mrepol742@gmail.com",
-    "akashnai658@gmail.com"
+    "akashnai658@gmail.com",
+    "akashnai632@gmail.com"
   ];
 
   const isAdmin = ADMIN_EMAILS.includes(user?.email ?? "");
