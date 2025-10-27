@@ -1,6 +1,7 @@
-# Ulisha Store
+# Ulisha Store Next
 
-Your one-stop shop for all things trendy and affordable.
+A modern and efficient e-commerce solution tailored for startups, enabling seamless setup and free hosting on Vercel and Supabase Cloud.
+
 [![CI Build](https://github.com/ulisha-limited/ulisha-store-next/actions/workflows/ci-build.yml/badge.svg)](https://github.com/ulisha-limited/ulisha-store-next/actions/workflows/ci-build.yml)
 
 ## Prerequisites
