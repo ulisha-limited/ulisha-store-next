@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "12.2.12 (cd3cf9e)"
+    PostgrestVersion: "13.0.5"
   }
   public: {
     Tables: {
@@ -730,6 +730,27 @@ export type Database = {
           },
         ]
       }
+      profiles: {
+        Row: {
+          created_at: string | null
+          full_name: string
+          id: string
+          role: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          full_name: string
+          id: string
+          role?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          full_name?: string
+          id?: string
+          role?: string | null
+        }
+        Relationships: []
+      }
       shopping_sessions: {
         Row: {
           created_at: string
@@ -941,14 +962,8 @@ export type Database = {
         Args: { user_id: string }
         Returns: string
       }
-      get_total_users: {
-        Args: Record<PropertyKey, never>
-        Returns: number
-      }
-      get_user_count: {
-        Args: Record<PropertyKey, never>
-        Returns: number
-      }
+      get_total_users: { Args: never; Returns: number }
+      get_user_count: { Args: never; Returns: number }
       track_page_view: {
         Args: {
           p_ip_address?: string
@@ -960,10 +975,7 @@ export type Database = {
         }
         Returns: undefined
       }
-      update_daily_stats: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
+      update_daily_stats: { Args: never; Returns: undefined }
       update_order_payment_status: {
         Args: { p_order_id: string; p_payment_ref: string; p_status?: string }
         Returns: boolean

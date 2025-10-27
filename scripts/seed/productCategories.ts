@@ -15,6 +15,7 @@ export default async function ProductCategoriesSeed(
       created_at: new Date().toISOString(),
     },
   ]);
-  if (error) console.error("❌ Error:", error);
+
+  if (error) throw new Error(error.message || JSON.stringify(error));
   else console.log("✅ Product Categories!");
 }

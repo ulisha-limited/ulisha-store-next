@@ -9,10 +9,14 @@ const supabase: SupabaseClient<any, "public", any> = createClient(
 );
 
 async function seed(): Promise<void> {
-  console.log("🌱 Seeding started...");
-  await authUsers(supabase);
-  await productCategories(supabase);
-  console.log("🌱 Seeding finished...");
+  try {
+    console.log("🌱 Seeding started...");
+    await authUsers(supabase);
+    await productCategories(supabase);
+    console.log("🌱 Seeding finished...");
+  } catch (error) {
+    console.error("🌱", error);
+  }
 }
 
 seed();

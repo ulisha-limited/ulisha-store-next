@@ -11,7 +11,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useAuthStore } from "@/store/authStore";
+import { ExtendedUser, useAuthStore } from "@/store/authStore";
 import { supabase } from "@/lib/supabase/client";
 
 export default function Session() {
@@ -32,7 +32,7 @@ export default function Session() {
     } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event !== "SIGNED_OUT" && session) {
         setSession(session);
-        setUser(session.user);
+        setUser(session.user as ExtendedUser);
       } else {
         setSession(null);
         setUser(null);

@@ -129,6 +129,7 @@ const Breadcrumb = ({ current }: { current: string }) => {
 
 export default function MyAccount() {
   const user = useAuthStore((state) => state.user);
+  if (!user) return;
 
   const getInitials = (name: string) => {
     if (!name) return "?";
@@ -138,14 +139,6 @@ export default function MyAccount() {
     }
     return name.charAt(0).toUpperCase();
   };
-
-  const ADMIN_EMAILS = [
-    "paulelite606@gmail.com",
-    "obajeufedo2@gmail.com",
-    "mrepol742@gmail.com",
-  ];
-
-  const isAdmin = ADMIN_EMAILS.includes(user?.email ?? "");
 
   const orderLinks = [
     { href: "?status=to-pay", icon: faCreditCard, label: "To Pay" },
@@ -206,7 +199,7 @@ export default function MyAccount() {
     { href: "/buy-again", icon: faRepeat, label: "Buy Again" },
   ];
 
-  if (!isAdmin) {
+  if (user.user_role !== "admin") {
     moreLinks.push(
       {
         href: "/my-account/affiliate/join",
@@ -267,7 +260,7 @@ export default function MyAccount() {
           </Link>
         </div>
         <div className="grid grid-cols-1 gap-10 mt-7">
-          {isAdmin && (
+          {user.user_role === "admin" && (
             <Card>
               <CardHeader title="Admin Panel" />
               <div className="p-6">
