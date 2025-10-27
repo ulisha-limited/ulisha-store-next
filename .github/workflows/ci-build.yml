@@ -4,7 +4,20 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - '.github/**'
+      - 'public/**'
+      - '*.example'
+      - '*.gitignore'
+      - '*.md'
+
   pull_request:
+    paths-ignore:
+      - 'public/**'
+      - '*.example'
+      - '*.gitignore'
+      - '*.md'
+
   workflow_dispatch:
 
 jobs:
