@@ -6,11 +6,57 @@ Your one-stop shop for all things trendy and affordable.
 ## Prerequisites
 
 - Node.js
-- Supabase
+- Supabase (requires Docker)
 - Google ReCaptcha
 - MixPay (Payment)
 - PayStack (Payment)
 - Sentry (Optional)
+
+## Supabase
+
+First by creating a supabase cloud project:
+
+- go to [Supabase Dashboard](https://app.supabase.com)
+- click `New Project`
+- choose:
+  - Organization → (create one if needed)
+  - Project Name → e.g. super-ulisha-store-app
+  - Database Password → choose a secure one
+  - Region → pick the nearest location
+- Click Create new project
+- Wait a few moments for the database to be provisioned.
+
+Login first (if you haven't):
+
+```bash
+npx supabase login
+```
+
+Link the cloud project to this local one:
+
+```bash
+npx supabase link
+```
+
+It'll show the list of project you have select your project.
+
+Push migrations to cloud:
+
+```bash
+npx supabase db push
+```
+
+Pull migrations from cloud:
+
+```bash
+npx supabase db pull
+```
+
+Updating types (if you ever changed migrations):
+
+```bash
+npx supabase gen types typescript --project-id your-project-id --schema public > src/supabase-types.ts
+```
 
 ## Development Server
 

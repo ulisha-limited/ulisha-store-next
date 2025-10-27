@@ -13,6 +13,7 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { recaptcha } from "@/lib/recaptcha";
 import { cookies } from "next/headers";
 import * as Sentry from "@sentry/nextjs";
+import config from "@/config";
 
 export async function POST(req: NextRequest) {
   try {
@@ -24,12 +25,14 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
 
-    const isHuman = await recaptcha(recaptchaToken, "login_form");
-    if (!isHuman)
-      return NextResponse.json(
-        { error: "Failed reCAPTCHA verification" },
-        { status: 400 },
-      );
+    if (config.nodeEnv === "production") {
+      const isHuman = await recaptcha(recaptchaToken, "login_form");
+      if (!isHuman)
+        return NextResponse.json(
+          { error: "Failed reCAPTCHA verification" },
+          { status: 400 },
+        );
+    }
 
     const supabase = createRouteHandlerClient({
       cookies: async () => await cookies(),

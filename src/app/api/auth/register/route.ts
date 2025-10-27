@@ -12,13 +12,14 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { isDisposableEmail, validateEmail } from "@/lib/emailChecker";
 import { recaptcha } from "@/lib/recaptcha";
 import * as Sentry from "@sentry/nextjs";
+import config from "@/config";
 
 export async function POST(req: NextRequest) {
   try {
     const { email, password, confirmPassword, name, recaptchaToken } =
       await req.json();
 
-    if (!email || !password || !confirmPassword || !name || !recaptchaToken)
+    if (!email || !password || !confirmPassword || !name)
       return NextResponse.json(
         { error: "All fields are required!" },
         { status: 400 },
@@ -48,12 +49,14 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
 
-    const isHuman = await recaptcha(recaptchaToken, "register_form");
-    if (!isHuman)
-      return NextResponse.json(
-        { error: "Failed reCAPTCHA verification" },
-        { status: 400 },
-      );
+    if (config.nodeEnv === "production") {
+      const isHuman = await recaptcha(recaptchaToken, "register_form");
+      if (!isHuman)
+        return NextResponse.json(
+          { error: "Failed reCAPTCHA verification" },
+          { status: 400 },
+        );
+    }
 
     const { data, error } = await supabaseAdmin.auth.admin.createUser({
       email,
