@@ -1,27 +1,18 @@
-import 'dotenv/config';
-import { createClient } from "@supabase/supabase-js";
+import "dotenv/config";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import productCategories from "./seed/productCategories";
+import authUsers from "./seed/authUsers";
 
-const supabase = createClient(
+const supabase: SupabaseClient<any, "public", any> = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || "",
   process.env.SUPABASE_SERVICE_ROLE_KEY || "",
 );
 
-async function seed() {
-  console.log("🌱 Seeding product categories...");
-  const { error } = await supabase.from("product_categories").insert([
-    {
-      name: "Electronics",
-      description: "Devices and gadgets",
-      created_at: new Date().toISOString(),
-    },
-    {
-      name: "Clothing",
-      description: "Apparel and accessories",
-      created_at: new Date().toISOString(),
-    },
-  ]);
-  if (error) console.error("❌ Error:", error);
-  else console.log("✅ Done!");
+async function seed(): Promise<void> {
+  console.log("🌱 Seeding started...");
+  await authUsers(supabase);
+  await productCategories(supabase);
+  console.log("🌱 Seeding finished...");
 }
 
 seed();
