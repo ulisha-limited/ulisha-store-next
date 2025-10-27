@@ -75,6 +75,9 @@ jobs:
       - name: Run database migrations
         run: supabase db push --db-url "postgresql://postgres:postgres@localhost:54322/postgres"
 
+      - name: Run seed
+        run: npm run seed
+
       - name: Run linter
         run: npm run lint
 
