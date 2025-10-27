@@ -26,6 +26,7 @@ import {
   faLaptop,
   faBicycle,
 } from "@fortawesome/free-solid-svg-icons";
+import EmptyProductsList from "@/components/EmptyProductsList";
 
 const getIconForCategory = (categoryName: string) => {
   switch (categoryName.toLowerCase()) {
@@ -110,6 +111,8 @@ export default async function CategoryPage() {
     .from("product_categories")
     .select("name");
   const categories = productCategories.data ?? [];
+
+  if (categories.length === 0) return <EmptyProductsList />;
 
   return (
     <div className="py-16 bg-gradient-to-br from-orange-50 to-indigo-50 min-h-screen">

@@ -61,7 +61,7 @@ export default function FAQPage() {
     {
       question: "How can I contact support?",
       answer:
-        "You can contact our support team via the contact form on our website or by emailing us at support@gmail.com",
+        "You can contact our support team via the contact form on our website or by emailing us at support@ulishastore.com",
     },
     {
       question: "What payment methods do you accept?",

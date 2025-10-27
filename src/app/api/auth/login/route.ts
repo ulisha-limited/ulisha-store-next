@@ -45,11 +45,19 @@ export async function POST(req: NextRequest) {
     if (error)
       return NextResponse.json({ error: error.message }, { status: 400 });
 
-    console.log("User", data.user);
-    console.log("Session", data.session);
+    const { data: profileData, error: profileError } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", data.user.id)
+      .single();
+
+    const userWithRole = {
+      ...data.user,
+      user_role: profileData?.role ?? "user",
+    };
 
     return NextResponse.json(
-      { user: data.user, session: data.session },
+      { user: userWithRole, session: data.session },
       {
         status: 200,
       },

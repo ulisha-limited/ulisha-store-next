@@ -16,10 +16,10 @@ export default async function LegalLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-gray-100 min-h-screen flex flex-col">
+    <main className="bg-gray-100 min-h-screen flex flex-col">
       <SecondaryNav />
-      <main className="flex-1">{children}</main>
+      <div className="flex-1">{children}</div>
       <Footer />
-    </div>
+    </main>
   );
 }

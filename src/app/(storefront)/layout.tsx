@@ -25,14 +25,14 @@ export default async function StorefrontLayout({
   ]);
 
   return (
-    <div className="bg-white min-h-screen flex flex-col">
+    <main className="bg-white min-h-screen flex flex-col">
       <NavComponent
         productCategories={productCategoriesRes.data ?? []}
         isMobile={isMobile}
       />
-      <main className="flex-1 pt-[90px]">{children}</main>
+      <div className="flex-1 pt-[90px]">{children}</div>
       {!isMobile && <Footer />}
       {isMobile && <BottomNav />}
-    </div>
+    </main>
   );
 }

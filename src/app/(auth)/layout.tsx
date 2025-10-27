@@ -7,7 +7,7 @@
  *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
- export default function AuthLayout({
+export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;

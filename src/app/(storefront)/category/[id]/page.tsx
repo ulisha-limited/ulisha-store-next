@@ -12,6 +12,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import EmptyProductsList from "@/components/EmptyProductsList";
 
 export default async function CategoryPage({
   params,
@@ -29,6 +30,8 @@ export default async function CategoryPage({
     .order("created_at", { ascending: false });
 
   const products = productCategories.data ?? [];
+
+  if (products.length === 0) return <EmptyProductsList />;
 
   return (
     <div className="min-h-screen flex flex-col">

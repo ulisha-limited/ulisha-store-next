@@ -18,6 +18,7 @@ import { AdCarousel } from "@/components/ui/home/AdCarousel";
 import { useAuthStore } from "@/store/authStore";
 import Link from "next/link";
 import { Database } from "@/supabase-types";
+import EmptyProductsList from "@/components/EmptyProductsList";
 
 type Product = Database["public"]["Tables"]["products"]["Row"];
 type Advertisement = Database["public"]["Tables"]["advertisements"]["Row"];
@@ -81,6 +82,8 @@ export default function HomePageUI({
     return () => observer.current?.disconnect();
   }, [fetchNextPage, hasMore, isFetchingMore, page, user]);
 
+  if (products.length === 0) return <EmptyProductsList />;
+
   return (
     <>
       <div className="min-h-screen bg-gray-100 flex flex-col">
@@ -89,61 +92,75 @@ export default function HomePageUI({
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             {/* New This Week */}
-            <h2 className="text-lg font-semibold text-gray-900">
-              New this week
-            </h2>
-            <div className="flex overflow-x-auto gap-4 mt-2 pb-2">
-              {[...products].slice(0, 15).map((product, index) => (
-                <div
-                  key={index}
-                  className="min-w-[220px] max-w-xs flex-shrink-1 gap-4"
-                >
-                  <ProductCard product={product} />
+            {products.length > 0 && (
+              <>
+                <h2 className="text-lg font-semibold text-gray-900">
+                  New this week
+                </h2>
+                <div className="flex overflow-x-auto gap-4 mt-2 pb-2">
+                  {[...products].slice(0, 15).map((product, index) => (
+                    <div
+                      key={index}
+                      className="min-w-[220px] max-w-xs flex-shrink-1 gap-4"
+                    >
+                      <ProductCard product={product} />
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </>
+            )}
 
             {/* Stuff You Might Like */}
-            <h2 className="mt-3 text-lg font-semibold text-gray-900">
-              Stuff You Might Like
-            </h2>
-            <div className="flex overflow-x-auto gap-4 mt-2 pb-2">
-              {[...products].slice(16, 30).map((product, index) => (
-                <div
-                  key={index}
-                  className="min-w-[220px] max-w-xs flex-shrink-1"
-                >
-                  <ProductCard product={product} />
+            {products.length > 16 && (
+              <>
+                <h2 className="mt-3 text-lg font-semibold text-gray-900">
+                  Stuff You Might Like
+                </h2>
+                <div className="flex overflow-x-auto gap-4 mt-2 pb-2">
+                  {[...products].slice(16, 30).map((product, index) => (
+                    <div
+                      key={index}
+                      className="min-w-[220px] max-w-xs flex-shrink-1"
+                    >
+                      <ProductCard product={product} />
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </>
+            )}
 
-            {/* Trending */}
-            <h2 className="mt-3 text-lg font-semibold text-gray-900">
-              Trending Products
-            </h2>
-            <div className="flex overflow-x-auto gap-4 mt-2 pb-2">
-              {[...products].slice(31, 40).map((product, index) => (
-                <div
-                  key={index}
-                  className="min-w-[220px] max-w-xs flex-shrink-1"
-                >
-                  <ProductCard product={product} />
+            {/* Trending Products */}
+            {products.length > 31 && (
+              <>
+                <h2 className="mt-3 text-lg font-semibold text-gray-900">
+                  Trending Products
+                </h2>
+                <div className="flex overflow-x-auto gap-4 mt-2 pb-2">
+                  {[...products].slice(31, 40).map((product, index) => (
+                    <div
+                      key={index}
+                      className="min-w-[220px] max-w-xs flex-shrink-1"
+                    >
+                      <ProductCard product={product} />
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </>
+            )}
 
-            {/* Discover */}
-            <h2 className="mt-3 text-lg font-semibold text-gray-900">
-              Discover Products
-            </h2>
-            <div className="mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-              {[...products]
-                .slice(41, products.length)
-                .map((product, index) => (
-                  <ProductCard key={index} product={product} />
-                ))}
-            </div>
+            {/* Discover Products */}
+            {products.length > 41 && (
+              <>
+                <h2 className="mt-3 text-lg font-semibold text-gray-900">
+                  Discover Products
+                </h2>
+                <div className="mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                  {[...products].slice(41).map((product, index) => (
+                    <ProductCard key={index} product={product} />
+                  ))}
+                </div>
+              </>
+            )}
 
             {/* Infinite Scroll Trigger or Auth Prompt */}
             {(!user && page < 6) || (user && page < 14) ? (

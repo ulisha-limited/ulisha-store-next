@@ -7,7 +7,6 @@
  *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-
 import { useState, useEffect, MouseEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -73,7 +72,7 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
 
       if (discountedProducts && discountedProducts.length > 0) {
         const randomIndex = Math.floor(
-          Math.random() * discountedProducts.length
+          Math.random() * discountedProducts.length,
         );
         setFeaturedProduct(discountedProducts[randomIndex]);
       } else {
@@ -110,7 +109,7 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
     e.stopPropagation();
   };
 
-  if (!isVisible) return null;
+  if (!isVisible || !featuredProduct) return;
 
   const blue = "#007bff";
 
@@ -144,7 +143,10 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
               {isSecondShow ? (
                 <FontAwesomeIcon icon={faGift} className="w-6 h-6 mr-1" />
               ) : (
-                <FontAwesomeIcon icon={faBagShopping} className="w-6 h-6 mr-1" />
+                <FontAwesomeIcon
+                  icon={faBagShopping}
+                  className="w-6 h-6 mr-1"
+                />
               )}
               <span className="text-xl font-bold">UlishaStore</span>
             </div>
@@ -177,7 +179,10 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
                 />
                 {featuredProduct.discount_active && (
                   <div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-0.5 rounded-full text-xs font-bold flex items-center">
-                    <FontAwesomeIcon icon={faPercent} className="w-3 h-3 mr-1" />
+                    <FontAwesomeIcon
+                      icon={faPercent}
+                      className="w-3 h-3 mr-1"
+                    />
                     {featuredProduct.discount_percentage}% OFF
                   </div>
                 )}
@@ -305,7 +310,10 @@ export function PromoPopup({ isVisible, onClose }: PromoPopupProps) {
                 />
                 {featuredProduct.discount_active && (
                   <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold flex items-center">
-                    <FontAwesomeIcon icon={faPercent} className="w-4 h-4 mr-1" />
+                    <FontAwesomeIcon
+                      icon={faPercent}
+                      className="w-4 h-4 mr-1"
+                    />
                     {featuredProduct.discount_percentage}% OFF
                   </div>
                 )}
