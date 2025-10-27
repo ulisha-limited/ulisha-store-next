@@ -9,7 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "tsx scripts/seed.ts"
+    "db:seed": "tsx scripts/seed.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.0.0",

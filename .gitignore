@@ -43,4 +43,5 @@ next-env.d.ts
 !.env.example
 
 # supabase
-/supabase/.temp
+/supabase/*
+!supabase/migrations

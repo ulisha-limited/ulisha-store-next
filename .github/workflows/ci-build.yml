@@ -11,27 +11,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      supabase:
-        image: supabase/local-dev:latest
-        ports:
-          - 54321:54321 # Postgres
-          - 54322:54322 # Studio
-          - 8000:8000 # API
-          - 8080:8080 # Realtime
-          - 54323:54323 # Auth
-        env:
-          SUPABASE_ANON_KEY: "test-anon-key"
-          SUPABASE_SERVICE_ROLE_KEY: "test-service-role-key"
-          POSTGRES_PASSWORD: "postgres"
-        options: >-
-          --health-cmd="curl --silent --fail http://localhost:8000/health || exit 1"
-          --health-interval=5s
-          --health-timeout=3s
-          --health-retries=10
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -51,35 +33,44 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Wait for Supabase to be ready
-        run: |
-          for i in {1..20}; do
-            if curl -s http://localhost:8000/health | grep '"status":"ok"'; then
-              echo "✅ Supabase is ready!"
-              break
-            fi
-            echo "Waiting for Supabase..."
-            sleep 3
-          done
+      - name: Cache Supabase Docker images
+        uses: actions/cache@v4
+        with:
+          path: /var/lib/docker
+          key: ${{ runner.os }}-supabase-docker-${{ hashFiles('supabase/config.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-supabase-docker-
 
-      - name: Set environment for local Supabase
+      - name: Start Supabase locally in background
         run: |
-          echo "NEXT_PUBLIC_SUPABASE_URL=http://localhost:8000" >> $GITHUB_ENV
-          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=test-anon-key" >> $GITHUB_ENV
-          echo "SUPABASE_SERVICE_ROLE_KEY=test-service-role-key" >> $GITHUB_ENV
-          echo "DATABASE_URL=postgresql://postgres:postgres@localhost:54322/postgres" >> $GITHUB_ENV
+          SUPABASE_LOG=$(npx --yes supabase start)
+          echo "$SUPABASE_LOG"
 
-      - name: Install Supabase CLI
-        run: npm install -g supabase
+          NEXT_PUBLIC_SUPABASE_URL=$(echo "$SUPABASE_LOG" | grep 'API URL:' | awk '{print $3}')
+          NEXT_PUBLIC_SUPABASE_ANON_KEY=$(echo "$SUPABASE_LOG" | grep 'Publishable key:' | awk '{print $3}')
+          SUPABASE_SERVICE_ROLE_KEY=$(echo "$SUPABASE_LOG" | grep 'Secret key:' | awk '{print $3}')
+
+          echo "NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY" >> $GITHUB_ENV
+          echo "SUPABASE_SERVICE_ROLE_KEY=$SUPABASE_SERVICE_ROLE_KEY" >> $GITHUB_ENV
+
+          sleep 15 # wait
 
       - name: Run database migrations
-        run: supabase db push --db-url "postgresql://postgres:postgres@localhost:54322/postgres"
+        run: npx --yes supabase db push --db-url "postgresql://postgres:postgres@127.0.0.1:54322/postgres?sslmode=disable"
 
-      - name: Run seed
-        run: npm run seed
+      - name: Seed database
+        run: npm run db:seed
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ env.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ env.SUPABASE_SERVICE_ROLE_KEY }}
 
       - name: Run linter
         run: npm run lint
 
       - name: Build project
         run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ env.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ env.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ env.SUPABASE_SERVICE_ROLE_KEY }}
