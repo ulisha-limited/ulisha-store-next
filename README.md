@@ -73,6 +73,11 @@ Updating types (if you ever changed migrations):
 npx supabase gen types typescript --project-id <project-id> --schema public > src/supabase-types.ts
 ```
 
+Creating a bucket:
+
+- Go to your project storage -> buckets
+- Create new bucket name `product-images`
+
 Seed the database:
 
 ```bash
