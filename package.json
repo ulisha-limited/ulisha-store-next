@@ -22,7 +22,7 @@
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.53.0",
-    "axios": "^1.11.0",
+    "axios": "^1.13.0",
     "browser-image-compression": "^2.0.2",
     "formidable": "^3.5.4",
     "framer-motion": "^12.23.22",
