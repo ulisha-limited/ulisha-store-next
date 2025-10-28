@@ -26,6 +26,20 @@ First by creating a supabase cloud project:
 - Click Create new project
 - Wait a few moments for the database to be provisioned.
 
+## Setup Environment
+
+Copy the .env.example to .env
+
+```bash
+cp .env.example .env
+```
+
+| Variable                        | Description                                                          | Location                                                 |
+| ------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`      | Your Supabase project URL (e.g., `https://<project-id>.supabase.co`) | **Supabase Project → Settings → General → Project URL**  |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Public anonymous key for client-side access                          | **Supabase Project → Settings → API → Project API Keys** |
+| `SUPABASE_SERVICE_ROLE_KEY`     | Service role key for server-side access (⚠️ keep this private!)      | **Supabase Project → Settings → API → Project API Keys** |
+
 Login first (if you haven't):
 
 ```bash
@@ -55,7 +69,13 @@ npx supabase db pull
 Updating types (if you ever changed migrations):
 
 ```bash
-npx supabase gen types typescript --project-id your-project-id --schema public > src/supabase-types.ts
+npx supabase gen types typescript --project-id <project-id> --schema public > src/supabase-types.ts
+```
+
+Seed the database:
+
+```bash
+npm run db:seed
 ```
 
 ## Development Server
