@@ -8,8 +8,7 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { recaptcha } from "@/lib/recaptcha";
 import { cookies } from "next/headers";
 import * as Sentry from "@sentry/nextjs";
@@ -19,7 +18,7 @@ export async function POST(req: NextRequest) {
   try {
     const { email, password, recaptchaToken } = await req.json();
 
-    if (!email || !password || !recaptchaToken)
+    if (!email || !password)
       return NextResponse.json(
         { error: "All fields are required!" },
         { status: 400 },
@@ -34,9 +33,7 @@ export async function POST(req: NextRequest) {
         );
     }
 
-    const supabase = createRouteHandlerClient({
-      cookies: async () => await cookies(),
-    });
+    const supabase = createSupabaseServerClient();
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,

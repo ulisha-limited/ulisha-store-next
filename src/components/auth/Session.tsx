@@ -7,7 +7,6 @@
  *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-
 "use client";
 
 import { useEffect } from "react";
@@ -18,31 +17,31 @@ export default function Session() {
   const setUser = useAuthStore((state) => state.setUser);
   const setSession = useAuthStore((state) => state.setSession);
   const refreshSession = useAuthStore((state) => state.refreshSession);
+  const setAuthLoaded = useAuthStore((state) => state.setAuthLoaded);
 
   useEffect(() => {
-    // Initial session check - handle silently to avoid console errors
     refreshSession().catch(() => {
-      // If refresh fails, we've already cleared the session in the store
-      console.log("Session refresh failed, user needs to log in again");
+      window.location.href = "/login";
     });
 
-    // Listen for auth state changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event !== "SIGNED_OUT" && session) {
         setSession(session);
         setUser(session.user as ExtendedUser);
+        setAuthLoaded(true);
       } else {
         setSession(null);
         setUser(null);
+        setAuthLoaded(false);
       }
     });
 
     return () => {
       subscription.unsubscribe();
     };
-  }, [setUser, setSession, refreshSession]);
+  }, [setUser, setSession, refreshSession, setAuthLoaded]);
 
   return null;
 }

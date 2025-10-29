@@ -7,7 +7,6 @@
  *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-import Recaptcha from "@/components/Recaptcha";
 import Login from "../../../components/auth/Login";
 import { Metadata } from "next";
 import { isMobileRequest } from "@/lib/device";
@@ -56,9 +55,5 @@ export const metadata: Metadata = {
 export default async function LoginPage() {
   const isMobile = await isMobileRequest();
 
-  return (
-    <Recaptcha>
-      <Login isMobile={isMobile} />
-    </Recaptcha>
-  );
+  return <Login isMobile={isMobile} />;
 }

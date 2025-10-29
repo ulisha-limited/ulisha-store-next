@@ -12,33 +12,56 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
-
+import axios from "axios";
 import { useAuthStore } from "@/store/authStore";
 import { supabase } from "@/lib/supabase/client";
 import Link from "next/link";
 import Image from "next/image";
+import { useReCaptcha } from "next-recaptcha-v3";
+import { useRouter } from "next/navigation";
 
 export default function Login({ isMobile }: { isMobile: boolean }) {
+  const isProd = process.env.NODE_ENV === "production";
+  const { executeRecaptcha } = useReCaptcha();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const signIn = useAuthStore((state) => state.signIn);
+  const setUser = useAuthStore((state) => state.setUser);
+  const setSession = useAuthStore((state) => state.setSession);
+  const router = useRouter();
+  const navigate = router.push;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    setLoading(true);
+    if (!executeRecaptcha && isProd)
+      return setError("Recaptcha not yet available!");
 
+    setLoading(true);
     try {
-      await signIn(email, password);
-      window.location.href = "/";
-    } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "An error occurred during sign in. Please try again.",
-      );
+      const token = isProd ? await executeRecaptcha("register_form") : null;
+
+      const res = await axios.post("/api/auth/login", {
+        email,
+        password,
+        recaptchaToken: token,
+      });
+
+      setUser(res.data.user);
+      setSession(res.data.session);
+
+      navigate("/");
+    } catch (err: any) {
+      if (err.response) {
+        setError(
+          err.response.data.error || "An error occurred. Please try again.",
+        );
+      } else if (err.request) {
+        setError("No response from server. Please try again.");
+      } else {
+        setError(err.message);
+      }
     } finally {
       setLoading(false);
     }

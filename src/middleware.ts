@@ -7,21 +7,10 @@
  *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 import { checkRateLimit } from "@/lib/rateLimit";
 import _config from "@/config/index";
 
-const PROTECTED_ROUTE_REGEX = [
-  /^\/orders/,
-  /^\/settings/,
-  /^\/admin/,
-  /^\/wishlist/,
-  /^\/cart/,
-  /^\/notifications/,
-  /^\/my-account/,
-  /^\/logout/,
-];
 const bots = [
   "googlebot",
   "adsbot-google",
@@ -74,10 +63,7 @@ export async function middleware(request: NextRequest) {
   const forwardedFor = request.headers.get("x-forwarded-for");
   const ip = forwardedFor?.split(",")[0] || "unknown";
   const ua = request.headers.get("user-agent") || "";
-  const cookies = request.headers.get("cookie") || "";
   const isAllowedBots = bots.some((bot) => ua.toLowerCase().includes(bot));
-  const hasSupabaseCookies =
-    cookies.includes("sb-access-token") || cookies.includes("sb-refresh-token");
 
   /*
    * Simple bot detection patterns
@@ -117,30 +103,6 @@ export async function middleware(request: NextRequest) {
     const maintenanceUrl = request.nextUrl.clone();
     maintenanceUrl.pathname = "/maintenance";
     return NextResponse.rewrite(maintenanceUrl);
-  }
-
-  /*
-   * Create a Supabase client to check the session
-   * and redirect to login if the user is not authenticated.
-   */
-  try {
-    if (!isAllowedBots && hasSupabaseCookies) {
-      const supabase = createSupabaseServerClient();
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      if (
-        !session &&
-        PROTECTED_ROUTE_REGEX.some((r) => r.test(request.nextUrl.pathname))
-      ) {
-        const url = new URL("/login", request.url);
-        url.searchParams.set("next", request.nextUrl.pathname);
-        return NextResponse.redirect(url);
-      }
-    }
-  } catch (error) {
-    console.error(error);
   }
 
   return NextResponse.next();

@@ -7,18 +7,10 @@
  *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-import { ReCaptchaProvider } from "next-recaptcha-v3";
-
-export default function Recaptcha({
+export default function MyAccountLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-  return (
-    <ReCaptchaProvider
-      reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
-    >
-      {children}
-    </ReCaptchaProvider>
-  );
+}) {
+  return <>{children}</>;
 }
