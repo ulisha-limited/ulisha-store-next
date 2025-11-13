@@ -194,7 +194,7 @@ export default function MyAccount() {
 
   const moreLinks = [
     { href: "/my-account/settings", icon: faGear, label: "Account Settings" },
-    { href: "/message", icon: faMessage, label: "My Messages" },
+    { href: "/message", icon: faMessage, label: "CUstomer-support" },
     { href: "/recently-viewed", icon: faClock, label: "Recently Viewed" },
     { href: "/buy-again", icon: faRepeat, label: "Buy Again" },
   ];
