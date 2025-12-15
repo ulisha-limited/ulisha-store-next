@@ -52,7 +52,7 @@ export function AccountDropdown({
             {!isMobile && (
               <>
                 <Link
-                  href="/my-account/orders"
+                  href="/cart"
                   prefetch={false}
                   className="text-sm flex items-center gap-2 w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
                 >
