@@ -5,18 +5,18 @@ on:
     branches:
       - master
     paths-ignore:
-      - '.github/**'
-      - 'public/**'
-      - '*.example'
-      - '*.gitignore'
-      - '*.md'
+      - ".github/**"
+      - "public/**"
+      - "*.example"
+      - "*.gitignore"
+      - "*.md"
 
   pull_request:
     paths-ignore:
-      - 'public/**'
-      - '*.example'
-      - '*.gitignore'
-      - '*.md'
+      - "public/**"
+      - "*.example"
+      - "*.gitignore"
+      - "*.md"
 
   workflow_dispatch:
 
@@ -56,15 +56,12 @@ jobs:
 
       - name: Start Supabase locally in background
         run: |
-          SUPABASE_LOG=$(npx --yes supabase start)
-          echo "$SUPABASE_LOG"
+          npx --yes supabase start
 
-          NEXT_PUBLIC_SUPABASE_URL=$(echo "$SUPABASE_LOG" | grep 'API URL:' | awk '{print $3}')
-          NEXT_PUBLIC_SUPABASE_ANON_KEY=$(echo "$SUPABASE_LOG" | grep 'Publishable key:' | awk '{print $3}')
-          SUPABASE_SERVICE_ROLE_KEY=$(echo "$SUPABASE_LOG" | grep 'Secret key:' | awk '{print $3}')
+          eval "$(npx --yes supabase status --output env)"
 
-          echo "NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL" >> $GITHUB_ENV
-          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_SUPABASE_URL=$SUPABASE_URL" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=$SUPABASE_ANON_KEY" >> $GITHUB_ENV
           echo "SUPABASE_SERVICE_ROLE_KEY=$SUPABASE_SERVICE_ROLE_KEY" >> $GITHUB_ENV
 
           sleep 15 # wait
@@ -74,16 +71,9 @@ jobs:
 
       - name: Seed database
         run: npm run db:seed
-        env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ env.NEXT_PUBLIC_SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ env.SUPABASE_SERVICE_ROLE_KEY }}
 
       - name: Run linter
         run: npm run lint
 
       - name: Build project
         run: npm run build
-        env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ env.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ env.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ env.SUPABASE_SERVICE_ROLE_KEY }}
