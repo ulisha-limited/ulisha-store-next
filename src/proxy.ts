@@ -59,7 +59,7 @@ const botRegex =
 const AIRegex =
   /(chatgpt|gptbot|perplexity|claudebot|amazonbot|anthropic-ai|perplexitybot|meta-externalagent|chatgpt-user|google-extended|ccbot|cohere-ai|aibot|facebookai|yandexgpt|youbot|gemini)/i;
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const forwardedFor = request.headers.get("x-forwarded-for");
   const ip = forwardedFor?.split(",")[0] || "unknown";
   const ua = request.headers.get("user-agent") || "";

@@ -25,10 +25,6 @@ const nextConfig: NextConfig = {
 
   reactStrictMode: true,
 
-  eslint: {
-    ignoreDuringBuilds: false,
-  },
-
   compiler: {
     removeConsole: process.env.NODE_ENV !== "development",
   },

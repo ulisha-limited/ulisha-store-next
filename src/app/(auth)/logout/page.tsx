@@ -16,7 +16,7 @@ import cookies from "js-cookie";
 import { useEffect } from "react";
 
 export default function Logout() {
-  const handleLogout = async () => {
+const handleLogout = async () => {
     try {
       await supabase.auth.signOut();
     } catch (err) {
