@@ -65,16 +65,16 @@ export default function ProductUI({
       setSelectedImage(images[0].image_url);
     }
   }, [images]);
-
+  
   useEffect(() => {
     if (selectedColor) {
-      const sizes = variants
-        .filter((v) => v.color === selectedColor)
-        .map((v) => v.size);
-      setAvailableSizes([...new Set(sizes)]);
-      if (!sizes.includes(selectedSize)) {
-        setSelectedSize("");
-      }
+     const sizes = variants
+      .filter((v) => v.color === selectedColor)
+      .map((v) => v.size);
+     setAvailableSizes([...new Set(sizes)]);
+     if (!sizes.includes(selectedSize)) {
+      setSelectedSize("");
+     }
     }
   }, [selectedColor, selectedSize, variants]);
 

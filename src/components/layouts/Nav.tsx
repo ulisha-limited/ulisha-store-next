@@ -56,31 +56,22 @@ export default function Nav({
   isMobile: boolean;
 }) {
   const location = { pathname: usePathname() };
-  const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
   const { user } = useAuthStore((state) => state);
   const cartItems = useCartStore((state) => state.items);
   const searchParams = useSearchParams();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [currentPlaceholder, setCurrentPlaceholder] = useState("");
+  const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
 
   useEffect(() => {
-    setSearchQuery(searchParams.get("q") || "");
-  }, [searchParams]);
+    const id = setInterval(() => {
+      setCurrentPlaceholder((i) => (i + 1) % placeholders.length);
+    }, 5000);
 
-  // Effect to handle the changing placeholder
-  useEffect(() => {
-    let currentIndex = 0;
-    setCurrentPlaceholder(placeholders[currentIndex]);
-
-    const intervalId = setInterval(() => {
-      currentIndex = (currentIndex + 1) % placeholders.length;
-      setCurrentPlaceholder(placeholders[currentIndex]);
-    }, 5000); // Change placeholder every 5 seconds
-
-    return () => clearInterval(intervalId);
+    return () => clearInterval(id);
   }, []);
 
   useEffect(() => {
@@ -98,10 +89,12 @@ export default function Nav({
     };
   }, []);
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
+  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (searchQuery.trim())
-      router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
+
+    const formData = new FormData(e.currentTarget);
+    const query = formData.get("searchbar")?.toString() || "";
+    setSearchQuery(query);
   };
 
   /**
@@ -228,10 +221,10 @@ export default function Nav({
         >
           <input
             type="text"
-            placeholder={currentPlaceholder}
+            placeholder={placeholders[currentPlaceholder]}
             value={searchQuery}
             aria-label="Searchbar"
-            onChange={(e) => setSearchQuery(e.target.value)}
+            name="searchbar"
             className="flex-grow bg-transparent outline-none border-none text-sm px-3 pr-10 text-gray-700"
           />
           {/* Add the hidden file input */}

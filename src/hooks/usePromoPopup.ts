@@ -7,20 +7,12 @@
  *     https://polyformproject.org/licenses/noncommercial/1.0.0/
  */
 
-
 import { useState, useEffect } from "react";
 import { useAuthStore } from "@/store/authStore";
 
 export function usePromoPopup() {
   const [showPopup, setShowPopup] = useState(false);
   const user = useAuthStore((state) => state.user);
-
-  useEffect(() => {
-    // Only show popup for non-logged-in users
-    if (!user) {
-      checkAndShowPopup();
-    }
-  }, [user]);
 
   const checkAndShowPopup = () => {
     const now = Date.now();
@@ -118,6 +110,13 @@ export function usePromoPopup() {
     localStorage.setItem("promo_popup_data", JSON.stringify(newData));
   };
 
+  useEffect(() => {
+    // Only show popup for non-logged-in users
+    if (!user) {
+      checkAndShowPopup();
+    }
+  }, [user]);
+
   const resetPopup = () => {
     localStorage.removeItem("promo_popup_data");
     setShowPopup(false);
@@ -140,7 +139,7 @@ export function usePromoPopup() {
       const minTimeBetweenShows = 30 * 60 * 1000; // 30 minutes
       const timeUntilNext = Math.max(
         0,
-        minTimeBetweenShows - timeSinceLastShown
+        minTimeBetweenShows - timeSinceLastShown,
       );
 
       return {
