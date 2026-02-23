@@ -11,12 +11,6 @@ import crypto from "crypto";
 import * as Sentry from "@sentry/nextjs";
 import _config from "@/config/index";
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 export async function POST(req: Request) {
   try {
     const chunks: Uint8Array[] = [];

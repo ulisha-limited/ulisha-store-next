@@ -11,7 +11,23 @@ import { createClient } from "@supabase/supabase-js";
 import { Database } from "@/supabase-types";
 import config from "@/config/index";
 
-export const supabaseAdmin = createClient<Database>(
-  config.supabaseURL,
-  config.supabaseServiceRoleKey,
-);
+let supabaseAdminClient: ReturnType<typeof createClient<Database>> | null = null;
+
+export function getSupabaseAdminClient() {
+  if (supabaseAdminClient) {
+    return supabaseAdminClient;
+  }
+
+  if (!config.supabaseURL || !config.supabaseServiceRoleKey) {
+    throw new Error(
+      "Supabase admin configuration is missing. Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.",
+    );
+  }
+
+  supabaseAdminClient = createClient<Database>(
+    config.supabaseURL,
+    config.supabaseServiceRoleKey,
+  );
+
+  return supabaseAdminClient;
+}
