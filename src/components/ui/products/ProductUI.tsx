@@ -9,7 +9,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faShoppingCart,
@@ -23,7 +23,7 @@ import { useCartStore } from "@/store/cartStore";
 import { useAuthStore } from "@/store/authStore";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { ProductCard } from "@/components/ProductCard";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -50,33 +50,25 @@ export default function ProductUI({
   const router = useRouter();
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [selectedSize, setSelectedSize] = useState<string>("");
-  const [availableSizes, setAvailableSizes] = useState<string[]>([]);
 
   const addToCart = useCartStore((state) => state.addToCart);
   const isLoggedIn = useAuthStore((state) => !!state.user);
   const user = useAuthStore((state) => state.user);
   const { formatPrice, currency } = useCurrencyStore();
 
-  useEffect(() => {
-    if (images.length > 0) {
-      setSelectedImage(images[0].image_url);
-    }
-  }, [images]);
-  
-  useEffect(() => {
-    if (selectedColor) {
-     const sizes = variants
-      .filter((v) => v.color === selectedColor)
-      .map((v) => v.size);
-     setAvailableSizes([...new Set(sizes)]);
-     if (!sizes.includes(selectedSize)) {
-      setSelectedSize("");
-     }
-    }
-  }, [selectedColor, selectedSize, variants]);
+  const productImages = images.length > 0 ? images : [{ image_url: product.image }];
+  const activeImageIndex =
+    currentImageIndex < productImages.length ? currentImageIndex : 0;
+  const selectedImage = productImages[activeImageIndex]?.image_url ?? product.image;
+  const availableSizes = useMemo(() => {
+    if (!selectedColor) return [];
+    const sizes = variants
+      .filter((variant) => variant.color === selectedColor)
+      .map((variant) => variant.size);
+    return [...new Set(sizes)];
+  }, [selectedColor, variants]);
 
   const handleAddToCart = async () => {
     if (!isLoggedIn) {
@@ -91,6 +83,10 @@ export default function ProductUI({
       const selectedVariant = variants.find(
         (v) => v.color === selectedColor && v.size === selectedSize,
       );
+
+      if (variants.length > 0 && !selectedVariant) {
+        return toast.error("Selected options are unavailable");
+      }
 
       if (selectedVariant && selectedVariant.stock <= 0) {
         return toast.error("Selected variant is out of stock");
@@ -137,6 +133,10 @@ export default function ProductUI({
         (v) => v.color === selectedColor && v.size === selectedSize,
       );
 
+      if (variants.length > 0 && !selectedVariant) {
+        return toast.error("Selected options are unavailable");
+      }
+
       if (selectedVariant && selectedVariant.stock <= 0) {
         return toast.error("Selected variant is out of stock");
       }
@@ -167,21 +167,24 @@ export default function ProductUI({
     }
   };
 
-  const handleImageSelect = (image: string, index: number) => {
-    setSelectedImage(image);
+  const handleImageSelect = (index: number) => {
     setCurrentImageIndex(index);
   };
 
   const nextImage = () => {
-    const newIndex = (currentImageIndex + 1) % images.length;
-    setCurrentImageIndex(newIndex);
-    setSelectedImage(images[newIndex].image_url);
+    setCurrentImageIndex((previousIndex) => {
+      const normalizedIndex =
+        previousIndex < productImages.length ? previousIndex : 0;
+      return (normalizedIndex + 1) % productImages.length;
+    });
   };
 
   const prevImage = () => {
-    const newIndex = (currentImageIndex - 1 + images.length) % images.length;
-    setCurrentImageIndex(newIndex);
-    setSelectedImage(images[newIndex].image_url);
+    setCurrentImageIndex((previousIndex) => {
+      const normalizedIndex =
+        previousIndex < productImages.length ? previousIndex : 0;
+      return (normalizedIndex - 1 + productImages.length) % productImages.length;
+    });
   };
 
   const formattedPrice = formatPrice(product.price);
@@ -243,7 +246,7 @@ export default function ProductUI({
               <div>
                 <div className="aspect-square overflow-hidden rounded-lg mb-4 relative">
                   <Image
-                    src={selectedImage || product.image}
+                    src={selectedImage}
                     alt={product.name}
                     className="w-full h-full object-cover"
                     width={500}
@@ -288,8 +291,8 @@ export default function ProductUI({
                   <div className="grid grid-cols-5 gap-2">
                     {images.map((img, index) => (
                       <button
-                        key={index}
-                        onClick={() => handleImageSelect(img.image_url, index)}
+                        key={`${img.image_url}-${index}`}
+                        onClick={() => handleImageSelect(index)}
                         className={`aspect-square rounded-md overflow-hidden border-2 transition-all ${
                           selectedImage === img.image_url
                             ? "border-primary-orange ring-2 ring-primary-orange/20"
@@ -375,10 +378,22 @@ export default function ProductUI({
                     </h3>
 
                     <div className="flex flex-wrap gap-2">
-                      {availableColors.map((color) => (
+                      {availableColors.map((color) => {
+                        const sizesForColor = variants
+                          .filter((variant) => variant.color === color)
+                          .map((variant) => variant.size);
+
+                        return (
                         <button
                           key={color}
-                          onClick={() => setSelectedColor(color)}
+                          onClick={() => {
+                            setSelectedColor(color);
+                            setSelectedSize((previousSize) =>
+                              sizesForColor.includes(previousSize)
+                                ? previousSize
+                                : "",
+                            );
+                          }}
                           className={`
  px-4 py-2 rounded-full text-sm font-medium
  ${
@@ -391,7 +406,8 @@ export default function ProductUI({
                         >
                           {color}
                         </button>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                 )}
@@ -474,8 +490,8 @@ export default function ProductUI({
                 Similar Products
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {similarProducts.map((similarProduct, idx) => (
-                  <ProductCard key={idx} product={similarProduct} />
+                {similarProducts.map((similarProduct) => (
+                  <ProductCard key={similarProduct.id} product={similarProduct} />
                 ))}
               </div>
             </div>

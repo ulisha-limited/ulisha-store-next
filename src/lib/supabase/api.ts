@@ -12,12 +12,15 @@ import { cookies } from "next/headers";
 import { Database } from "@/supabase-types";
 import config from "@/config/index";
 
+const FALLBACK_SUPABASE_URL = "https://placeholder.supabase.co";
+const FALLBACK_SUPABASE_ANON_KEY = "placeholder-anon-key";
+
 export function createSupabaseServerClient() {
   const cookieStorePromise = cookies();
 
   return createServerClient<Database>(
-    config.supabaseURL,
-    config.supabaseAnonKey,
+    config.supabaseURL || FALLBACK_SUPABASE_URL,
+    config.supabaseAnonKey || FALLBACK_SUPABASE_ANON_KEY,
     {
       cookies: {
         async getAll() {
