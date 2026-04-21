@@ -1,8 +1,54 @@
-# Ulisha Store Next
+> # Ulisha Store Next (Deprecated)
 
 A modern and efficient e-commerce solution tailored for startups, enabling seamless setup and free hosting on Vercel and Supabase Cloud.
 
 [![CI Build](https://github.com/ulisha-limited/ulisha-store-next/actions/workflows/ci-build.yml/badge.svg)](https://github.com/ulisha-limited/ulisha-store-next/actions/workflows/ci-build.yml)
+
+
+# Project Migration Notice
+
+## Ulisha Store Next → Ulisha Store Laravel
+
+The **ulisha-store-next** project is now officially **deprecated** and will be migrated to **ulisha-store-laravel**.
+
+### No Further Updates
+Effective immediately:
+- No new features will be added  
+- No bug fixes will be implemented  
+- No maintenance or support will be provided  
+
+This repository is now **archived in place** and should be considered **read-only** moving forward.
+
+### Migration Direction
+All future development, improvements, and support will continue under:
+
+> **ulisha-store-laravel**
+
+### Why the Migration?
+This decision was made after evaluating architectural, scalability, and long-term maintenance concerns encountered in the Next.js implementation.  
+
+For a full breakdown of the issues and lessons learned, read:  
+👉 https://www.melvinjonesrepol.com/blog/ulisha-store-next-to-laravel-what-did-go-wrong
+
+### Licensing Notice
+- Both projects are based on the **Polyform Noncommercial License 1.0.0**
+- **ulisha-store-next** remains available under this license for reference use  
+- **ulisha-store-laravel** is **closed source**  
+- A **separate license is required** to access or use the Laravel version
+- A open-source migration program to automatically migrate database will be released
+
+### More Information
+For more details about the Laravel project, visit:  
+👉 https://www.melvinjonesrepol.com/ulisha-store-laravel
+
+### What You Should Do
+- Start using **ulisha-store-laravel** for all new deployments  
+- Avoid building on top of **ulisha-store-next**  
+- Plan migration of existing setups as soon as possible  
+
+---
+
+**Note:** This repository will remain available for reference purposes only.
 
 ## Prerequisites
 
