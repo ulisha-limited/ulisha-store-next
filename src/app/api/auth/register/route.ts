@@ -8,7 +8,7 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import { isDisposableEmail, validateEmail } from "@/lib/emailChecker";
 import { recaptcha } from "@/lib/recaptcha";
 import * as Sentry from "@sentry/nextjs";
@@ -58,7 +58,8 @@ export async function POST(req: NextRequest) {
         );
     }
 
-    const { data, error } = await supabaseAdmin.auth.admin.createUser({
+    const supabaseAdmin = getSupabaseAdminClient();
+    const { error } = await supabaseAdmin.auth.admin.createUser({
       email,
       password,
       email_confirm: true,

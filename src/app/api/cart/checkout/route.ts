@@ -9,16 +9,16 @@
 
 
 import { NextRequest, NextResponse } from "next/server";
-import { Database } from "@/supabase-types";
-import { supabase } from "@/lib/supabase/client";
-
-type Product = Database["public"]["Tables"]["products"]["Row"];
-type CartItem = Database["public"]["Tables"]["cart_items"]["Row"];
-type UserAddress = Database["public"]["Tables"]["user_addresses"]["Row"];
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const { order_id } = body;
+  const { order_id } = await req.json();
 
-  return NextResponse.json({ success: true });
+  if (!order_id) {
+    return NextResponse.json(
+      { success: false, error: "order_id is required" },
+      { status: 400 },
+    );
+  }
+
+  return NextResponse.json({ success: true, order_id });
 }
